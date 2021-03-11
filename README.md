@@ -141,7 +141,7 @@
 
 2.任何时候增加 WorkerIdBitLength 或 SeqBitLength，都是可以的，但是慎用 “减小”的操作，因为这可能导致在未来某天生成的 ID 与过去老配置时相同。[允许在系统运行之后**增加**任何一个 BitLength 值]
 
-3.如果必须减小 WorkerIdBitLength 或 SeqBitLength 其中的一项，一定要满足一个要求：新的两个 BitLength 之和要大于 老的值之和。[**不推荐**在运行之后缩小任何一个 BitLength 值]
+3.如果必须减小 WorkerIdBitLength 或 SeqBitLength 其中的一项，一定要满足一个条件：新的两个 BitLength 之和要大于 老的值之和。[**不推荐**在运行之后缩小任何一个 BitLength 值]
 
 4.上述3条规则，并没有在本算法内做逻辑控制，这需要集成方做好影响评估后再实施配置变更。
 
