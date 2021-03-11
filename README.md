@@ -138,9 +138,10 @@ public class IdGeneratorOptions
 ## 生成的ID示例
 
 ### 默认配置
+```
 WorkerId = 6	(最多64个工作节点)
-
 SeqBitLength = 6
+```
 
 ID示例：
 ```
