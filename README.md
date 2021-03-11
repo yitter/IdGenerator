@@ -30,3 +30,12 @@
 
 2.SnowWorkerM2.cs 是传统雪花算法。
 
+
+#### 如何调整
+
+1.js Number 类型最大数值：9007199254740992，本算法在保持并发性能（5W+/0.01s）和最大64个WorkerId（6bit）的同时，能用70年才到js Number Max值。
+
+2.增加WorkerId位数到8bit（128节点）时，15年达到js Number Max值。
+
+
+
