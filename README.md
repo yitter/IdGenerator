@@ -75,7 +75,7 @@
 4.以上所有工作节点，均拥有 50W/0.1s 最大处理速度。
 
 
-## 使用方法
+## 代理示例
 
 #### 雪花漂移算法
 ```
@@ -156,7 +156,7 @@ public class IdGeneratorOptions
     public int TopOverCostCount { get; set; } = 2000;
 ```
 
-## 生成的ID示例
+## 生成的ID
 
 ### 默认配置
 ```
