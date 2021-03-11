@@ -35,7 +35,7 @@ namespace Yitter.OrgSystem.TestA
 
             var newConfig = new IdGeneratorOptions()
             {
-                Method = 1,
+                Method = 2,
                 StartTime = DateTime.Now.AddYears(-1),
 
                 //TopOverCostCount = 1000,
