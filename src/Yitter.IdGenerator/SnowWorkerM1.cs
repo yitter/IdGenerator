@@ -226,7 +226,7 @@ namespace Yitter.IdGenerator
                 _CurrentSeqNumber = MinSeqNumber;
                 _IsOverCost = true;
                 _OverCostCountInOneTerm++;
-                _GenCountInOneTerm = 0;
+                _GenCountInOneTerm = 1;
 
                 return CalcId(_LastTimeTick);
             }
