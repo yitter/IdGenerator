@@ -7,7 +7,7 @@
 支持QQ群：646049993
 
 
-#### 功能说明：
+## 功能说明
 
 1.ID更短，是传统算法的几倍，用50年都不会超过js（Number）的最大值。（默认配置WorkerId是6bit，自增数是6bit）
 
@@ -24,14 +24,14 @@
 7.目前是C#版，很快会出java、php等版本。
 
 
-#### 文件说明：
+## 文件说明
 
 1.SnowWorkerM1.cs 是雪花漂移算法。
 
 2.SnowWorkerM2.cs 是传统雪花算法。
 
 
-#### 效果：
+## 效果
 
 1.js Number 类型最大数值：9007199254740992，本算法在保持并发性能（5W+/0.01s）和最大64个WorkerId（6bit）的同时，能用70年才到 js Number Max 值。
 
@@ -42,7 +42,7 @@
 4.以上测试数据均基于8代i7计算。
 
 
-#### 试用范围：
+## 试用范围
 
 1.小型、中型、大型需要全局唯一Id（不用Guid）的项目。
 
@@ -51,10 +51,83 @@
 3.不想将Long型转String给前端用的项目。（如果前端支持bigint，则不用考虑此项）
 
 
-####  分布式环境使用方法：
+##  分布式环境使用方法
 
-1.可扩大 WorkerIdBitLength 到最多20位，支持 1,048,576 个节点，而且不影响上述并发性能（50W/0.1s）。
+1.可扩大 WorkerIdBitLength 到最多20位，支持 1,048,576 个节点，且不影响上述并发性能（50W/0.1s）。
 
 2.采用中心化 IdGenerator集群，给节点生成可用 Id 列表，存入 Redis 队列供节点消费。此时64个中心化节点数足够大型互联网项目使用。
 
+## 使用方法
 
+```
+var options = new IdGeneratorOptions()
+{
+	Method = 1,
+	StartTime = DateTime.Now.AddYears(-1),
+
+	//TopOverCostCount = 1000,
+	WorkerIdBitLength = 6,
+	SeqBitLength = 6,
+
+	//MinSeqNumber = 11,
+	//MaxSeqNumber = 200,
+};
+
+var IdGen = new YitIdGenerator(options);
+var newId = IdGen.NewLong();
+```
+
+## 参数说明
+```
+public class IdGeneratorOptions
+{
+    /// <summary>
+    /// 雪花计算方法
+    /// （1|2）
+    /// </summary>
+    public short Method { get; set; } = 1;
+
+    /// <summary>
+    /// 开始时间（UTC格式）
+    /// 不能超过当前系统时间
+    /// </summary>
+    public DateTime StartTime { get; set; } = DateTime.MinValue;
+
+    /// <summary>
+    /// 机器码
+    /// 与 WorkerIdBitLength 有关系
+    /// </summary>
+    public ushort WorkerId { get; set; } = 0;
+
+    /// <summary>
+    /// 机器码位长
+    /// 范围：2-21（要求：序列数位长+机器码位长不超过22）。
+    /// 建议范围：6-12。
+    /// </summary>
+    public byte WorkerIdBitLength { get; set; } = 6;//10;
+
+    /// <summary>
+    /// 序列数位长
+    /// 范围：2-21（要求：序列数位长+机器码位长不超过22）。
+    /// 建议范围：6-14。
+    /// </summary>
+    public byte SeqBitLength { get; set; } = 6;//10;
+
+    /// <summary>
+    /// 最大序列数（含）
+    /// （由SeqBitLength计算的最大值）
+    /// </summary>
+    public int MaxSeqNumber { get; set; } = 0;
+
+    /// <summary>
+    /// 最小序列数（含）
+    /// 默认11，不小于5，不大于MaxSeqNumber-2
+    /// </summary>
+    public ushort MinSeqNumber { get; set; } = 11;
+
+    /// <summary>
+    /// 最大漂移次数（含），
+    /// 默认2000，推荐范围500-10000（与计算能力有关）
+    /// </summary>
+    public int TopOverCostCount { get; set; } = 2000;
+```
