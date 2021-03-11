@@ -164,5 +164,6 @@ ID示例：
 ## 技术支持
 
 开源地址：https://gitee.com/yitter/idgenerator
+
 QQ群：646049993
 
