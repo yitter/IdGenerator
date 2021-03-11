@@ -139,6 +139,7 @@ public class IdGeneratorOptions
 
 ### 默认配置
 WorkerId = 6	(最多64个工作节点)
+
 SeqBitLength = 6
 
 ```
