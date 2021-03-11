@@ -17,7 +17,7 @@ namespace Yitter.IdGenerator
     {
         /// <summary>
         /// 雪花计算方法
-        /// （1|2）
+        /// （1-漂移算法|2-传统算法），默认1
         /// </summary>
         public short Method { get; set; } = 1;
 
