@@ -75,7 +75,6 @@ namespace Yitter.IdGenerator
                 StartTimeUtc = options.StartTime;
             }
 
-            // 如果没有初始化，则随机一个数值
             if (WorkerId < 1)
             {
                 WorkerId = (ushort)DateTime.Now.Millisecond;
@@ -104,11 +103,6 @@ namespace Yitter.IdGenerator
         {
             Task.Run(() =>
             {
-                if (arg.ActionType == 2 && _TermIndex > 10000)
-                {
-                    _TermIndex = 0;
-                }
-
                 GenAction(arg);
             });
         }
@@ -131,6 +125,11 @@ namespace Yitter.IdGenerator
 
         private void EndOverCostCallBack(in long useTimeTick)
         {
+            if (_TermIndex > 10000)
+            {
+                _TermIndex = 0;
+            }
+
             if (GenAction == null)
             {
                 return;
