@@ -59,25 +59,33 @@
 
 ## 使用方法
 
+#### 雪花漂移算法
 ```
 var options = new IdGeneratorOptions()
 {
-	Method = 1,
-	StartTime = DateTime.Now.AddYears(-1),
-
-	//TopOverCostCount = 1000,
-	WorkerIdBitLength = 6,
-	SeqBitLength = 6,
-
-	//MinSeqNumber = 11,
-	//MaxSeqNumber = 200,
+	// 设置WorkerId，默认最大2^16-1
+	WorkerId = 1
 };
 
 var IdGen = new YitIdGenerator(options);
 var newId = IdGen.NewLong();
 ```
 
-## 参数说明
+#### 传统雪花算法
+```
+var options = new IdGeneratorOptions()
+{
+	Method = 2,
+	WorkerId = 1
+};
+
+var IdGen = new YitIdGenerator(options);
+var newId = IdGen.NewLong();
+```
+
+## options说明
+options参数（Method、StartTime除外）只支持漂移算法，不支持传统雪花算法。
+
 ```
 public class IdGeneratorOptions
 {
