@@ -99,7 +99,7 @@ var options = new IdGeneratorOptions()
 var newId = new YitIdGenerator(options).NewLong();
 ```
 
-## options说明
+#### options说明
 options参数（Method、StartTime除外）只支持漂移算法，不支持传统雪花算法。
 
 ```
