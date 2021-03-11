@@ -101,6 +101,9 @@
 4.以上所有工作节点，均拥有 50W/0.1s 最大处理速度。
 
 
+## 性能测试
+<img src="https://gitee.com/yitter/idgenerator/blob/master/%E6%80%A7%E8%83%BD%E6%95%B0%E6%8D%AE/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95.png" width="382px;" />
+
 ## 代码示例
 
 #### 雪花漂移算法
