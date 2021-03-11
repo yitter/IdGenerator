@@ -128,14 +128,14 @@ public class IdGeneratorOptions
     /// 范围：2-21（要求：序列数位长+机器码位长不超过22）。
     /// 建议范围：6-12。
     /// </summary>
-    public byte WorkerIdBitLength { get; set; } = 6;//10;
+    public byte WorkerIdBitLength { get; set; } = 6;
 
     /// <summary>
     /// 序列数位长
     /// 范围：2-21（要求：序列数位长+机器码位长不超过22）。
     /// 建议范围：6-14。
     /// </summary>
-    public byte SeqBitLength { get; set; } = 6;//10;
+    public byte SeqBitLength { get; set; } = 6;
 
     /// <summary>
     /// 最大序列数（含）
