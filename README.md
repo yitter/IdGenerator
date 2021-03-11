@@ -226,7 +226,7 @@ public class IdGeneratorOptions
     public int TopOverCostCount { get; set; } = 2000;
 ```
 
-## 生成的ID示例
+## 生成的ID
 
 默认配置：
 ```
