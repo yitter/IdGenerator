@@ -135,7 +135,7 @@ public class IdGeneratorOptions
     public int TopOverCostCount { get; set; } = 2000;
 ```
 
-##技术支持
+## 技术支持
 
 QQ群：646049993
 
