@@ -67,20 +67,18 @@ var options = new IdGeneratorOptions()
 	WorkerId = 1
 };
 
-var IdGen = new YitIdGenerator(options);
-var newId = IdGen.NewLong();
+var newId = new YitIdGenerator(options).NewLong();
 ```
 
 #### 传统雪花算法
 ```
 var options = new IdGeneratorOptions()
 {
-	Method = 2,
+	Method = 2,  // 默认1
 	WorkerId = 1
 };
 
-var IdGen = new YitIdGenerator(options);
-var newId = IdGen.NewLong();
+var newId = new YitIdGenerator(options).NewLong();
 ```
 
 ## options说明
