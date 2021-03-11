@@ -131,7 +131,7 @@
 
 3.以上2条二选一即可，采用方法2一般是因为不增加 ID 的长度，但节点数超过64个。
 
-4.任何加大 WorkerIdBitLength 或 SeqBitLength 的设置，都很可能会增加 ID 的长度。
+4.任何加大 WorkerIdBitLength 或 SeqBitLength 的设置，都可能会增加 ID 的长度。
 
 
 
