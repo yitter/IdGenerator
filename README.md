@@ -174,6 +174,7 @@ var newId = YidHelper.NextId();
 
 // 可通过 YidHelper.IdGenInstance 订阅 GenIdActionAsync 事件。
 ```
+如果基于DI框架集成，可以参考 YidHelper 去管理 IdGenerator 对象，必须使用**单例**模式。
 
 #### options说明
 ```
