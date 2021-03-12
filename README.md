@@ -165,7 +165,6 @@
 
 #### 调用示例
 ```
-# 
 // 全局初始化设置WorkerId，默认最大2^16-1。（初始化过程全局只需一次，且必须最先设置）
 var options = new IdGeneratorOptions(){ WorkerId = 1};
 YidHelper.SetIdGenerator(options);
