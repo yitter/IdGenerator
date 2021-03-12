@@ -14,7 +14,10 @@ using System.Threading;
 
 namespace Yitter.IdGenerator
 {
-    public class YidGenerator : IIdGenerator
+    /// <summary>
+    /// 默认实现
+    /// </summary>
+    public class DefaultIdGenerator : IIdGenerator
     {
         private ISnowWorker _SnowWorker { get; set; }
 
@@ -25,7 +28,7 @@ namespace Yitter.IdGenerator
         }
 
 
-        public YidGenerator(IdGeneratorOptions options)
+        public DefaultIdGenerator(IdGeneratorOptions options)
         {
             if (options == null)
             {
@@ -45,24 +48,24 @@ namespace Yitter.IdGenerator
             var maxWorkerIdNumber = Math.Pow(2, options.WorkerIdBitLength) - 1;
             if (options.WorkerId < 1 || options.WorkerId > maxWorkerIdNumber)
             {
-                throw new ApplicationException("WorkerId is error. (range:[1, " + maxWorkerIdNumber + "]");
+                throw new ApplicationException("WorkerId error. (range:[1, " + maxWorkerIdNumber + "]");
             }
 
             if (options.SeqBitLength < 2 || options.SeqBitLength > 21)
             {
-                throw new ApplicationException("SeqBitLength is error. (range:[2, 21])");
+                throw new ApplicationException("SeqBitLength error. (range:[2, 21])");
             }
 
             var maxSeqNumber = Math.Pow(2, options.SeqBitLength) - 1;
             if (options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber)
             {
-                throw new ApplicationException("MaxSeqNumber is error. (range:[1, " + maxSeqNumber + "]");
+                throw new ApplicationException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");
             }
 
             var maxValue = maxSeqNumber - 2;
             if (options.MinSeqNumber < 5 || options.MinSeqNumber > maxValue)
             {
-                throw new ApplicationException("MinSeqNumber is error. (range:[5, " + maxValue + "]");
+                throw new ApplicationException("MinSeqNumber error. (range:[5, " + maxValue + "]");
             }
 
             switch (options.Method)

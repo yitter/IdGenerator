@@ -44,13 +44,13 @@ namespace Yitter.OrgSystem.TestA
                 WorkerId = 1,
 
                 TopOverCostCount = 2000,
-                //WorkerIdBitLength = 6,
-                //SeqBitLength = 6,
+                WorkerIdBitLength = 10,
+                SeqBitLength = 6,
 
                 //MinSeqNumber = 11,
                 //MaxSeqNumber = 200,
 
-                //StartTime = DateTime.Now.AddYears(-1),
+                StartTime = DateTime.Now.AddYears(-5),
             };
 
             // ++++++++++++++++++++++++++++++++
@@ -59,7 +59,7 @@ namespace Yitter.OrgSystem.TestA
                 IdGeneratorOptions options1 = (newConfig);
                 if (IdGen == null)
                 {
-                    IdGen = new YidGenerator(options1);
+                    IdGen = new DefaultIdGenerator(options1);
                 }
 
                 if (outputLog)
@@ -105,7 +105,7 @@ namespace Yitter.OrgSystem.TestA
                   };
 
                     Console.WriteLine("Gen：" + i);
-                    var idGen2 = new YidGenerator(options);
+                    var idGen2 = new DefaultIdGenerator(options);
                     var test = new GenTest(idGen2, genIdCount, i);
 
                     if (outputLog)

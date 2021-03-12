@@ -16,17 +16,11 @@ namespace Yitter.IdGenerator
     /// <summary>
     /// 这是一个调用的例子，默认情况下，单机集成者可以直接使用 NewId()。
     /// </summary>
-    public class YidHelper
+    public class IdHelper
     {
         private static IIdGenerator _IdGenInstance = null;
 
-        public static IIdGenerator IdGenInstance
-        {
-            get
-            {
-                return _IdGenInstance;
-            }
-        }
+        public static IIdGenerator IdGenInstance => _IdGenInstance;
 
         /// <summary>
         /// 设置参数，建议程序初始化时执行一次
@@ -34,7 +28,7 @@ namespace Yitter.IdGenerator
         /// <param name="options"></param>
         public static void SetIdGenerator(IdGeneratorOptions options)
         {
-            _IdGenInstance = new YidGenerator(options);
+            _IdGenInstance = new DefaultIdGenerator(options);
         }
 
         /// <summary>
@@ -47,7 +41,9 @@ namespace Yitter.IdGenerator
         {
             if (_IdGenInstance == null)
             {
-                _IdGenInstance = new YidGenerator(new IdGeneratorOptions() { WorkerId = 1 });
+                _IdGenInstance = new DefaultIdGenerator(
+                    new IdGeneratorOptions() { WorkerId = 1 }
+                    );
             }
 
             return _IdGenInstance.NewLong();
