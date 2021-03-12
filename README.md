@@ -163,31 +163,17 @@
 
 2.SnowWorkerM2.cs 是传统雪花算法。
 
-#### 雪花漂移算法
+#### 调用示例
 ```
-var options = new IdGeneratorOptions()
-{
-	// 设置WorkerId，默认最大2^16-1
-	WorkerId = 1
-};
+# 
+// 全局初始化设置WorkerId，默认最大2^16-1。（初始化过程全局只需一次，且必须最先设置）
+var options = new IdGeneratorOptions(){ WorkerId = 1};
+YidHelper.SetIdGenerator(options);
 
-var newId = new YidGenerator(options).NewLong();
-```
+// 初始化以后，就可以在需要的地方调用方法生成ID。
+var newId = YidHelper.NextId();
 
-#### 传统雪花算法
-```
-var options = new IdGeneratorOptions()
-{
-	Method = 2,  // 默认1
-	WorkerId = 1
-};
-
-var newId = new YidGenerator(options).NewLong();
-```
-
-#### 单机快速使用
-```
-YidHelper.NextId();
+// 可通过 YidHelper.IdGenInstance 订阅 GenIdActionAsync 事件。
 ```
 
 #### options说明
