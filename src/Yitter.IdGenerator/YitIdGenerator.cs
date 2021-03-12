@@ -24,6 +24,7 @@ namespace Yitter.IdGenerator
             set => _SnowWorker.GenAction = value;
         }
 
+
         public YitIdGenerator(IdGeneratorOptions options)
         {
             if (options == null)
