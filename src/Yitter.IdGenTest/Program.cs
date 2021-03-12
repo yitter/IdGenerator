@@ -9,7 +9,8 @@ namespace Yitter.OrgSystem.TestA
     class Program
     {
         static int workerCount = 1;
-        static int genIdCount = 100000;  // 计算ID数量
+        static int genIdCount = 10000;  // 计算ID数量
+        static short method = 1; // 1-漂移算法，2-传统算法
         static bool single = true;
         static bool outputLog = true;
         static IIdGenerator IdGen = null;
@@ -35,7 +36,7 @@ namespace Yitter.OrgSystem.TestA
 
             var newConfig = new IdGeneratorOptions()
             {
-                Method = 1,
+                Method = method,
                 StartTime = DateTime.Now.AddYears(-1),
 
                 //TopOverCostCount = 1000,
