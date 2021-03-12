@@ -8,15 +8,19 @@ namespace Yitter.OrgSystem.TestA
 {
     class Program
     {
-        static int workerCount = 1;
-        static int genIdCount = 10000;  // 计算ID数量
+
+        // 测试参数
+        static int genIdCount = 500000;  // 计算ID数量（如果要验证50W效率，请将TopOverCostCount设置为20000或适当增加SeqBitLength）
         static short method = 1; // 1-漂移算法，2-传统算法
+
+
         static bool single = true;
         static bool outputLog = true;
         static IIdGenerator IdGen = null;
         static IList<GenTest> testList = new List<GenTest>();
         static bool checkResult = false;
         public static int Count = 0;
+        static int workerCount = 1;
 
 
         static void Main(string[] args)
@@ -24,7 +28,7 @@ namespace Yitter.OrgSystem.TestA
             while (true)
             {
                 Go();
-                Thread.Sleep(5000);
+                Thread.Sleep(3000); // 每隔3秒执行一次Go
                 Console.WriteLine("Hello World!");
             }
         }
@@ -37,20 +41,21 @@ namespace Yitter.OrgSystem.TestA
             var newConfig = new IdGeneratorOptions()
             {
                 Method = method,
-                StartTime = DateTime.Now.AddYears(-1),
+                WorkerId = 1,
 
-                //TopOverCostCount = 1000,
-                WorkerIdBitLength = 6,
-                SeqBitLength = 6,
+                TopOverCostCount = 20000,
+                //WorkerIdBitLength = 6,
+                //SeqBitLength = 6,
 
                 //MinSeqNumber = 11,
                 //MaxSeqNumber = 200,
+
+                //StartTime = DateTime.Now.AddYears(-1),
             };
 
             // ++++++++++++++++++++++++++++++++
             if (single)
             {
-                newConfig.WorkerId = 1;
                 IdGeneratorOptions options1 = (newConfig);
                 if (IdGen == null)
                 {
