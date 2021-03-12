@@ -185,6 +185,11 @@ var options = new IdGeneratorOptions()
 var newId = new YidGenerator(options).NewLong();
 ```
 
+#### 单机快速使用
+```
+YidHelper.NewId();
+```
+
 #### options说明
 ```
 public class IdGeneratorOptions

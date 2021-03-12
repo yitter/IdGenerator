@@ -28,6 +28,10 @@ namespace Yitter.IdGenerator
             }
         }
 
+        /// <summary>
+        /// 设置参数，建议程序初始化时执行一次
+        /// </summary>
+        /// <param name="options"></param>
         public static void SetIdGenerator(IdGeneratorOptions options)
         {
             _IdGenInstance = new YidGenerator(options);
