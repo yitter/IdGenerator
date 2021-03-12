@@ -187,7 +187,7 @@ var newId = new YidGenerator(options).NewLong();
 
 #### 单机快速使用
 ```
-YidHelper.NewId();
+YidHelper.NextId();
 ```
 
 #### options说明
