@@ -6,6 +6,19 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Shorter ID and faster generation with a new snowflake drift algorithm. The core is to shorten the ID length, but also can have a very high instantaneous concurrent processing capacity (50W/0.1s), and powerful configuration capacity.
+
+一种全新的雪花漂移算法，让ID更短、生成速度更快。 核心在于缩短ID长度的同时，还能拥有极高瞬时并发处理量（50W/0.1s），及强大的配置能力。</Description>
+    <AssemblyName>Yitter.IdGenerator</AssemblyName>
+    <RootNamespace>Yitter.IdGenerator</RootNamespace>
+    <Product>IdGenerator</Product>
+    <Company>Yitter</Company>
+    <Authors>Yitter</Authors>
+    <Copyright>Yitter</Copyright>
+    <PackageProjectUrl>https://gitee.com/yitter/idgenerator</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -43,14 +43,14 @@ namespace Yitter.OrgSystem.TestA
                 Method = method,
                 WorkerId = 1,
 
-                TopOverCostCount = 2000,
-                WorkerIdBitLength = 10,
-                SeqBitLength = 6,
+                //TopOverCostCount = 2000,
+                //WorkerIdBitLength = 6,
+                //SeqBitLength = 9,
 
                 //MinSeqNumber = 11,
                 //MaxSeqNumber = 200,
 
-                StartTime = DateTime.Now.AddYears(-5),
+                StartTime = DateTime.Now.AddYears(-10),
             };
 
             // ++++++++++++++++++++++++++++++++

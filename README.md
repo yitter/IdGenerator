@@ -115,7 +115,7 @@
 
 5.订阅ID异步通知。IIdGenerator.GenIdActionAsync 是一个可以向外部系统异步发送ID生成消息的事件，它包含的消息类型有"漂移开始、漂移结束、时间回拨"，具体参考 Yitter.IdGenTest 的 Program.cs 启动代码。不过订阅ID异步通知会有细微的性能损失。
 
-6.同步或同步调用。你可在外部系统的异步（async标记）方法中调用本算法，同步调用同样没问题。
+6.异步或同步调用。你可在外部系统的异步（async标记）方法中调用本算法，同步调用同样没问题。
 
 7.使用雪花漂移算法。虽然代码里包含了传统雪花算法的定义，并且你可以在入口处指定（Method=2）来启用传统算法，但仍建议你使用雪花漂移算法（Method=1，默认的），毕竟它具有更好的伸缩力和更高的性能。
 
@@ -157,11 +157,10 @@
 
 1..NET Standard 2.0+
 
-#### 文件说明
-
-1.SnowWorkerM1.cs 是雪花漂移算法。
-
-2.SnowWorkerM2.cs 是传统雪花算法。
+#### 引用nuget包
+```
+<PackageReference Include="Yitter.IdGenerator" Version="1.0.2" />
+```
 
 #### 调用示例
 ```
@@ -172,7 +171,6 @@ IdHelper.SetIdGenerator(options);
 // 初始化以后，就可以在需要的地方调用方法生成ID。
 var newId = IdHelper.NextId();
 
-// 可通过 IdHelper.IdGenInstance 订阅 GenIdActionAsync 事件。
 ```
 如果基于DI框架集成，可以参考 IdHelper 去管理 IdGenerator 对象，必须使用**单例**模式。
 
