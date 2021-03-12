@@ -43,7 +43,7 @@ namespace Yitter.IdGenerator
         /// 否则将会初始化一个WorkerId为1的对象。
         /// </summary>
         /// <returns></returns>
-        public static long NewId()
+        public static long NextId()
         {
             if (_IdGenInstance == null)
             {
