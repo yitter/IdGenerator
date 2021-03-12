@@ -9,7 +9,7 @@ namespace Yitter.OrgSystem.TestA
     class Program
     {
 
-        // 测试参数
+        // 测试参数（默认配置下，最佳性能是10W/s）
         static int genIdCount = 50000;  // 计算ID数量（如果要验证50W效率，请将TopOverCostCount设置为20000或适当增加SeqBitLength）
         static short method = 1; // 1-漂移算法，2-传统算法
 
