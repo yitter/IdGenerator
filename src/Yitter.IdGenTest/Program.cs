@@ -9,7 +9,7 @@ namespace Yitter.OrgSystem.TestA
     class Program
     {
         static int workerCount = 1;
-        static int genIdCount = 50000;  // 计算ID数量
+        static int genIdCount = 100000;  // 计算ID数量
         static bool single = true;
         static bool outputLog = true;
         static IIdGenerator IdGen = null;
@@ -23,7 +23,7 @@ namespace Yitter.OrgSystem.TestA
             while (true)
             {
                 Go();
-                Thread.Sleep(500);
+                Thread.Sleep(5000);
                 Console.WriteLine("Hello World!");
             }
         }
@@ -35,7 +35,7 @@ namespace Yitter.OrgSystem.TestA
 
             var newConfig = new IdGeneratorOptions()
             {
-                Method = 2,
+                Method = 1,
                 StartTime = DateTime.Now.AddYears(-1),
 
                 //TopOverCostCount = 1000,
