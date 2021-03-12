@@ -171,7 +171,7 @@ var options = new IdGeneratorOptions()
 	WorkerId = 1
 };
 
-var newId = new YitIdGenerator(options).NewLong();
+var newId = new YidGenerator(options).NewLong();
 ```
 
 #### 传统雪花算法
@@ -182,7 +182,7 @@ var options = new IdGeneratorOptions()
 	WorkerId = 1
 };
 
-var newId = new YitIdGenerator(options).NewLong();
+var newId = new YidGenerator(options).NewLong();
 ```
 
 #### options说明

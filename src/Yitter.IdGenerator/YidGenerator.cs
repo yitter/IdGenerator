@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace Yitter.IdGenerator
 {
-    public class YitIdGenerator : IIdGenerator
+    public class YidGenerator : IIdGenerator
     {
         private ISnowWorker _SnowWorker { get; set; }
 
@@ -25,7 +25,7 @@ namespace Yitter.IdGenerator
         }
 
 
-        public YitIdGenerator(IdGeneratorOptions options)
+        public YidGenerator(IdGeneratorOptions options)
         {
             if (options == null)
             {
