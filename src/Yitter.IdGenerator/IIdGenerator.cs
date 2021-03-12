@@ -16,5 +16,7 @@ namespace Yitter.IdGenerator
         Action<OverCostActionArg> GenIdActionAsync { get; set; }
 
         long NewLong();
+
+        // Guid NewGuid();
     }
 }
