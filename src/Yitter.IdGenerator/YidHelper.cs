@@ -14,7 +14,7 @@ using System.Text;
 namespace Yitter.IdGenerator
 {
     /// <summary>
-    /// 这是一个调用的例子，默认情况下，集成者可以直接使用 NewId()。
+    /// 这是一个调用的例子，默认情况下，单机集成者可以直接使用 NewId()。
     /// </summary>
     public class YidHelper
     {
@@ -30,7 +30,7 @@ namespace Yitter.IdGenerator
 
         public static void SetIdGenerator(IdGeneratorOptions options)
         {
-            _IdGenInstance = new YitIdGenerator(options);
+            _IdGenInstance = new YidGenerator(options);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Yitter.IdGenerator
         {
             if (_IdGenInstance == null)
             {
-                _IdGenInstance = new YitIdGenerator(new IdGeneratorOptions() { WorkerId = 1 });
+                _IdGenInstance = new YidGenerator(new IdGeneratorOptions() { WorkerId = 1 });
             }
 
             return _IdGenInstance.NewLong();

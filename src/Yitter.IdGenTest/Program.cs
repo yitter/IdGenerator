@@ -53,7 +53,7 @@ namespace Yitter.OrgSystem.TestA
                 IdGeneratorOptions options1 = (newConfig);
                 if (IdGen == null)
                 {
-                    IdGen = new YitIdGenerator(options1);
+                    IdGen = new YidGenerator(options1);
                 }
 
                 if (outputLog)
@@ -99,7 +99,7 @@ namespace Yitter.OrgSystem.TestA
                   };
 
                     Console.WriteLine("Gen：" + i);
-                    var idGen2 = new YitIdGenerator(options);
+                    var idGen2 = new YidGenerator(options);
                     var test = new GenTest(idGen2, genIdCount, i);
 
                     if (outputLog)
