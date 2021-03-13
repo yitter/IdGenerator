@@ -14,7 +14,7 @@ public class SnowWorkerM1 implements ISnowWorker {
     /**
      * 基础时间
      */
-    protected final long StartTimeUtc;
+    protected final long BaseTime;
 
     /**
      * 机器码
@@ -67,7 +67,7 @@ public class SnowWorkerM1 implements ISnowWorker {
         MaxSeqNumber = options.MaxSeqNumber > 0 ? options.MaxSeqNumber : (int) Math.pow(2, SeqBitLength);
         MinSeqNumber = options.MinSeqNumber;
         TopOverCostCount = options.TopOverCostCount;
-        StartTimeUtc = options.StartTime != 0 ? options.StartTime : 1582136402000L;
+        BaseTime = options.BaseTime != 0 ? options.BaseTime : 1582136402000L;
         _TimestampShift = (byte) (WorkerIdBitLength + SeqBitLength);
         _CurrentSeqNumber = options.MinSeqNumber;
     }
@@ -224,7 +224,7 @@ public class SnowWorkerM1 implements ISnowWorker {
 
     protected long GetCurrentTimeTick() {
         long millis = System.currentTimeMillis();
-        return millis - StartTimeUtc;
+        return millis - BaseTime;
     }
 
     protected long GetNextTimeTick() {

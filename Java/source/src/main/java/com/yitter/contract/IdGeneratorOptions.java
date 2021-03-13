@@ -20,7 +20,7 @@ public class IdGeneratorOptions {
      * 开始时间
      * 不能超过当前系统时间
      */
-    public long StartTime = 0;
+    public long BaseTime = 1582136402000L;
 
     /**
      * 机器码，必须由外部系统设置

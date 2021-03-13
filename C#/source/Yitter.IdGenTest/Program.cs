@@ -50,7 +50,7 @@ namespace Yitter.OrgSystem.TestA
                 //MinSeqNumber = 11,
                 //MaxSeqNumber = 200,
 
-                StartTime = DateTime.Now.AddYears(-10),
+                BaseTime = DateTime.Now.AddYears(-10),
             };
 
             // ++++++++++++++++++++++++++++++++

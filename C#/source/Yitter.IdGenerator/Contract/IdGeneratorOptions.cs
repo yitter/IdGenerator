@@ -25,7 +25,7 @@ namespace Yitter.IdGenerator
         /// 开始时间（UTC格式）
         /// 不能超过当前系统时间
         /// </summary>
-        public virtual DateTime StartTime { get; set; } = DateTime.MinValue;
+        public virtual DateTime BaseTime { get; set; } = new DateTime(2020, 2, 20, 2, 20, 2, 20, DateTimeKind.Utc);
 
         /// <summary>
         /// 机器码

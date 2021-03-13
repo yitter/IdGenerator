@@ -35,9 +35,9 @@ namespace Yitter.IdGenerator
                 throw new ApplicationException("options error.");
             }
 
-            if (options.StartTime > DateTime.Now)
+            if (options.BaseTime < DateTime.Now.AddYears(-50) || options.BaseTime > DateTime.Now)
             {
-                throw new ApplicationException("StartTime error.");
+                throw new ApplicationException("BaseTime error.");
             }
 
             if (options.SeqBitLength + options.WorkerIdBitLength > 22)

@@ -21,7 +21,7 @@ namespace Yitter.IdGenerator
         /// <summary>
         /// 基础时间
         /// </summary>
-        protected readonly DateTime StartTimeUtc = new DateTime(2020, 2, 20, 2, 20, 2, 20, DateTimeKind.Utc);
+        protected readonly DateTime BaseTime;
 
         /// <summary>
         /// 机器码
@@ -78,9 +78,9 @@ namespace Yitter.IdGenerator
             MinSeqNumber = options.MinSeqNumber;
             TopOverCostCount = options.TopOverCostCount;
 
-            if (options.StartTime != DateTime.MinValue)
+            if (options.BaseTime != DateTime.MinValue)
             {
-                StartTimeUtc = options.StartTime;
+                BaseTime = options.BaseTime;
             }
 
             if (WorkerId < 1)
@@ -278,7 +278,7 @@ namespace Yitter.IdGenerator
 
         protected virtual long GetCurrentTimeTick()
         {
-            return (long)(DateTime.UtcNow - StartTimeUtc).TotalMilliseconds;
+            return (long)(DateTime.UtcNow - BaseTime).TotalMilliseconds;
         }
 
         protected virtual long GetNextTimeTick()

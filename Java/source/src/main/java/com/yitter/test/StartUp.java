@@ -31,7 +31,7 @@ public class StartUp {
         // options.MaxSeqNumber = 200;
 
         options.Method = method;
-        options.StartTime = 1582206693000L; // (2020-2-20)
+        options.BaseTime = 1582206693000L;
         options.WorkerId = 1;
 
         IIdGenerator IdGen = new DefaultIdGenerator(options);
