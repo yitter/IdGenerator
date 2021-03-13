@@ -152,8 +152,9 @@
 
 
 ## 代码示例
-C#：
-Java：
+C#：[查看示例][1]
+
+Java：[查看示例][2]
 
 ## 生成的ID
 
@@ -184,3 +185,5 @@ QQ群：646049993
 即将推出Java、PHP等版本。
 
 
+[1]: https://gitee.com/yitter/idgenerator/tree/master/C%23
+[2]: https://gitee.com/yitter/idgenerator/tree/master/Java
