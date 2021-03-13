@@ -182,7 +182,7 @@ ID示例（基于默认配置）：
 
 QQ群：646049993
 
-即将推出Java、PHP等版本。
+即将推出PHP、Go等版本。
 
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23
