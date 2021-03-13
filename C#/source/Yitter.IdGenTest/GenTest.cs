@@ -38,7 +38,7 @@ namespace Yitter.OrgSystem.TestA
             {
                 var id = IdGen.NewLong();
                 //ids.Add(id, i);
-                idList.Add(id);
+                //idList.Add(id);
             }
 
             DateTime end = DateTime.Now;
