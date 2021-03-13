@@ -23,7 +23,7 @@ public class StartUp {
     public static void main(String[] args) {
         IdGeneratorOptions options = new IdGeneratorOptions();
 
-        //options.TopOverCostCount = 10000;
+        // options.TopOverCostCount = 10000;
 
         // options.WorkerIdBitLength = 6;
         // options.SeqBitLength = 9;
@@ -31,8 +31,8 @@ public class StartUp {
         // options.MaxSeqNumber = 200;
 
         options.Method = method;
-        options.WorkerId = 1;
         options.StartTime = 1582206693000L; // (2020-2-20)
+        options.WorkerId = 1;
 
         IIdGenerator IdGen = new DefaultIdGenerator(options);
         GenTest genTest = new GenTest(IdGen, genIdCount, options.WorkerId);
@@ -44,13 +44,14 @@ public class StartUp {
         System.out.println("这是用方法 " + method + " 生成的 Id：" + newId);
 
         // 然后循环测试一下，看看并发请求时的耗时情况
-        try {
+        try
+        {
             while (true) {
                 genTest.GenStart();
                 Thread.sleep(1000); // 每隔1秒执行一次GenStart
                 System.out.println("Hello World!");
             }
-        } catch (InterruptedException e) {
+         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
