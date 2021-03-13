@@ -28,7 +28,7 @@ namespace Yitter.OrgSystem.TestA
             while (true)
             {
                 Go();
-                Thread.Sleep(3000); // 每隔3秒执行一次Go
+                Thread.Sleep(1000); // 每隔3秒执行一次Go
                 Console.WriteLine("Hello World!");
             }
         }
@@ -43,7 +43,7 @@ namespace Yitter.OrgSystem.TestA
                 Method = method,
                 WorkerId = 1,
 
-                //TopOverCostCount = 2000,
+                TopOverCostCount = 10000,
                 //WorkerIdBitLength = 6,
                 //SeqBitLength = 9,
 
@@ -56,10 +56,9 @@ namespace Yitter.OrgSystem.TestA
             // ++++++++++++++++++++++++++++++++
             if (single)
             {
-                IdGeneratorOptions options1 = (newConfig);
                 if (IdGen == null)
                 {
-                    IdGen = new DefaultIdGenerator(options1);
+                    IdGen = new DefaultIdGenerator(newConfig);
                 }
 
                 if (outputLog)
@@ -86,7 +85,8 @@ namespace Yitter.OrgSystem.TestA
                     Console.WriteLine("Gen：" + i);
                     var test = new GenTest(IdGen, genIdCount, i);
                     testList.Add(test);
-                    test.GenId();
+                    // test.GenId();
+                    test.GenStart();
                 }
             }
             else
@@ -117,7 +117,8 @@ namespace Yitter.OrgSystem.TestA
                     }
 
                     testList.Add(test);
-                    test.GenId();
+                    // test.GenId();
+                    test.GenStart();
                 }
             }
 

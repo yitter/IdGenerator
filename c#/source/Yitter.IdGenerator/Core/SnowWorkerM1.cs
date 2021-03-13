@@ -76,7 +76,6 @@ namespace Yitter.IdGenerator
             SeqBitLength = options.SeqBitLength;
             MaxSeqNumber = options.MaxSeqNumber;
             MinSeqNumber = options.MinSeqNumber;
-            _CurrentSeqNumber = options.MinSeqNumber;
             TopOverCostCount = options.TopOverCostCount;
 
             if (options.StartTime != DateTime.MinValue)
@@ -91,12 +90,12 @@ namespace Yitter.IdGenerator
 
             if (SeqBitLength == 0)
             {
-                SeqBitLength = 10;
+                SeqBitLength = 6;
             }
 
             if (WorkerIdBitLength == 0)
             {
-                WorkerIdBitLength = 10;
+                WorkerIdBitLength = 6;
             }
 
             if (MaxSeqNumber == 0)
@@ -105,6 +104,7 @@ namespace Yitter.IdGenerator
             }
 
             _TimestampShift = (byte)(WorkerIdBitLength + SeqBitLength);
+            _CurrentSeqNumber = options.MinSeqNumber;
         }
 
 

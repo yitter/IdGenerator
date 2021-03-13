@@ -13,28 +13,28 @@ namespace Yitter.OrgSystem.TestA
         private IIdGenerator IdGen;
         private Hashtable ids = new Hashtable();
         public IList<long> idList = new List<long>();
-        private int GenNumber;
+        private int GenIdCount;
         private int WorkerId;
             
 
-        public GenTest(IIdGenerator idGen, int genNumber, int workerId)
+        public GenTest(IIdGenerator idGen, int genIdCount, int workerId)
         {
-            GenNumber = genNumber;
+            GenIdCount = genIdCount;
             IdGen = idGen;
             WorkerId = workerId;
         }
 
-        public void GenId()
-        {
-            Thread t = new Thread(new ThreadStart(Gen1Start));
-            t.Start();
-        }
+        //public void GenId()
+        //{
+        //    Thread t = new Thread(new ThreadStart(Gen1Start));
+        //    t.Start();
+        //}
 
-        private void Gen1Start()
+        public void GenStart()
         {
             DateTime start = DateTime.Now;
 
-            for (int i = 0; i < GenNumber; i++)
+            for (int i = 0; i < GenIdCount; i++)
             {
                 var id = IdGen.NewLong();
                 //ids.Add(id, i);
