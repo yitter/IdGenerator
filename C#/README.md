@@ -5,7 +5,7 @@
 
 ## 引用nuget包
 ```
-<PackageReference Include="Yitter.IdGenerator" Version="1.0.2" />
+<PackageReference Include="Yitter.IdGenerator" Version="1.0.*" />
 ```
 
 ## 调用示例
