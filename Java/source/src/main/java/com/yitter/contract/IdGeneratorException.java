@@ -17,6 +17,7 @@ public class IdGeneratorException extends RuntimeException {
     public IdGeneratorException(Throwable cause) {
         super(cause);
     }
+
     public IdGeneratorException(String message, Throwable cause) {
         super(message, cause);
     }

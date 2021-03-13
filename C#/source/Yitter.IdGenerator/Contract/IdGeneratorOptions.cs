@@ -70,5 +70,10 @@ namespace Yitter.IdGenerator
         {
 
         }
+
+        public IdGeneratorOptions(ushort workerId)
+        {
+            WorkerId = workerId;
+        }
     }
 }

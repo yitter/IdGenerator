@@ -9,6 +9,7 @@ package com.yitter.contract;
  * 此处代码不采用 get/set 那种冗长的写法
  */
 public class IdGeneratorOptions {
+
     /**
      * 雪花计算方法
      * （1-漂移算法|2-传统算法），默认1
