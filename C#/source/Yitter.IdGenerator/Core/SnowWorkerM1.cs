@@ -30,24 +30,21 @@ namespace Yitter.IdGenerator
 
         /// <summary>
         /// 机器码位长
-        /// （机器码+序列数<=22位）
         /// </summary>
         protected readonly byte WorkerIdBitLength = 0;
 
         /// <summary>
         /// 自增序列数位长
-        /// （机器码+序列数<=22位）
         /// </summary>
         protected readonly byte SeqBitLength = 0;
 
         /// <summary>
-        /// 最大序列数（含此值）
-        /// 超过最大值，就会从MinSeqNumber开始
+        /// 最大序列数（含）
         /// </summary>
         protected readonly int MaxSeqNumber = 0;
 
         /// <summary>
-        /// 最小序列数（含此值）
+        /// 最小序列数（含）
         /// </summary>
         protected readonly ushort MinSeqNumber = 0;
 

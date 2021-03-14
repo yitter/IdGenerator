@@ -30,12 +30,13 @@ namespace Yitter.IdGenerator
         /// <summary>
         /// 机器码
         /// 与 WorkerIdBitLength 有关系
+        /// （ushort类型，最大值65535，如果有更高要求，请修改数据类型，或联系作者)
         /// </summary>
         public virtual ushort WorkerId { get; set; } = 0;
 
         /// <summary>
         /// 机器码位长
-        /// 范围：2-21（要求：序列数位长+机器码位长不超过22）。
+        /// 范围：1-21（要求：序列数位长+机器码位长不超过22）。
         /// 建议范围：6-12。
         /// </summary>
         public virtual byte WorkerIdBitLength { get; set; } = 6;//10;
@@ -55,7 +56,7 @@ namespace Yitter.IdGenerator
 
         /// <summary>
         /// 最小序列数（含）
-        /// 默认5，不小于1，不大于MaxSeqNumber-2
+        /// 默认5，不小于1，不大于MaxSeqNumber
         /// </summary>
         public virtual ushort MinSeqNumber { get; set; } = 5;
 

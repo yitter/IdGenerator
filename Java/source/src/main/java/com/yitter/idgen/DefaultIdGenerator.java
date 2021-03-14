@@ -30,7 +30,7 @@ public class DefaultIdGenerator implements IIdGenerator {
         }
 
         double maxWorkerIdNumber = Math.pow(2, options.WorkerIdBitLength) - 1;
-        if (options.WorkerId < 1 || options.WorkerId > maxWorkerIdNumber) {
+        if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber) {
             throw new IdGeneratorException("WorkerId error. (range:[1, " + maxWorkerIdNumber + "]");
         }
 
@@ -43,9 +43,9 @@ public class DefaultIdGenerator implements IIdGenerator {
             throw new IdGeneratorException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");
         }
 
-        double maxValue = maxSeqNumber - 2;
-        if (options.MinSeqNumber < 5 || options.MinSeqNumber > maxValue) {
-            throw new IdGeneratorException("MinSeqNumber error. (range:[5, " + maxValue + "]");
+        double maxValue = maxSeqNumber;
+        if (options.MinSeqNumber < 1 || options.MinSeqNumber > maxValue) {
+            throw new IdGeneratorException("MinSeqNumber error. (range:[1, " + maxValue + "]");
         }
 
         switch (options.Method) {

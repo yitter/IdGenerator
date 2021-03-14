@@ -23,24 +23,21 @@ public class SnowWorkerM1 implements ISnowWorker {
 
     /**
      * 机器码位长
-     * （机器码+序列数<=22位）
      */
     protected final byte WorkerIdBitLength;
 
     /**
      * 自增序列数位长
-     * （机器码+序列数<=22位）
      */
     protected final byte SeqBitLength;
 
     /**
-     * 最大序列数（含此值）
-     * 超过最大值，就会从MinSeqNumber开始
+     * 最大序列数（含）
      */
     protected final int MaxSeqNumber;
 
     /**
-     * 最小序列数（含此值）
+     * 最小序列数（含）
      */
     protected final short MinSeqNumber;
 
@@ -64,7 +61,7 @@ public class SnowWorkerM1 implements ISnowWorker {
         WorkerId = options.WorkerId;
         WorkerIdBitLength = options.WorkerIdBitLength == 0 ? 6 : options.WorkerIdBitLength;
         SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
-        MaxSeqNumber = options.MaxSeqNumber > 0 ? options.MaxSeqNumber : (int) Math.pow(2, SeqBitLength);
+        MaxSeqNumber = options.MaxSeqNumber > 0 ? options.MaxSeqNumber : (int) Math.pow(2, SeqBitLength) - 1;
         MinSeqNumber = options.MinSeqNumber;
         TopOverCostCount = options.TopOverCostCount;
         BaseTime = options.BaseTime != 0 ? options.BaseTime : 1582136402000L;
