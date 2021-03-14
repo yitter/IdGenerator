@@ -46,7 +46,7 @@ namespace Yitter.IdGenerator
             }
 
             var maxWorkerIdNumber = Math.Pow(2, options.WorkerIdBitLength) - 1;
-            if (options.WorkerId < 1 || options.WorkerId > maxWorkerIdNumber)
+            if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber)
             {
                 throw new ApplicationException("WorkerId error. (range:[1, " + maxWorkerIdNumber + "]");
             }
@@ -57,13 +57,18 @@ namespace Yitter.IdGenerator
             }
 
             var maxSeqNumber = Math.Pow(2, options.SeqBitLength) - 1;
+            if (options.MaxSeqNumber > maxSeqNumber)
+            {
+                options.MaxSeqNumber = (int)maxSeqNumber;
+            }
+
             if (options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber)
             {
                 throw new ApplicationException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");
             }
 
-            var maxValue = maxSeqNumber - 2;
-            if (options.MinSeqNumber < 5 || options.MinSeqNumber > maxValue)
+            var maxValue = maxSeqNumber;// maxSeqNumber - 2;
+            if (options.MinSeqNumber < 1 || options.MinSeqNumber > maxValue)
             {
                 throw new ApplicationException("MinSeqNumber error. (range:[5, " + maxValue + "]");
             }

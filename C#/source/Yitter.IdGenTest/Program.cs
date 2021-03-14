@@ -10,7 +10,7 @@ namespace Yitter.OrgSystem.TestA
     {
 
         // 测试参数（默认配置下，最佳性能是10W/s）
-        static int genIdCount = 50000;  // 计算ID数量（如果要验证50W效率，请将TopOverCostCount设置为20000或适当增加SeqBitLength）
+        static int genIdCount = 5000;  // 计算ID数量（如果要验证50W效率，请将TopOverCostCount设置为20000或适当增加SeqBitLength）
         static short method = 1; // 1-漂移算法，2-传统算法
 
 
@@ -25,40 +25,50 @@ namespace Yitter.OrgSystem.TestA
 
         static void Main(string[] args)
         {
+            var options = new IdGeneratorOptions()
+            {
+                Method = method,
+                WorkerId = 1,
+
+                TopOverCostCount = 2000,
+                WorkerIdBitLength = 1,
+                SeqBitLength = 2,
+
+                MinSeqNumber = 1,
+
+                // MaxSeqNumber = 200,
+
+                BaseTime = DateTime.Now.AddYears(-10),
+            };
+
+            IIdGenerator IdGen = new DefaultIdGenerator(options);
+            GenTest genTest = new GenTest(IdGen, genIdCount, options.WorkerId);
+
+            // 首先测试一下 IdHelper 方法，获取单个Id
+            IdHelper.SetIdGenerator(options);
+            long newId = IdHelper.NextId();
+            Console.WriteLine("=====================================");
+            Console.WriteLine("这是用方法 " + method + " 生成的 Id：" + newId);
+
             while (true)
             {
-                Go();
+                Go(options);
                 Thread.Sleep(1000); // 每隔3秒执行一次Go
                 Console.WriteLine("Hello World!");
             }
         }
 
-        private static void Go()
+        private static void Go(IdGeneratorOptions options)
         {
             Count = 0;
             testList = new List<GenTest>();
-
-            var newConfig = new IdGeneratorOptions()
-            {
-                Method = method,
-                WorkerId = 1,
-
-                TopOverCostCount = 10000,
-                //WorkerIdBitLength = 6,
-                //SeqBitLength = 9,
-
-                //MinSeqNumber = 11,
-                //MaxSeqNumber = 200,
-
-                BaseTime = DateTime.Now.AddYears(-10),
-            };
 
             // ++++++++++++++++++++++++++++++++
             if (single)
             {
                 if (IdGen == null)
                 {
-                    IdGen = new DefaultIdGenerator(newConfig);
+                    IdGen = new DefaultIdGenerator(options);
                 }
 
                 if (outputLog)
@@ -93,19 +103,18 @@ namespace Yitter.OrgSystem.TestA
             {
                 for (int i = 1; i < workerCount + 1; i++)
                 {
-                    IdGeneratorOptions options =
-                  new IdGeneratorOptions()
-                  {
-                      WorkerId = (ushort)i, // workerId 不能设置为0
-                      WorkerIdBitLength = newConfig.WorkerIdBitLength,
-                      SeqBitLength = newConfig.SeqBitLength,
-                      MinSeqNumber = newConfig.MinSeqNumber,
-                      MaxSeqNumber = newConfig.MaxSeqNumber,
-                      Method = newConfig.Method,
-                  };
+                    IdGeneratorOptions newOptions = new IdGeneratorOptions()
+                    {
+                        WorkerId = (ushort)i, // workerId 不能设置为0
+                        WorkerIdBitLength = options.WorkerIdBitLength,
+                        SeqBitLength = options.SeqBitLength,
+                        MinSeqNumber = options.MinSeqNumber,
+                        MaxSeqNumber = options.MaxSeqNumber,
+                        Method = options.Method,
+                    };
 
                     Console.WriteLine("Gen：" + i);
-                    var idGen2 = new DefaultIdGenerator(options);
+                    var idGen2 = new DefaultIdGenerator(newOptions);
                     var test = new GenTest(idGen2, genIdCount, i);
 
                     if (outputLog)

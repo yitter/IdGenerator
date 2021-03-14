@@ -55,9 +55,9 @@ namespace Yitter.IdGenerator
 
         /// <summary>
         /// 最小序列数（含）
-        /// 默认11，不小于5，不大于MaxSeqNumber-2
+        /// 默认5，不小于1，不大于MaxSeqNumber-2
         /// </summary>
-        public virtual ushort MinSeqNumber { get; set; } = 11;
+        public virtual ushort MinSeqNumber { get; set; } = 5;
 
         /// <summary>
         /// 最大漂移次数（含），
