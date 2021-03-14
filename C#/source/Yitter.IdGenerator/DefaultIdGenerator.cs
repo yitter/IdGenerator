@@ -57,11 +57,10 @@ namespace Yitter.IdGenerator
             }
 
             var maxSeqNumber = Math.Pow(2, options.SeqBitLength) - 1;
-            if (options.MaxSeqNumber > maxSeqNumber)
-            {
-                options.MaxSeqNumber = (int)maxSeqNumber;
-            }
-
+            //if (options.MaxSeqNumber > maxSeqNumber)
+            //{
+            //    options.MaxSeqNumber = (int)maxSeqNumber;
+            //}
             if (options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber)
             {
                 throw new ApplicationException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");

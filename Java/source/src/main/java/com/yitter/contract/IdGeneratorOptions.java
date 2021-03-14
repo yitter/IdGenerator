@@ -50,9 +50,9 @@ public class IdGeneratorOptions {
 
     /**
      * 最小序列数（含）
-     * 默认11，不小于5，不大于MaxSeqNumber-2
+     * 默认5，不小于1，不大于MaxSeqNumber-1
      */
-    public short MinSeqNumber = 11;
+    public short MinSeqNumber = 5;
 
     /**
      * 最大漂移次数（含）
