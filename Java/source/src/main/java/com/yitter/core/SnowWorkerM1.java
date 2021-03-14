@@ -52,6 +52,8 @@ public class SnowWorkerM1 implements ISnowWorker {
     protected short _CurrentSeqNumber;
     protected long _LastTimeTick = -1L;
     protected long _TurnBackTimeTick = -1L;
+    protected byte _TurnBackIndex = 0;
+
     protected boolean _IsOverCost = false;
     protected int _OverCostCountInOneTerm = 0;
     protected int _GenCountInOneTerm = 0;
@@ -73,7 +75,7 @@ public class SnowWorkerM1 implements ISnowWorker {
 
     }
 
-    private void BeginOverCostCallBack(long useTimeTick) {
+    private void BeginOverCostAction(long useTimeTick) {
 //        if (GenAction == null) {
 //            return;
 //        }
@@ -87,7 +89,7 @@ public class SnowWorkerM1 implements ISnowWorker {
 //                _TermIndex));
     }
 
-    private void EndOverCostCallBack(long useTimeTick) {
+    private void EndOverCostAction(long useTimeTick) {
         if (_TermIndex > 10000) {
             _TermIndex = 0;
         }
@@ -105,7 +107,7 @@ public class SnowWorkerM1 implements ISnowWorker {
 //                _TermIndex));
     }
 
-    private void TurnBackCallBack(long useTimeTick) {
+    private void BeginTurnBackAction(long useTimeTick) {
 //        if (GenAction == null) {
 //            return;
 //        }
@@ -119,11 +121,15 @@ public class SnowWorkerM1 implements ISnowWorker {
 //                _TermIndex));
     }
 
+    private void EndTurnBackAction(long useTimeTick) {
+
+    }
+
     private long NextOverCostId() {
         long currentTimeTick = GetCurrentTimeTick();
 
         if (currentTimeTick > _LastTimeTick) {
-            EndOverCostCallBack(currentTimeTick);
+            EndOverCostAction(currentTimeTick);
 
             _LastTimeTick = currentTimeTick;
             _CurrentSeqNumber = MinSeqNumber;
@@ -135,7 +141,7 @@ public class SnowWorkerM1 implements ISnowWorker {
         }
 
         if (_OverCostCountInOneTerm >= TopOverCostCount) {
-            EndOverCostCallBack(currentTimeTick);
+            EndOverCostAction(currentTimeTick);
 
             _LastTimeTick = GetNextTimeTick();
             _CurrentSeqNumber = MinSeqNumber;
@@ -163,6 +169,33 @@ public class SnowWorkerM1 implements ISnowWorker {
     private long NextNormalId() throws IdGeneratorException {
         long currentTimeTick = GetCurrentTimeTick();
 
+        if (currentTimeTick < _LastTimeTick) {
+            if (_TurnBackTimeTick < 1) {
+                _TurnBackTimeTick = _LastTimeTick - 1;
+                _TurnBackIndex++;
+
+                // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
+                // 最多4次回拨（防止回拨重叠）
+                if (_TurnBackIndex > 4) {
+                    _TurnBackIndex = 1;
+                }
+                BeginTurnBackAction(_TurnBackTimeTick);
+            }
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return CalcTurnBackId(_TurnBackTimeTick);
+        }
+
+        // 时间追平时，_TurnBackTimeTick清零
+        if (_TurnBackTimeTick > 0) {
+            EndTurnBackAction(_TurnBackTimeTick);
+            _TurnBackTimeTick = 0;
+        }
+
         if (currentTimeTick > _LastTimeTick) {
             _LastTimeTick = currentTimeTick;
             _CurrentSeqNumber = MinSeqNumber;
@@ -171,32 +204,16 @@ public class SnowWorkerM1 implements ISnowWorker {
         }
 
         if (_CurrentSeqNumber > MaxSeqNumber) {
-            BeginOverCostCallBack(currentTimeTick);
+            BeginOverCostAction(currentTimeTick);
 
             _TermIndex++;
             _LastTimeTick++;
             _CurrentSeqNumber = MinSeqNumber;
             _IsOverCost = true;
-            _OverCostCountInOneTerm++;
+            _OverCostCountInOneTerm = 1;
             _GenCountInOneTerm = 1;
 
             return CalcId(_LastTimeTick);
-        }
-
-        if (currentTimeTick < _LastTimeTick) {
-            if (_TurnBackTimeTick < 1) {
-                _TurnBackTimeTick = _LastTimeTick - 1;
-            }
-
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            TurnBackCallBack(_TurnBackTimeTick);
-
-            return CalcTurnBackId(_TurnBackTimeTick);
         }
 
         return CalcId(_LastTimeTick);
@@ -213,7 +230,7 @@ public class SnowWorkerM1 implements ISnowWorker {
 
     private long CalcTurnBackId(long useTimeTick) {
         long result = ((useTimeTick << _TimestampShift) +
-                ((long) WorkerId << SeqBitLength) + 0);
+                ((long) WorkerId << SeqBitLength) + _TurnBackIndex);
 
         _TurnBackTimeTick--;
         return result;
