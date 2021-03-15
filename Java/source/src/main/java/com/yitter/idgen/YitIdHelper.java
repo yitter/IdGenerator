@@ -9,9 +9,9 @@ import com.yitter.contract.IdGeneratorOptions;
 import com.yitter.contract.IIdGenerator;
 
 /**
- * 这是一个调用的例子，默认情况下，单机集成者可以直接使用 NewId()。
+ * 这是一个调用的例子，默认情况下，单机集成者可以直接使用 nextId()。
  */
-public class IdHelper {
+public class YitIdHelper {
 
     private static IIdGenerator idGenInstance = null;
 

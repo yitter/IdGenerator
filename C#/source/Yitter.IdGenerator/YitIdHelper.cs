@@ -14,9 +14,9 @@ using System.Text;
 namespace Yitter.IdGenerator
 {
     /// <summary>
-    /// 这是一个调用的例子，默认情况下，单机集成者可以直接使用 NewId()。
+    /// 这是一个调用的例子，默认情况下，单机集成者可以直接使用 NextId()。
     /// </summary>
-    public class IdHelper
+    public class YitIdHelper
     {
         private static IIdGenerator _IdGenInstance = null;
 

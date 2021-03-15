@@ -45,8 +45,8 @@ namespace Yitter.OrgSystem.TestA
             GenTest genTest = new GenTest(IdGen, genIdCount, options.WorkerId);
 
             // 首先测试一下 IdHelper 方法，获取单个Id
-            IdHelper.SetIdGenerator(options);
-            long newId = IdHelper.NextId();
+            YitIdHelper.SetIdGenerator(options);
+            long newId = YitIdHelper.NextId();
             Console.WriteLine("=====================================");
             Console.WriteLine("这是用方法 " + method + " 生成的 Id：" + newId);
 

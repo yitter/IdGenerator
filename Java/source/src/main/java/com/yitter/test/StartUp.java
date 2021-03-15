@@ -3,7 +3,7 @@ package com.yitter.test;
 import com.yitter.contract.IdGeneratorOptions;
 import com.yitter.contract.IIdGenerator;
 import com.yitter.idgen.DefaultIdGenerator;
-import com.yitter.idgen.IdHelper;
+import com.yitter.idgen.YitIdHelper;
 
 public class StartUp {
 
@@ -38,8 +38,8 @@ public class StartUp {
         GenTest genTest = new GenTest(IdGen, genIdCount, options.WorkerId);
 
         // 首先测试一下 IdHelper 方法，获取单个Id
-        IdHelper.setIdGenerator(options);
-        long newId = IdHelper.nextId();
+        YitIdHelper.setIdGenerator(options);
+        long newId = YitIdHelper.nextId();
         System.out.println("=====================================");
         System.out.println("这是用方法 " + method + " 生成的 Id：" + newId);
 
