@@ -179,14 +179,17 @@ C#：[查看示例][1]
 
 Java：[查看示例][2]
 
+Go：[查看示例][3]
+
 ## 技术支持
 
 开源地址：https://gitee.com/yitter/idgenerator
 
 QQ群：646049993
 
-即将推出PHP、Go等版本。
+即将推出 C 语言等版本。
 
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23
 [2]: https://gitee.com/yitter/idgenerator/tree/master/Java
+[3]: https://gitee.com/yitter/idgenerator/tree/master/Go
