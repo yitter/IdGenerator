@@ -1,6 +1,7 @@
 # idgenerator
 
 ## Go环境
+
 1.go 1.16
 
 2. 默认采用GOROOT方式编译，你可修改为Go-Modules
