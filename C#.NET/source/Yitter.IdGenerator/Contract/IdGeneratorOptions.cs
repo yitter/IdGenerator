@@ -22,7 +22,7 @@ namespace Yitter.IdGenerator
         public virtual short Method { get; set; } = 1;
 
         /// <summary>
-        /// 开始时间（UTC格式）
+        /// 基础时间（UTC格式）
         /// 不能超过当前系统时间
         /// </summary>
         public virtual DateTime BaseTime { get; set; } = new DateTime(2020, 2, 20, 2, 20, 2, 20, DateTimeKind.Utc);

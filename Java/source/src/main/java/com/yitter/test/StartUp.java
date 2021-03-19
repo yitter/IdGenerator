@@ -34,8 +34,8 @@ public class StartUp {
         options.BaseTime = 1582206693000L;
         options.WorkerId = 1;
 
-        IIdGenerator IdGen = new DefaultIdGenerator(options);
-        GenTest genTest = new GenTest(IdGen, genIdCount, options.WorkerId);
+        IIdGenerator idGen = new DefaultIdGenerator(options);
+        GenTest genTest = new GenTest(idGen, genIdCount, options.WorkerId);
 
         // 首先测试一下 IdHelper 方法，获取单个Id
         YitIdHelper.setIdGenerator(options);

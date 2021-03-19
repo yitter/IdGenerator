@@ -17,7 +17,7 @@ public class IdGeneratorOptions {
     public short Method = 1;
 
     /**
-     * 开始时间
+     * 基础时间
      * 不能超过当前系统时间
      */
     public long BaseTime = 1582136402000L;
