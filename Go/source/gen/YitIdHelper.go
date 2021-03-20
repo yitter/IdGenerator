@@ -4,7 +4,7 @@
  * 代码修订：yitter
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-package idgen
+package gen
 
 import (
 	"sync"

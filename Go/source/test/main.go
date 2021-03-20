@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 	"yitidgen/contract"
-	"yitidgen/idgen"
+	"yitidgen/gen"
 )
 
 func main() {
 	// 方法一：直接采用默认方法生成一个Id
-	var yid = idgen.YitIdHelper{}
+	var yid = gen.YitIdHelper{}
 	fmt.Println(yid.NextId())
 
 	// 方法二：自定义参数
@@ -22,7 +22,7 @@ func main() {
 
 	var times = 50000
 
-	for ; ; {
+	for {
 		var begin = time.Now().UnixNano() / 1e6
 		for i := 0; i < times; i++ {
 			yid.NextId()

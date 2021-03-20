@@ -4,7 +4,7 @@
  * 代码修订：yitter
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-package idgen
+package gen
 
 import (
 	"math"
@@ -35,7 +35,7 @@ func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGener
 
 	maxWorkerIdNumber := uint16(math.Pow(float64(2), float64(options.WorkerIdBitLength))) - 1
 	if options.WorkerId > maxWorkerIdNumber {
-		panic("WorkerId error. (range:[1, "+ string(maxWorkerIdNumber)+ "]")
+		panic("WorkerId error. (range:[1, " + string(maxWorkerIdNumber) + "]")
 	}
 
 	if options.SeqBitLength < 2 || options.SeqBitLength > 21 {
@@ -44,11 +44,11 @@ func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGener
 
 	maxSeqNumber := uint32(math.Pow(2, float64(options.SeqBitLength))) - 1
 	if options.MaxSeqNumber > maxSeqNumber {
-		panic("MaxSeqNumber error. (range:[1, "+ string(maxSeqNumber)+ "]")
+		panic("MaxSeqNumber error. (range:[1, " + string(maxSeqNumber) + "]")
 	}
 
 	if options.MinSeqNumber > maxSeqNumber {
-		panic("MinSeqNumber error. (range:[1, "+ string(maxSeqNumber)+ "]")
+		panic("MinSeqNumber error. (range:[1, " + string(maxSeqNumber) + "]")
 	}
 
 	var snowWorker contract.ISnowWorker
