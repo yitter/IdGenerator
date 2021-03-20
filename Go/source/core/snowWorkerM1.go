@@ -20,16 +20,16 @@ type SnowWorkerM1 struct {
 	SeqBitLength            byte   //自增序列数位长
 	MaxSeqNumber            uint32 //最大序列数（含）
 	MinSeqNumber            uint32 //最小序列数（含）
-	TopOverCostCount        uint   //最大漂移次数
+	TopOverCostCount        uint32 //最大漂移次数
 	_TimestampShift         byte
 	_CurrentSeqNumber       uint32
 	_LastTimeTick           int64
 	_TurnBackTimeTick       int64
 	_TurnBackIndex          byte
 	_IsOverCost             bool
-	_OverCostCountInOneTerm uint
-	_GenCountInOneTerm      uint
-	_TermIndex              uint
+	_OverCostCountInOneTerm uint32
+	_GenCountInOneTerm      uint32
+	_TermIndex              uint32
 	sync.Mutex
 }
 

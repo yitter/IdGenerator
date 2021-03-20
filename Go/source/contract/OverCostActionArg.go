@@ -7,15 +7,15 @@
 package contract
 
 type OverCostActionArg struct {
-	ActionType             int
+	ActionType             int32
 	TimeTick               int64
-	WorkerId               int64
-	OverCostCountInOneTerm int
-	GenCountInOneTerm      int
-	TermIndex              int
+	WorkerId               uint16
+	OverCostCountInOneTerm int32
+	GenCountInOneTerm      int32
+	TermIndex              int32
 }
 
-func (ocaa OverCostActionArg) OverCostActionArg(workerId int64, timeTick int64, actionType int, overCostCountInOneTerm int, genCountWhenOverCost int, index int) {
+func (ocaa OverCostActionArg) OverCostActionArg(workerId uint16, timeTick int64, actionType int32, overCostCountInOneTerm int32, genCountWhenOverCost int32, index int32) {
 	ocaa.ActionType = actionType
 	ocaa.TimeTick = timeTick
 	ocaa.WorkerId = workerId
