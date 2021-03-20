@@ -34,46 +34,46 @@ type SnowWorkerM1 struct {
 }
 
 func NewSnowWorkerM1(options *contract.IdGeneratorOptions) contract.ISnowWorker {
-	var WorkerIdBitLength byte
-	var SeqBitLength byte
-	var MaxSeqNumber uint32
+	var workerIdBitLength byte
+	var seqBitLength byte
+	var maxSeqNumber uint32
 
-	var WorkerId = options.WorkerId
+	var workerId = options.WorkerId
 
 	if options.WorkerIdBitLength == 0 {
-		WorkerIdBitLength = 6
+		workerIdBitLength = 6
 	} else {
-		WorkerIdBitLength = options.WorkerIdBitLength
+		workerIdBitLength = options.WorkerIdBitLength
 	}
 	if options.SeqBitLength == 0 {
-		SeqBitLength = 6
+		seqBitLength = 6
 	} else {
-		SeqBitLength = options.SeqBitLength
+		seqBitLength = options.SeqBitLength
 	}
 	if options.MaxSeqNumber > 0 {
-		MaxSeqNumber = options.MaxSeqNumber
+		maxSeqNumber = options.MaxSeqNumber
 	} else {
-		MaxSeqNumber = uint32(math.Pow(2, float64(options.SeqBitLength))) - 1
+		maxSeqNumber = uint32(math.Pow(2, float64(options.SeqBitLength))) - 1
 	}
-	var MinSeqNumber = options.MinSeqNumber
-	var TopOverCostCount = options.TopOverCostCount
+	var minSeqNumber = options.MinSeqNumber
+	var topOverCostCount = options.TopOverCostCount
 
-	var BaseTime int64
+	var baseTime int64
 	if options.BaseTime != 0 {
-		BaseTime = options.BaseTime
+		baseTime = options.BaseTime
 	} else {
-		BaseTime = 1582136402000
+		baseTime = 1582136402000
 	}
 	timestampShift := (byte)(options.WorkerIdBitLength + options.SeqBitLength)
 	currentSeqNumber := options.MinSeqNumber
 	return &SnowWorkerM1{
-		BaseTime:          BaseTime,
-		WorkerId:          WorkerId,
-		WorkerIdBitLength: WorkerIdBitLength,
-		SeqBitLength:      SeqBitLength,
-		MaxSeqNumber:      MaxSeqNumber,
-		MinSeqNumber:      MinSeqNumber,
-		TopOverCostCount:  TopOverCostCount,
+		BaseTime:          baseTime,
+		WorkerId:          workerId,
+		WorkerIdBitLength: workerIdBitLength,
+		SeqBitLength:      seqBitLength,
+		MaxSeqNumber:      maxSeqNumber,
+		MinSeqNumber:      minSeqNumber,
+		TopOverCostCount:  topOverCostCount,
 		_TimestampShift:   timestampShift,
 		_CurrentSeqNumber: currentSeqNumber}
 }

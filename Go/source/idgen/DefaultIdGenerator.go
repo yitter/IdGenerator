@@ -19,54 +19,54 @@ type DefaultIdGenerator struct {
 	IdGeneratorException contract.IdGeneratorException
 }
 
-func NewDefaultIdGenerator(Options *contract.IdGeneratorOptions) *DefaultIdGenerator {
-	if Options == nil {
+func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGenerator {
+	if options == nil {
 		panic("dig.Options error.")
 	}
 
 	var minTime = time.Now().AddDate(-50, 0, 0).UnixNano() / 1e6
-	if minTime == 0 || Options.BaseTime < minTime || Options.BaseTime > time.Now().UnixNano()/1e6 {
+	if minTime == 0 || options.BaseTime < minTime || options.BaseTime > time.Now().UnixNano()/1e6 {
 		panic("BaseTime error.")
 	}
 
-	if Options.SeqBitLength+Options.WorkerIdBitLength > 22 {
+	if options.SeqBitLength+options.WorkerIdBitLength > 22 {
 		panic("error：WorkerIdBitLength + SeqBitLength <= 22")
 	}
 
-	maxWorkerIdNumber := uint16(math.Pow(float64(2), float64(Options.WorkerIdBitLength))) - 1
-	if Options.WorkerId > maxWorkerIdNumber {
+	maxWorkerIdNumber := uint16(math.Pow(float64(2), float64(options.WorkerIdBitLength))) - 1
+	if options.WorkerId > maxWorkerIdNumber {
 		panic("WorkerId error. (range:[1, "+ string(maxWorkerIdNumber)+ "]")
 	}
 
-	if Options.SeqBitLength < 2 || Options.SeqBitLength > 21 {
+	if options.SeqBitLength < 2 || options.SeqBitLength > 21 {
 		panic("SeqBitLength error. (range:[2, 21])")
 	}
 
-	maxSeqNumber := uint32(math.Pow(2, float64(Options.SeqBitLength))) - 1
-	if Options.MaxSeqNumber > maxSeqNumber {
+	maxSeqNumber := uint32(math.Pow(2, float64(options.SeqBitLength))) - 1
+	if options.MaxSeqNumber > maxSeqNumber {
 		panic("MaxSeqNumber error. (range:[1, "+ string(maxSeqNumber)+ "]")
 	}
 
-	if Options.MinSeqNumber > maxSeqNumber {
+	if options.MinSeqNumber > maxSeqNumber {
 		panic("MinSeqNumber error. (range:[1, "+ string(maxSeqNumber)+ "]")
 	}
 
 	var snowWorker contract.ISnowWorker
 
-	switch Options.Method {
+	switch options.Method {
 	case 1:
-		snowWorker = core.NewSnowWorkerM1(Options)
+		snowWorker = core.NewSnowWorkerM1(options)
 	case 2:
-		snowWorker = core.NewSnowWorkerM2(Options)
+		snowWorker = core.NewSnowWorkerM2(options)
 	default:
-		snowWorker = core.NewSnowWorkerM1(Options)
+		snowWorker = core.NewSnowWorkerM1(options)
 	}
 
-	if Options.Method == 1 {
+	if options.Method == 1 {
 		time.Sleep(time.Duration(500) * time.Microsecond)
 	}
 	return &DefaultIdGenerator{
-		Options:    Options,
+		Options:    options,
 		SnowWorker: snowWorker,
 	}
 }
