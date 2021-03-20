@@ -7,10 +7,10 @@
 package core
 
 import (
-	"../contract"
 	"fmt"
 	"strconv"
 	"sync/atomic"
+	"yitidgen/contract"
 )
 
 type SnowWorkerM2 struct {

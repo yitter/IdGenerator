@@ -7,8 +7,8 @@
 package idgen
 
 import (
-	"../contract"
 	"sync"
+	"yitidgen/contract"
 )
 
 var ins *YitIdHelper

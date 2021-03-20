@@ -1,10 +1,10 @@
 package main
 
 import (
-	"../yitidgen/contract"
-	"../yitidgen/idgen"
 	"fmt"
 	"time"
+	"yitidgen/contract"
+	"yitidgen/idgen"
 )
 
 func main() {

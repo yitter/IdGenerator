@@ -7,10 +7,10 @@
 package idgen
 
 import (
-	"../contract"
-	"../core"
 	"math"
 	"time"
+	"yitidgen/contract"
+	"yitidgen/core"
 )
 
 type DefaultIdGenerator struct {

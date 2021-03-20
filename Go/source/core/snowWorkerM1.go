@@ -7,10 +7,10 @@
 package core
 
 import (
-	"../contract"
 	"math"
 	"sync"
 	"time"
+	"yitidgen/contract"
 )
 
 type SnowWorkerM1 struct {
