@@ -24,8 +24,8 @@ func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGener
 		panic("dig.Options error.")
 	}
 
-	var minTime = time.Now().AddDate(-50, 0, 0).UnixNano() / 1e6
-	if minTime == 0 || options.BaseTime < minTime || options.BaseTime > time.Now().UnixNano()/1e6 {
+	minTime := int64(631123200000) // time.Now().AddDate(-30, 0, 0).UnixNano() / 1e6
+	if options.BaseTime < minTime || options.BaseTime > time.Now().UnixNano()/1e6 {
 		panic("BaseTime error.")
 	}
 
