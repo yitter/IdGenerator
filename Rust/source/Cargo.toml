@@ -1,8 +1,8 @@
 [package]
 name = "RS-SnowF"
-version = "0.1.0"
-authors = ["zhouzj <zhouzj@zhouzj.com>"]
-edition = "2018"
+version = "1.0.0"
+authors = ["yitter <yitter@126.com>"]
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
