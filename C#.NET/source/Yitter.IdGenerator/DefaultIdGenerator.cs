@@ -40,14 +40,13 @@ namespace Yitter.IdGenerator
                 throw new ApplicationException("BaseTime error.");
             }
 
-            if (options.SeqBitLength + options.WorkerIdBitLength > 22)
-            {
-                throw new ApplicationException("error：WorkerIdBitLength + SeqBitLength <= 22");
-            }
-
             if (options.WorkerIdBitLength <= 0)
             {
                 throw new ApplicationException("WorkerIdBitLength error.(range:[1, 21])");
+            }
+            if (options.SeqBitLength + options.WorkerIdBitLength > 22)
+            {
+                throw new ApplicationException("error：WorkerIdBitLength + SeqBitLength <= 22");
             }
 
             var maxWorkerIdNumber = Math.Pow(2, options.WorkerIdBitLength) - 1;
