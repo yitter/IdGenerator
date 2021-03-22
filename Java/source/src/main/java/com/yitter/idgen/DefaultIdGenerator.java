@@ -25,13 +25,11 @@ public class DefaultIdGenerator implements IIdGenerator {
             throw new IdGeneratorException("BaseTime error.");
         }
 
+        if (options.WorkerIdBitLength <= 0) {
+            throw new IdGeneratorException("WorkerIdBitLength error.(range:[1, 21])");
+        }
         if (options.SeqBitLength + options.WorkerIdBitLength > 22) {
             throw new IdGeneratorException("error：WorkerIdBitLength + SeqBitLength <= 22");
-        }
-
-        if (options.WorkerIdBitLength <= 0)
-        {
-            throw new IdGeneratorException("WorkerIdBitLength error.(range:[1, 21])");
         }
 
         double maxWorkerIdNumber = Math.pow(2, options.WorkerIdBitLength) - 1;
