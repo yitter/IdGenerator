@@ -183,9 +183,9 @@ Go：[查看示例][3]
 
 QQ群：646049993
 
-即将推出 C 语言版本。
+即将推出 C/Rust 等版本。
 
 
-[1]: https://gitee.com/yitter/idgenerator/tree/master/C%23
+[1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
 [2]: https://gitee.com/yitter/idgenerator/tree/master/Java
 [3]: https://gitee.com/yitter/idgenerator/tree/master/Go
