@@ -171,11 +171,15 @@ ID示例（基于默认配置）：
 
 
 ## 代码示例
+
 C#：[查看示例][1]
 
 Java：[查看示例][2]
 
 Go：[查看示例][3]
+
+Rust：[查看示例][4]
+
 
 ## 技术支持
 
@@ -189,3 +193,4 @@ QQ群：646049993
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
 [2]: https://gitee.com/yitter/idgenerator/tree/master/Java
 [3]: https://gitee.com/yitter/idgenerator/tree/master/Go
+[4]: https://gitee.com/yitter/idgenerator/tree/master/Rust
