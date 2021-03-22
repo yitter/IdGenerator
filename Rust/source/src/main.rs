@@ -13,8 +13,7 @@ fn main() {
 
     // 全局设置一次运行参数
     let mut options = IdGeneratorOptions::New(1);
-    options.WorkerId = 1;
-    options.WorkerIdBitLength = 1;
+    options.WorkerIdBitLength = 6;
     options.SeqBitLength = 6;
     //... 可以继续设置其它 options 参数
     YitIdHelper::SetIdGenerator(options);
