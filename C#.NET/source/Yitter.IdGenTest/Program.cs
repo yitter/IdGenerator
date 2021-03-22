@@ -15,7 +15,7 @@ namespace Yitter.OrgSystem.TestA
 
 
         static bool single = true;
-        static bool outputLog = true;
+        static bool outputLog = false;
         static IIdGenerator IdGen = null;
         static IList<GenTest> testList = new List<GenTest>();
         static bool checkResult = false;
@@ -38,7 +38,7 @@ namespace Yitter.OrgSystem.TestA
 
                 // MaxSeqNumber = 200,
 
-                BaseTime = DateTime.Now.AddYears(-10),
+                // BaseTime = DateTime.Now.AddYears(-10),
             };
 
             IIdGenerator IdGen = new DefaultIdGenerator(options);
@@ -54,7 +54,7 @@ namespace Yitter.OrgSystem.TestA
             {
                 Go(options);
                 Thread.Sleep(1000); // 每隔3秒执行一次Go
-                Console.WriteLine("Hello World!");
+                Console.WriteLine("Hello World! C#");
             }
         }
 

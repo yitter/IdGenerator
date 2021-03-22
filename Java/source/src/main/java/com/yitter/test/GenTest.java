@@ -1,6 +1,7 @@
 package com.yitter.test;
 
 import com.yitter.contract.IIdGenerator;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,14 +21,17 @@ public class GenTest {
     public void GenStart() {
         long start = System.currentTimeMillis();
 
+        long id = 0;
+
         for (int i = 0; i < GenIdCount; i++) {
-            long id = IdGen.newLong();
+            id = IdGen.newLong();
             // IdSet.add(id);
         }
 
         long end = System.currentTimeMillis();
         long time = end - start;
 
+        System.out.println(id);
         System.out.println("++++++++++++++++++++++++++++++++++++++++WorkerId: "
                 + WorkerId + ", total: " + time + " ms");
 

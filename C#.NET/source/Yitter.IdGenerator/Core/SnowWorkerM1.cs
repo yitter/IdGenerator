@@ -117,6 +117,8 @@ namespace Yitter.IdGenerator
 
         private void BeginOverCostAction(in long useTimeTick)
         {
+            return;
+
             if (GenAction == null)
             {
                 return;
@@ -137,6 +139,7 @@ namespace Yitter.IdGenerator
             {
                 _TermIndex = 0;
             }
+            return;
 
             if (GenAction == null)
             {
@@ -154,6 +157,8 @@ namespace Yitter.IdGenerator
 
         private void BeginTurnBackAction(in long useTimeTick)
         {
+            return;
+
             if (GenAction == null)
             {
                 return;
@@ -170,6 +175,8 @@ namespace Yitter.IdGenerator
 
         private void EndTurnBackAction(in long useTimeTick)
         {
+            return;
+
             if (GenAction == null)
             {
                 return;

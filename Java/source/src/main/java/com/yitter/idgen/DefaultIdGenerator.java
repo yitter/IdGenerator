@@ -29,9 +29,14 @@ public class DefaultIdGenerator implements IIdGenerator {
             throw new IdGeneratorException("error：WorkerIdBitLength + SeqBitLength <= 22");
         }
 
+        if (options.WorkerIdBitLength <= 0)
+        {
+            throw new IdGeneratorException("WorkerIdBitLength error.(range:[1, 21])");
+        }
+
         double maxWorkerIdNumber = Math.pow(2, options.WorkerIdBitLength) - 1;
         if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber) {
-            throw new IdGeneratorException("WorkerId error. (range:[1, " + maxWorkerIdNumber + "]");
+            throw new IdGeneratorException("WorkerId error. (range:[0, " + (maxWorkerIdNumber > 0 ? maxWorkerIdNumber : 63) + "]");
         }
 
         if (options.SeqBitLength < 2 || options.SeqBitLength > 21) {

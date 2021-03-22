@@ -45,10 +45,15 @@ namespace Yitter.IdGenerator
                 throw new ApplicationException("error：WorkerIdBitLength + SeqBitLength <= 22");
             }
 
+            if (options.WorkerIdBitLength <= 0)
+            {
+                throw new ApplicationException("WorkerIdBitLength error.(range:[1, 21])");
+            }
+
             var maxWorkerIdNumber = Math.Pow(2, options.WorkerIdBitLength) - 1;
             if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber)
             {
-                throw new ApplicationException("WorkerId error. (range:[1, " + maxWorkerIdNumber + "]");
+                throw new ApplicationException("WorkerId error. (range:[0, " + (maxWorkerIdNumber > 0 ? maxWorkerIdNumber : 63) + "]");
             }
 
             if (options.SeqBitLength < 2 || options.SeqBitLength > 21)

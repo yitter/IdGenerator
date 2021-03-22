@@ -25,9 +25,9 @@ public class StartUp {
 
         // options.TopOverCostCount = 10000;
 
-        // options.WorkerIdBitLength = 6;
-        // options.SeqBitLength = 9;
-        // options.MinSeqNumber = 11;
+        options.WorkerIdBitLength = 6;
+        options.SeqBitLength = 6;
+        // options.MinSeqNumber = 5;
         // options.MaxSeqNumber = 200;
 
         options.Method = method;
@@ -44,14 +44,13 @@ public class StartUp {
         System.out.println("这是用方法 " + method + " 生成的 Id：" + newId);
 
         // 然后循环测试一下，看看并发请求时的耗时情况
-        try
-        {
+        try {
             while (true) {
                 genTest.GenStart();
                 Thread.sleep(1000); // 每隔1秒执行一次GenStart
-                System.out.println("Hello World!");
+                System.out.println("Hello World! Java");
             }
-         } catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
