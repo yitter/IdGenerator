@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 [[package]]
 name = "RS-SnowF"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "chrono",
  "lazy_static",

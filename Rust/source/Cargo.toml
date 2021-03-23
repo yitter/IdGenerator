@@ -2,7 +2,7 @@
 name = "RS-SnowF"
 version = "1.0.0"
 authors = ["yitter <yitter@126.com>"]
-edition = "2021"
+edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

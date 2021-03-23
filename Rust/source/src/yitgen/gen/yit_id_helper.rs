@@ -23,12 +23,14 @@ impl YitIdHelper {
         }
     }
 
+
     pub fn SetIdGenerator(options: IdGeneratorOptions) {
         let mut idgenArc = YitIdHelper::IdGenInstance();
         let mut idgen = idgenArc.lock().unwrap();
         idgen.Worker.SetOptions(options);
     }
 
+    #[no_mangle]
     pub fn NextId() -> i64 {
         let mut idgenArc = YitIdHelper::IdGenInstance();
         let mut idgen = idgenArc.lock().unwrap();
