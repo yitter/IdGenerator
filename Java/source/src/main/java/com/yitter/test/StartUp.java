@@ -22,11 +22,9 @@ public class StartUp {
 
     public static void main(String[] args) {
         IdGeneratorOptions options = new IdGeneratorOptions();
-
-        // options.TopOverCostCount = 10000;
-
-        options.WorkerIdBitLength = 6;
-        options.SeqBitLength = 6;
+//        options.WorkerIdBitLength = 6;
+//        options.SeqBitLength = 6;
+//        options.TopOverCostCount = 2000;
         // options.MinSeqNumber = 5;
         // options.MaxSeqNumber = 200;
 

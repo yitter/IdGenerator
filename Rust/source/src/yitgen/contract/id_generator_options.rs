@@ -2,10 +2,6 @@
  * 版权属于：yitter(yitter@126.com)
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-use std::{thread, time};
-use std::net::UdpSocket;
-use std::sync::{Arc, Mutex};
-use chrono::Utc;
 
 pub struct IdGeneratorOptions {
     /// 雪花计算方法,（1-漂移算法|2-传统算法），默认1
@@ -13,7 +9,7 @@ pub struct IdGeneratorOptions {
     /// 基础时间，不能超过当前系统时间
     pub BaseTime: i64,
     /// 机器码，与 WorkerIdBitLength 有关系
-    pub WorkerId: u16,
+    pub WorkerId: u32,
     /// 机器码位长，范围：1-21（要求：序列数位长+机器码位长不超过22）
     pub WorkerIdBitLength: u8,
     /// 序列数位长，范围：2-21（要求：序列数位长+机器码位长不超过22）
@@ -27,7 +23,7 @@ pub struct IdGeneratorOptions {
 }
 
 impl IdGeneratorOptions {
-    pub fn New(workerId: u16) -> IdGeneratorOptions {
+    pub fn New(workerId: u32) -> IdGeneratorOptions {
         return IdGeneratorOptions {
             Method: 1,
             WorkerId: workerId,

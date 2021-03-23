@@ -5,18 +5,14 @@
 use super::super::contract::*;
 use std::{thread};
 use chrono::Utc;
-use std::sync::Mutex;
-use std::sync::Arc;
-use std::ops::Add;
 use std::thread::sleep;
-use std::sync::mpsc::channel;
 use lazy_static::lazy_static;
 
 pub struct SnowWorkerM1 {
     ///基础时间
     pub BaseTime: i64,
     ///机器码
-    pub WorkerId: u16,
+    pub WorkerId: u32,
     ///机器码位长
     pub WorkerIdBitLength: u8,
     ///自增序列数位长
@@ -69,7 +65,7 @@ impl SnowWorkerM1 {
         }
 
         // WorkerId
-        let maxWorkerIdNumber = (2 as u16).pow(options.WorkerIdBitLength as u32) - 1;
+        let maxWorkerIdNumber = (2 as u32).pow(options.WorkerIdBitLength as u32) - 1;
         if options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber {
             panic!("WorkerId error. (range:[0, {} ]", if maxWorkerIdNumber <= 0 { 63 } else { maxWorkerIdNumber })
         } else {
@@ -133,6 +129,7 @@ impl SnowWorkerM1 {
     }
 
     pub fn NextId(&mut self) -> i64 {
+        // println!("SeqBitLength: {}", self.SeqBitLength);
         if self._IsOverCost { self.NextOverCostId() } else { self.NextNormalId() }
     }
 
@@ -155,6 +152,7 @@ impl SnowWorkerM1 {
 
         if currentTimeTick > self._LastTimeTick {
             self.EndOverCostAction(currentTimeTick);
+
             self._LastTimeTick = currentTimeTick;
             self._CurrentSeqNumber = self.MinSeqNumber;
             self._IsOverCost = false;
@@ -166,6 +164,7 @@ impl SnowWorkerM1 {
 
         if self._OverCostCountInOneTerm >= self.TopOverCostCount {
             self.EndOverCostAction(currentTimeTick);
+
             self._LastTimeTick = self.GetNextTimeTick();
             self._CurrentSeqNumber = self.MinSeqNumber;
             self._IsOverCost = false;
@@ -196,6 +195,7 @@ impl SnowWorkerM1 {
             if self._TurnBackTimeTick < 1 {
                 self._TurnBackTimeTick = self._LastTimeTick - 1;
                 self._TurnBackIndex += 1;
+
                 // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
                 // 最多4次回拨（防止回拨重叠）
                 if self._TurnBackIndex > 4 {
@@ -217,11 +217,13 @@ impl SnowWorkerM1 {
         if currentTimeTick > self._LastTimeTick {
             self._LastTimeTick = currentTimeTick;
             self._CurrentSeqNumber = self.MinSeqNumber;
+
             return self.CalcId(self._LastTimeTick);
         }
 
         if self._CurrentSeqNumber > self.MaxSeqNumber {
             self.BeginOverCostAction(currentTimeTick);
+
             self._TermIndex += 1;
             self._LastTimeTick += 1;
             self._CurrentSeqNumber = self.MinSeqNumber;
@@ -236,13 +238,17 @@ impl SnowWorkerM1 {
     }
 
     fn CalcId(&mut self, useTimeTick: i64) -> i64 {
-        let result = (useTimeTick << self._TimestampShift) + (self.WorkerId << self.SeqBitLength) as i64 + (self._CurrentSeqNumber) as i64;
+        let result = (useTimeTick << self._TimestampShift) +
+            (self.WorkerId << self.SeqBitLength) as i64 +
+            (self._CurrentSeqNumber) as i64;
         self._CurrentSeqNumber += 1;
         return result;
     }
 
     fn CalcTurnBackId(&mut self, useTimeTick: i64) -> i64 {
-        let result = (useTimeTick << self._TimestampShift) + (self.WorkerId << self.SeqBitLength) as i64 + (self._TurnBackIndex) as i64;
+        let result = (useTimeTick << self._TimestampShift) +
+            (self.WorkerId << self.SeqBitLength) as i64 +
+            (self._TurnBackIndex) as i64;
         self._TurnBackTimeTick -= 1;
         return result;
     }

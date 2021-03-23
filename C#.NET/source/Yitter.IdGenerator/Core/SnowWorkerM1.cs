@@ -332,7 +332,7 @@ namespace Yitter.IdGenerator
 
         public virtual long NextId()
         {
-            lock (_SyncLock)
+           lock (_SyncLock)
             {
                 return _IsOverCost ? NextOverCostId() : NextNormalId();
             }

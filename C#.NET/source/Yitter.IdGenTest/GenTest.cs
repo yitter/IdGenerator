@@ -42,7 +42,7 @@ namespace Yitter.OrgSystem.TestA
             }
 
             DateTime end = DateTime.Now;
-            Console.WriteLine($"++++++++++++++++++++++++++++++++++++++++WorkerId: {WorkerId}, total: {(end - start).TotalSeconds} s");
+            Console.WriteLine($"++++++++++++++++++++++++++++++++++++++++WorkerId: {WorkerId}, total: {(end - start).TotalMilliseconds} ms");
             Interlocked.Increment(ref Program.Count);
         }
     }

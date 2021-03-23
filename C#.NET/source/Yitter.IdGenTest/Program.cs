@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Yitter.IdGenerator;
 
@@ -25,23 +26,24 @@ namespace Yitter.OrgSystem.TestA
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Hello World! C#");
+
             var options = new IdGeneratorOptions()
             {
                 Method = method,
                 WorkerId = 1,
 
-                //TopOverCostCount = 2000,
-                //WorkerIdBitLength = 1,
-                //SeqBitLength = 2,
+                WorkerIdBitLength = 6,
+                SeqBitLength = 6,
+                TopOverCostCount = 2000,
 
                 //MinSeqNumber = 1,
-
                 // MaxSeqNumber = 200,
 
                 // BaseTime = DateTime.Now.AddYears(-10),
             };
 
-            IIdGenerator IdGen = new DefaultIdGenerator(options);
+            IdGen = new DefaultIdGenerator(options);
             GenTest genTest = new GenTest(IdGen, genIdCount, options.WorkerId);
 
             // 首先测试一下 IdHelper 方法，获取单个Id
@@ -52,10 +54,44 @@ namespace Yitter.OrgSystem.TestA
 
             while (true)
             {
-                Go(options);
-                Thread.Sleep(1000); // 每隔3秒执行一次Go
-                Console.WriteLine("Hello World! C#");
+                RunSingle();
+                // Go(options);
+                // RustDll();
+                Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
+        }
+
+        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern long NextId();
+
+        private static void RustDll()
+        {
+            int i = 0;
+            long id = 0;
+            DateTime start = DateTime.Now;
+
+            while (i < 50000)
+            {
+                id = NextId();
+                i++;
+            }
+            DateTime end = DateTime.Now;
+            Console.WriteLine("id:" + id);
+            Console.WriteLine($"+++++++++++C# call rust dll, gen 5W, total: {(end - start).TotalMilliseconds} ms");
+        }
+
+        private static void RunSingle()
+        {
+            DateTime start = DateTime.Now;
+
+            for (int i = 0; i < genIdCount; i++)
+            {
+                var id = IdGen.NewLong();
+            }
+
+            DateTime end = DateTime.Now;
+            Console.WriteLine($"++++++++++++++++++++++++++++++++++++++++, total: {(end - start).TotalMilliseconds} ms");
+            Interlocked.Increment(ref Program.Count);
         }
 
         private static void Go(IdGeneratorOptions options)

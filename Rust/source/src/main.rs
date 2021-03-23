@@ -4,12 +4,16 @@ use yitgen::contract::*;
 use yitgen::gen::*;
 use std::thread;
 use chrono::Utc;
-use std::sync::{Arc, Mutex};
 use std::time::Duration;
-use std::ops::Deref;
 
 fn main() {
     println!("Hello, world! Rust");
+
+    // 总执行次数
+    let times = 50000;
+
+    // 是否启用多线程测试
+    let multiThread = false;
 
     // 全局设置一次运行参数
     let mut options = IdGeneratorOptions::New(1);
@@ -22,10 +26,9 @@ fn main() {
     loop {
         let mut i = 0;
         let mut id: i64 = 0;
-        let multiThread = false;
         let start = Utc::now().timestamp_millis();
 
-        while i < 50000 {
+        while i < times {
             i += 1;
             if multiThread { // 这是多线程
                 thread::spawn(move || {
@@ -44,7 +47,7 @@ fn main() {
             println!("单线程用时 {} ms", end - start);
         }
 
-        thread::sleep(std::time::Duration::from_millis(1000));
+        thread::sleep(std::time::Duration::from_millis(2000));
     }
 }
 

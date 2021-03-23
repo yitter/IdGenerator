@@ -20,7 +20,6 @@ public class GenTest {
 
     public void GenStart() {
         long start = System.currentTimeMillis();
-
         long id = 0;
 
         for (int i = 0; i < GenIdCount; i++) {

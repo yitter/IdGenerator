@@ -1,5 +1,5 @@
 [package]
-name = "RS-SnowF"
+name = "yitidgen"
 version = "1.0.0"
 authors = ["yitter <yitter@126.com>"]
 edition = "2018"
@@ -10,3 +10,7 @@ edition = "2018"
 chrono = "0.4.10"
 lazy_static = "1.4.0"
 
+[lib]
+name = "yitidgen"
+path = "./src/lib.rs"
+crate-type = ["cdylib"]
