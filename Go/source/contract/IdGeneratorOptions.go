@@ -8,7 +8,7 @@ package contract
 
 type IdGeneratorOptions struct {
 	Method            uint16 // 雪花计算方法,（1-漂移算法|2-传统算法），默认1
-	BaseTime          int64  // 基础时间，不能超过当前系统时间
+	BaseTime          int64  // 基础时间（ms单位），不能超过当前系统时间
 	WorkerId          uint16 // 机器码，与 WorkerIdBitLength 有关系
 	WorkerIdBitLength byte   // 机器码位长，范围：1-21（要求：序列数位长+机器码位长不超过22）
 	SeqBitLength      byte   // 序列数位长，范围：2-21（要求：序列数位长+机器码位长不超过22）

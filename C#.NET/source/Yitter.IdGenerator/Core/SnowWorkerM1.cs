@@ -66,7 +66,11 @@ namespace Yitter.IdGenerator
         protected int _GenCountInOneTerm = 0;
         protected int _TermIndex = 0;
 
+        //private static long _StartTimeTick = 0;
+        //private static long _BaseTimeTick = 0;
+
         public Action<OverCostActionArg> GenAction { get; set; }
+
 
         public SnowWorkerM1(IdGeneratorOptions options)
         {
@@ -104,6 +108,9 @@ namespace Yitter.IdGenerator
 
             _TimestampShift = (byte)(WorkerIdBitLength + SeqBitLength);
             _CurrentSeqNumber = options.MinSeqNumber;
+
+            //_BaseTimeTick = BaseTime.Ticks;
+            //_StartTimeTick = (long)(DateTime.UtcNow.Subtract(BaseTime).TotalMilliseconds) - Environment.TickCount;
         }
 
 
@@ -314,6 +321,8 @@ namespace Yitter.IdGenerator
 
         protected virtual long GetCurrentTimeTick()
         {
+            //return (long)(DateTime.UtcNow - BaseTime).Ticks;
+            //return (long)(_StartTimeTick + Environment.TickCount);
             return (long)(DateTime.UtcNow - BaseTime).TotalMilliseconds;
         }
 
@@ -332,7 +341,7 @@ namespace Yitter.IdGenerator
 
         public virtual long NextId()
         {
-           lock (_SyncLock)
+            lock (_SyncLock)
             {
                 return _IsOverCost ? NextOverCostId() : NextNormalId();
             }
