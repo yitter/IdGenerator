@@ -9,7 +9,6 @@ package core
 import (
 	"fmt"
 	"strconv"
-	"sync/atomic"
 	"yitidgen/contract"
 )
 
@@ -24,15 +23,17 @@ func NewSnowWorkerM2(options *contract.IdGeneratorOptions) contract.ISnowWorker 
 }
 
 func (m2 SnowWorkerM2) NextId() uint64 {
+	m2.Lock()
+	defer m2.Unlock()
 	currentTimeTick := m2.GetCurrentTimeTick()
 	if m2._LastTimeTick == currentTimeTick {
-		atomic.AddUint32(&m2._CurrentSeqNumber, 1)
+		m2._CurrentSeqNumber++
 		if m2._CurrentSeqNumber > m2.MaxSeqNumber {
-			atomic.StoreUint32(&m2._CurrentSeqNumber, uint32(m2.MinSeqNumber))
+			m2._CurrentSeqNumber = m2.MinSeqNumber
 			currentTimeTick = m2.GetNextTimeTick()
 		}
 	} else {
-		atomic.StoreUint32(&m2._CurrentSeqNumber, uint32(m2.MinSeqNumber))
+		m2._CurrentSeqNumber = m2.MinSeqNumber
 	}
 	if currentTimeTick < m2._LastTimeTick {
 		fmt.Println("Time error for {0} milliseconds", strconv.FormatInt(m2._LastTimeTick-currentTimeTick, 10))

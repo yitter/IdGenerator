@@ -7,7 +7,6 @@
 package core
 
 import (
-	"math"
 	"sync"
 	"time"
 	"yitidgen/contract"
@@ -53,7 +52,7 @@ func NewSnowWorkerM1(options *contract.IdGeneratorOptions) contract.ISnowWorker 
 	if options.MaxSeqNumber > 0 {
 		maxSeqNumber = options.MaxSeqNumber
 	} else {
-		maxSeqNumber = uint32(math.Pow(2, float64(options.SeqBitLength))) - 1
+		maxSeqNumber = (1 << seqBitLength) - 1
 	}
 	var minSeqNumber = options.MinSeqNumber
 	var topOverCostCount = options.TopOverCostCount
