@@ -1,11 +1,12 @@
-# IdGenerator
+# IdGenerator  SnowFlake 雪花算法 Java .Net Go Rust C 等多语言版本 顶尖优化 超强效能
 
 ## 介绍
-用一种全新的雪花漂移算法，让ID更短、生成速度更快。 
 
-核心在于缩短ID长度的同时，还能拥有极高瞬时并发处理量（50W/0.1s）。 
+1.用一种全新的雪花漂移算法，让ID更短、生成速度更快。 
 
-顶尖优化，超强效能（位数更短，速度更快），原生支持 C#/Java/Go/Rust/C 等语言，并由 Rust 提供 PHP、Python、Node.js 等语言多线程安全调用库(FFI)。
+2.核心在于缩短ID长度的同时，还能拥有极高瞬时并发处理量（50W/0.1s）。 
+
+3.顶尖优化，超强效能（位数更短，速度更快），原生支持 C#/Java/Go/Rust/C 等语言，并由 Rust 提供 PHP、Python、Node.js 等语言多线程安全调用库(FFI)。
 
 
 ## 技术支持
