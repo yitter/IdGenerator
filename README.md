@@ -4,7 +4,7 @@
 用一种全新的雪花漂移算法，让ID更短、生成速度更快。 
 核心在于缩短ID长度的同时，还能拥有极高瞬时并发处理量（50W/0.1s）。 
 顶尖优化，超强效能（位数更短，速度更快），全新 SnowFlake 算法，原生支持 C#/Java/Go/Rust/C 等语言，
-其中 Rust 版本已支持 PHP、Python、Node.js 等语言 FFI 调用。
+其中 Rust 版本已支持 PHP、Python、Node.js 等语言 FFI 多线程安全调用。
 
 
 ## 技术支持
