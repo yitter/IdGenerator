@@ -5,6 +5,16 @@
 核心在于缩短ID长度的同时，还能拥有极高瞬时并发处理量（50W/0.1s）。 
 顶尖优化，超强效能（位数更短，速度更快），全新 SnowFlake 算法，支持 C#/Java/Go/Rust/C/PHP 等语言。
 
+
+## 技术支持
+
+开源地址：https://gitee.com/yitter/idgenerator
+
+QQ群：646049993
+
+即将推出 C 等版本。
+
+
 ## 需求来源
 
 1.作为架构设计的你，想要解决数据库主键唯一的问题，特别是在分布式系统多数据库的时候。
@@ -183,15 +193,6 @@ Java：[查看示例][2]
 Go：[查看示例][3]
 
 Rust：[查看示例][4]
-
-
-## 技术支持
-
-开源地址：https://gitee.com/yitter/idgenerator
-
-QQ群：646049993
-
-即将推出 C 等版本。
 
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
