@@ -85,7 +85,7 @@ QQ群：646049993
 
 默认配置：
 ```
-WorkerIdBitLength = 6	(最多64个工作节点)
+WorkerIdBitLength = 6
 SeqBitLength = 6
 ```
 
