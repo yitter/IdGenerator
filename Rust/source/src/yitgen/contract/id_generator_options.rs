@@ -16,7 +16,7 @@ pub struct IdGeneratorOptions {
     pub SeqBitLength: u8,
     /// 最大序列数（含），（由 SeqBitLength 计算的最大值）
     pub MaxSeqNumber: u32,
-    /// 最小序列数（含），默认5，不小于1，不大于 MaxSeqNumber
+    /// 最小序列数（含），默认5，不小于5，不大于 MaxSeqNumber
     pub MinSeqNumber: u32,
     /// 最大漂移次数（含），默认2000，推荐范围 500-20000（与计算能力有关）
     pub TopOverCostCount: u32,

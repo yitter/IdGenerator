@@ -89,10 +89,10 @@ impl SnowWorkerM1 {
         }
 
         // MinSeqNumber
-        if options.MinSeqNumber > maxSeqNumber {
-            panic!("MinSeqNumber error. (range:[1, {}]", maxSeqNumber);
+        if options.MinSeqNumber > maxSeqNumber || options.MinSeqNumber < 5 {
+            panic!("MinSeqNumber error. (range:[5, {}]", maxSeqNumber);
         } else {
-            self.MinSeqNumber = options.MinSeqNumber;
+            self.MinSeqNumber = if options.MinSeqNumber <= 0 { 5 } else { options.MinSeqNumber };
         }
 
         self.TopOverCostCount = if options.TopOverCostCount == 0 { 2000 } else { options.TopOverCostCount };
