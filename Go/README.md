@@ -2,9 +2,9 @@
 
 ## Go环境
 
-1.go 1.16
+1.SDK，go 1.16
 
-2. 启用Go-Modules
+2. 启用 Go-Modules
 ```
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct
