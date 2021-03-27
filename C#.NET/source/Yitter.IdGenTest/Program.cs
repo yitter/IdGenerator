@@ -54,17 +54,17 @@ namespace Yitter.OrgSystem.TestA
 
             while (true)
             {
-                RunSingle();
+                //RunSingle();
                 // Go(options);
-                // RustDll();
+                CallDll();
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
         }
 
-        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern long NextId();
 
-        private static void RustDll()
+        private static void CallDll()
         {
             int i = 0;
             long id = 0;
