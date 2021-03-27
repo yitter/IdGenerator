@@ -2,7 +2,7 @@
 
 ## Goª∑æ≥
 
-1.SDK£¨go 1.16
+1.SDK£¨go1.16
 
 2. ∆Ù”√ Go-Modules
 
