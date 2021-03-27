@@ -64,11 +64,16 @@ namespace Yitter.OrgSystem.TestA
         [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern long NextId();
 
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern void SetWorkerId(int workerId);
+
         private static void CallDll()
         {
             int i = 0;
             long id = 0;
             DateTime start = DateTime.Now;
+
+            SetWorkerId(1);
 
             while (i < 50000)
             {
