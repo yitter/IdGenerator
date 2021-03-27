@@ -54,9 +54,9 @@ namespace Yitter.OrgSystem.TestA
 
             while (true)
             {
-                //RunSingle();
+                RunSingle();
                 // Go(options);
-                CallDll();
+                //CallDll();
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
         }
