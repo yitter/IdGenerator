@@ -32,7 +32,7 @@ public class DefaultIdGenerator implements IIdGenerator {
             throw new IdGeneratorException("error：WorkerIdBitLength + SeqBitLength <= 22");
         }
 
-        double maxWorkerIdNumber = Math.pow(2, options.WorkerIdBitLength) - 1;
+        int maxWorkerIdNumber = (1 << options.WorkerIdBitLength) - 1;
         if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber) {
             throw new IdGeneratorException("WorkerId error. (range:[0, " + (maxWorkerIdNumber > 0 ? maxWorkerIdNumber : 63) + "]");
         }
@@ -41,12 +41,12 @@ public class DefaultIdGenerator implements IIdGenerator {
             throw new IdGeneratorException("SeqBitLength error. (range:[2, 21])");
         }
 
-        double maxSeqNumber = Math.pow(2, options.SeqBitLength) - 1;
+        int maxSeqNumber = (1 << options.SeqBitLength) - 1;
         if (options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber) {
             throw new IdGeneratorException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");
         }
 
-        double maxValue = maxSeqNumber;
+        int maxValue = maxSeqNumber;
         if (options.MinSeqNumber < 1 || options.MinSeqNumber > maxValue) {
             throw new IdGeneratorException("MinSeqNumber error. (range:[1, " + maxValue + "]");
         }

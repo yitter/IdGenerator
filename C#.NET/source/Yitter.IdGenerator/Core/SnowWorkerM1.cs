@@ -103,7 +103,7 @@ namespace Yitter.IdGenerator
 
             if (MaxSeqNumber == 0)
             {
-                MaxSeqNumber = (int)Math.Pow(2, SeqBitLength) - 1;
+                MaxSeqNumber = (1 << SeqBitLength) - 1;
             }
 
             _TimestampShift = (byte)(WorkerIdBitLength + SeqBitLength);

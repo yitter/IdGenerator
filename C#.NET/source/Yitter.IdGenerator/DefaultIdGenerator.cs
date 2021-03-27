@@ -49,7 +49,7 @@ namespace Yitter.IdGenerator
                 throw new ApplicationException("error：WorkerIdBitLength + SeqBitLength <= 22");
             }
 
-            var maxWorkerIdNumber = Math.Pow(2, options.WorkerIdBitLength) - 1;
+            var maxWorkerIdNumber = (1 << options.WorkerIdBitLength) - 1;
             if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber)
             {
                 throw new ApplicationException("WorkerId error. (range:[0, " + (maxWorkerIdNumber > 0 ? maxWorkerIdNumber : 63) + "]");
@@ -60,13 +60,13 @@ namespace Yitter.IdGenerator
                 throw new ApplicationException("SeqBitLength error. (range:[2, 21])");
             }
 
-            var maxSeqNumber = Math.Pow(2, options.SeqBitLength) - 1;
+            var maxSeqNumber = (1 << options.SeqBitLength) - 1;
             if (options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber)
             {
                 throw new ApplicationException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");
             }
 
-            var maxValue = maxSeqNumber; // maxSeqNumber - 1;
+            var maxValue = maxSeqNumber;
             if (options.MinSeqNumber < 1 || options.MinSeqNumber > maxValue)
             {
                 throw new ApplicationException("MinSeqNumber error. (range:[1, " + maxValue + "]");

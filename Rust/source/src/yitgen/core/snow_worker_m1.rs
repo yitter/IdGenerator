@@ -47,7 +47,7 @@ impl SnowWorkerM1 {
         if options.BaseTime == 0 {
             self.BaseTime = 1582136402000;
         } else if options.BaseTime < 631123200000 || options.BaseTime > Utc::now().timestamp_millis() {
-            panic!("BaseTime error.")
+            panic!("BaseTime error.");
         } else {
             self.BaseTime = options.BaseTime;
         }
@@ -58,39 +58,39 @@ impl SnowWorkerM1 {
             panic!("WorkerIdBitLength error.(range:[1, 21])");
         }
         if options.SeqBitLength + options.WorkerIdBitLength > 22 {
-            panic!("error：WorkerIdBitLength + SeqBitLength <= 22")
+            panic!("error：WorkerIdBitLength + SeqBitLength <= 22");
         } else {
-            self.WorkerIdBitLength = options.WorkerIdBitLength;
-            // self.WorkerIdBitLength = if options.WorkerIdBitLength == 0 { 6 } else { options.WorkerIdBitLength };
+            // self.WorkerIdBitLength = options.WorkerIdBitLength;
+            self.WorkerIdBitLength = if options.WorkerIdBitLength <= 0 { 6 } else { options.WorkerIdBitLength };
         }
 
         // WorkerId
-        let maxWorkerIdNumber = (2 as u32).pow(options.WorkerIdBitLength as u32) - 1;
+        let maxWorkerIdNumber = (1 << options.WorkerIdBitLength) - 1;
         if options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber {
-            panic!("WorkerId error. (range:[0, {} ]", if maxWorkerIdNumber <= 0 { 63 } else { maxWorkerIdNumber })
+            panic!("WorkerId error. (range:[0, {} ]", if maxWorkerIdNumber <= 0 { 63 } else { maxWorkerIdNumber });
         } else {
             self.WorkerId = options.WorkerId;
         }
 
         // SeqBitLength
         if options.SeqBitLength < 2 || options.SeqBitLength > 21 {
-            panic!("SeqBitLength error. (range:[2, 21])")
+            panic!("SeqBitLength error. (range:[2, 21])");
         } else {
-            self.SeqBitLength = options.SeqBitLength;
-            // self.SeqBitLength = if options.SeqBitLength == 0 { 6 } else { options.SeqBitLength };
+            // self.SeqBitLength = options.SeqBitLength;
+            self.SeqBitLength = if options.SeqBitLength <= 0 { 6 } else { options.SeqBitLength };
         }
 
         // MaxSeqNumber
-        let maxSeqNumber = (2 as u32).pow(options.SeqBitLength as u32) - 1;
+        let maxSeqNumber = (1 << options.SeqBitLength) - 1;
         if options.MaxSeqNumber > maxSeqNumber {
-            panic!("MaxSeqNumber error. (range:[1, {}]", maxSeqNumber)
+            panic!("MaxSeqNumber error. (range:[1, {}]", maxSeqNumber);
         } else {
-            self.MaxSeqNumber = if options.MaxSeqNumber <= 0 { (2 as u32).pow(options.SeqBitLength as u32) - 1 } else { options.MaxSeqNumber };
+            self.MaxSeqNumber = if options.MaxSeqNumber <= 0 { maxSeqNumber } else { options.MaxSeqNumber };
         }
 
         // MinSeqNumber
         if options.MinSeqNumber > maxSeqNumber {
-            panic!("MinSeqNumber error. (range:[1, {}]", maxSeqNumber)
+            panic!("MinSeqNumber error. (range:[1, {}]", maxSeqNumber);
         } else {
             self.MinSeqNumber = options.MinSeqNumber;
         }
@@ -100,7 +100,7 @@ impl SnowWorkerM1 {
         self._CurrentSeqNumber = options.MinSeqNumber;
 
         if options.Method == 1 {
-            sleep(std::time::Duration::from_millis(500))
+            sleep(std::time::Duration::from_millis(500));
         }
     }
 

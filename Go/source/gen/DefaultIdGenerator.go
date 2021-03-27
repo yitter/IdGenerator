@@ -7,7 +7,6 @@
 package gen
 
 import (
-	"math"
 	"time"
 	"yitidgen/contract"
 	"yitidgen/core"
@@ -33,7 +32,7 @@ func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGener
 		panic("error：WorkerIdBitLength + SeqBitLength <= 22")
 	}
 
-	maxWorkerIdNumber := uint16(math.Pow(float64(2), float64(options.WorkerIdBitLength))) - 1
+	maxWorkerIdNumber := uint16(1<<options.WorkerIdBitLength) - 1
 	if options.WorkerId > maxWorkerIdNumber {
 		panic("WorkerId error. (range:[1, " + string(maxWorkerIdNumber) + "]")
 	}
@@ -42,7 +41,7 @@ func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGener
 		panic("SeqBitLength error. (range:[2, 21])")
 	}
 
-	maxSeqNumber := uint32(math.Pow(2, float64(options.SeqBitLength))) - 1
+	maxSeqNumber := uint32(1<<options.SeqBitLength) - 1
 	if options.MaxSeqNumber > maxSeqNumber {
 		panic("MaxSeqNumber error. (range:[1, " + string(maxSeqNumber) + "]")
 	}
