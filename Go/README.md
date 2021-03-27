@@ -4,7 +4,7 @@
 
 1.SDK£¨go1.16
 
-2. ∆Ù”√ Go-Modules
+2.∆Ù”√ Go-Modules
 
 ```
 go env -w GO111MODULE=on
