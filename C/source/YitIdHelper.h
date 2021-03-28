@@ -4,8 +4,8 @@
  */
 #pragma once
 
-#include "IdGenOptions.h"
-#include "common.h"
+#include "idgen/IdGenOptions.h"
+#include "idgen/common.h"
 
 
 TAP_DLLEXPORT

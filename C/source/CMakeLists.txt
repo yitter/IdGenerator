@@ -18,11 +18,10 @@ add_subdirectory(idgen)
 #        PREFIX "")
 
 ##编译执行文件
-#set(LIB_SRC idgen/YitIdHelper.h idgen/YitIdHelper.c)
-#add_library(YitIdHelper ${LIB_SRC})
-
+set(LIB_SRC YitIdHelper.h YitIdHelper.c)
+add_library(YitIdHelper ${LIB_SRC})
 add_executable(YitIdGen main.c)
-#target_link_libraries(YitIdGen YitIdHelper)
+target_link_libraries(YitIdGen YitIdHelper)
 target_link_libraries(YitIdGen idgen)
 
 

@@ -5,15 +5,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "YitIdHelper.h"
-#include "IdGenerator.h"
+#include "idgen/IdGenerator.h"
 
 extern void SetIdGenerator(IdGeneratorOptions options) {
     SetOptions(options);
 }
 
 extern void SetWorkerId(uint32_t workerId) {
-//    IdGeneratorOptions options = BuildIdGenOptions(workerId);
-//    SetOptions(options);
+    IdGeneratorOptions options = BuildIdGenOptions(workerId);
+    // SetOptions(options);
     SetIdGenerator(options);
 }
 

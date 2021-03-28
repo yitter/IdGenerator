@@ -113,6 +113,13 @@ static inline uint64_t CalcTurnBackId(SnowFlakeWorker *worker) {
 extern SnowFlakeWorker *NewSnowFlakeWorker() {
     SnowFlakeWorker *worker = (SnowFlakeWorker *) malloc(sizeof(SnowFlakeWorker));
     worker->_IsOverCost = false;
+    worker->_LastTimeTick = 0;
+    worker->_TurnBackTimeTick = 0;
+    worker->_TurnBackIndex = 0;
+    worker->_OverCostCountInOneTerm = 0;
+    worker->_GenCountInOneTerm = 0;
+    worker->_TermIndex = 0;
+
     return worker;
 }
 
@@ -124,15 +131,15 @@ extern uint64_t WorkerM1NextId(SnowFlakeWorker *worker) {
 }
 
 extern uint64_t GetCurrentTimeTick(SnowFlakeWorker *worker) {
-    static struct timeval tv;
+     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return (uint64_t)(tv.tv_sec * 1000 + tv.tv_usec / 1000 - worker->BaseTime);
+    return ((uint64_t) tv.tv_sec * 1000 + tv.tv_usec / 1000 - worker->BaseTime);
 }
 
 extern uint64_t GetCurrentTime() {
-    static struct timeval tv;
+     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return (uint64_t)(tv.tv_sec * 1000 + tv.tv_usec / 1000);
+    return ((uint64_t) (tv.tv_sec)) * 1000 + tv.tv_usec / 1000;
 
     //static struct timeb t1;
     //    ftime(&t1);
@@ -140,9 +147,9 @@ extern uint64_t GetCurrentTime() {
 }
 
 extern uint64_t GetCurrentMicroTime() {
-    static struct timeval tv;
+     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return (uint64_t)(tv.tv_sec * 1000000 + tv.tv_usec);
+    return ((uint64_t) tv.tv_sec * 1000000 + tv.tv_usec);
 }
 
 extern uint64_t GetNextTimeTick(SnowFlakeWorker *worker) {

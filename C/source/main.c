@@ -12,11 +12,11 @@
 #include <stdbool.h>
 #include "idgen/SnowWorkerM1.h"
 #include "idgen/IdGenerator.h"
-#include "idgen/YitIdHelper.h"
+#include "YitIdHelper.h"
 
 
 const int GenIdCount = 50000;
-const bool multiThread = true;
+const bool multiThread = false;
 const int threadCount = 50;
 const int method = 1;
 
@@ -24,7 +24,7 @@ void RunMultiThread() {
     //int64_t start = GetCurrentMicroTime();
     for (int i = 0; i < GenIdCount / threadCount; i++) {
         int64_t id = NextId();
-        printf("生成ID: %ld\n", id);
+        printf("生成ID: %D\n", id);
     }
 
     int64_t end = GetCurrentMicroTime();
