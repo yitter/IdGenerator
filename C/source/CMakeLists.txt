@@ -8,7 +8,7 @@ set(CMAKE_C_STANDARD 11)
 aux_source_directory(. DIR_SRCS)
 add_subdirectory(idgen)
 
-##编译动态库
+#编译动态库
 #set(LIB_SRC YitIdHelper.h YitIdHelper.c)
 #add_library(YitIdGenLib SHARED ${LIB_SRC})
 #target_link_libraries(YitIdGenLib idgen)

@@ -61,28 +61,41 @@ namespace Yitter.OrgSystem.TestA
             }
         }
 
-        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern long NextId();
 
-        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern void SetWorkerId(int workerId);
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetWorkerId(uint workerId);
+
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int TestId();
 
         private static void CallDll()
         {
-            int i = 0;
-            long id = 0;
-            DateTime start = DateTime.Now;
-
-            SetWorkerId(1);
-
-            while (i < 50000)
+            try
             {
-                id = NextId();
-                i++;
+
+                int i = 0;
+                long id = 0;
+                DateTime start = DateTime.Now;
+
+                var ids = TestId();
+
+                //SetWorkerId(1);
+
+                while (i < 50000)
+                {
+                    id = NextId();
+                    i++;
+                }
+                DateTime end = DateTime.Now;
+                Console.WriteLine("id:" + id);
+                Console.WriteLine($"+++++++++++C# call rust dll, gen 5W, total: {(end - start).TotalMilliseconds} ms");
             }
-            DateTime end = DateTime.Now;
-            Console.WriteLine("id:" + id);
-            Console.WriteLine($"+++++++++++C# call rust dll, gen 5W, total: {(end - start).TotalMilliseconds} ms");
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private static void RunSingle()

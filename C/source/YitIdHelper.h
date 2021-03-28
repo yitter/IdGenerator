@@ -5,11 +5,17 @@
 #pragma once
 
 #include "idgen/IdGenOptions.h"
+#include "idgen/common.h"
 
 
-__declspec(dllexport) void __stdcall SetIdGenerator(IdGeneratorOptions options);
+TAP_DLLEXPORT
+extern void SetIdGenerator(IdGeneratorOptions options);
 
-__declspec(dllexport) void __stdcall SetWorker(uint32_t workerId);
+TAP_DLLEXPORT
+extern void SetWorkerId(uint32_t workerId);
 
-__declspec(dllexport) uint64_t __stdcall NextId();
+TAP_DLLEXPORT
+extern uint64_t NextId();
 
+TAP_DLLEXPORT
+extern uint64_t TestId() ;
