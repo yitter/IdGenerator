@@ -5,23 +5,24 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "YitIdHelper.h"
-#include "idgen/IdGenerator.h"
+#include "IdGenerator.h"
 
 extern void SetIdGenerator(IdGeneratorOptions options) {
     SetOptions(options);
 }
 
 extern void SetWorkerId(uint32_t workerId) {
-    IdGeneratorOptions options = BuildIdGenOptions(workerId);
-    SetOptions(options);
-    //SetIdGenerator(options);
+//    IdGeneratorOptions options = BuildIdGenOptions(workerId);
+//    SetOptions(options);
+    SetIdGenerator(options);
 }
 
 extern uint64_t NextId() {
-    IdGenerator *generator = GetIdGenInstance();
-    uint64_t id = generator->NextId();
-    free(generator);
-    return id;
+    return GetIdGenInstance()->NextId();
+//    IdGenerator *generator = GetIdGenInstance();
+//    uint64_t id = generator->NextId();
+//    free(generator);
+//    return id;
 }
 
 extern uint64_t TestId() {

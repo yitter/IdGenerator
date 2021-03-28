@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include "idgen/SnowWorkerM1.h"
 #include "idgen/IdGenerator.h"
-#include "YitIdHelper.h"
+#include "idgen/YitIdHelper.h"
 
 
 const int GenIdCount = 50000;
