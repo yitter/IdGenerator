@@ -8,6 +8,6 @@
 #define TAP_DLLEXPORT __declspec(dllexport)
 #else
 #define TAP_CDECL
-#define TAP_DLLEXPORT __declspec(dllexport)
+#define TAP_DLLEXPORT
 #endif
 

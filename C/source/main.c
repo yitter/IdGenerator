@@ -16,7 +16,7 @@
 
 
 const int GenIdCount = 50000;
-const bool multiThread = false;
+const bool multiThread = true;
 const int threadCount = 50;
 const int method = 1;
 
