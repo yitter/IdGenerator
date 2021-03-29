@@ -1,6 +1,6 @@
-package com.yitter.test;
+package com.github.yitter.test;
 
-import com.yitter.contract.IIdGenerator;
+import com.github.yitter.contract.IIdGenerator;
 
 import java.util.HashSet;
 import java.util.Set;

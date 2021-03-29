@@ -1,11 +1,18 @@
 package main
 
 import (
+	"C"
 	"fmt"
 	"time"
 	"yitidgen/contract"
 	"yitidgen/gen"
 )
+
+
+//export NextId
+func NextId() uint64{
+	return gen.GetIns().NextId()
+}
 
 func main() {
 	// 方法一：直接采用默认方法生成一个Id

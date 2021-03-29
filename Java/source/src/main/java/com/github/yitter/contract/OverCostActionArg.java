@@ -2,7 +2,7 @@
  * 版权属于：yitter(yitter@126.com)
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-package com.yitter.contract;
+package com.github.yitter.contract;
 
 /**
  * Id生成时回调参数

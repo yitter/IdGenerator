@@ -2,12 +2,12 @@
  * 版权属于：yitter(yitter@126.com)
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-package com.yitter.core;
+package com.github.yitter.core;
 
-import com.yitter.contract.ISnowWorker;
-import com.yitter.contract.IdGeneratorException;
-import com.yitter.contract.IdGeneratorOptions;
-import com.yitter.contract.OverCostActionArg;
+import com.github.yitter.contract.ISnowWorker;
+import com.github.yitter.contract.IdGeneratorOptions;
+import com.github.yitter.contract.OverCostActionArg;
+import com.github.yitter.contract.IdGeneratorException;
 
 public class SnowWorkerM1 implements ISnowWorker {
 

@@ -24,7 +24,7 @@ void RunMultiThread() {
     //int64_t start = GetCurrentMicroTime();
     for (int i = 0; i < GenIdCount / threadCount; i++) {
         int64_t id = NextId();
-        printf("生成ID: %D\n", id);
+        printf("ID: %D\n", id);
     }
 
     int64_t end = GetCurrentMicroTime();
@@ -35,11 +35,11 @@ void RunSingle() {
     int64_t start = GetCurrentMicroTime();
     for (int i = 0; i < GenIdCount; i++) {
         int64_t id = NextId();
-//        printf("生成ID: %ld\n", id);
+//        printf("ID: %ld\n", id);
     }
 
     int64_t end = GetCurrentMicroTime();
-    printf("%s，total：%d μs\n", method == 1 ? "1" : "2", (end - start));
+    printf("%s, total: %d us\n", method == 1 ? "1" : "2", (end - start));
 }
 
 int main() {

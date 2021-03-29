@@ -2,14 +2,14 @@
  * 版权属于：yitter(yitter@126.com)
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-package com.yitter.idgen;
+package com.github.yitter.idgen;
 
-import com.yitter.contract.ISnowWorker;
-import com.yitter.contract.IdGeneratorException;
-import com.yitter.contract.IdGeneratorOptions;
-import com.yitter.contract.IIdGenerator;
-import com.yitter.core.SnowWorkerM1;
-import com.yitter.core.SnowWorkerM2;
+import com.github.yitter.contract.IIdGenerator;
+import com.github.yitter.contract.ISnowWorker;
+import com.github.yitter.contract.IdGeneratorException;
+import com.github.yitter.contract.IdGeneratorOptions;
+import com.github.yitter.core.SnowWorkerM1;
+import com.github.yitter.core.SnowWorkerM2;
 
 
 public class DefaultIdGenerator implements IIdGenerator {

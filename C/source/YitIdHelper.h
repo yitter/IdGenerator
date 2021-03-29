@@ -9,13 +9,13 @@
 
 
 TAP_DLLEXPORT
-extern void SetIdGenerator(IdGeneratorOptions options);
+extern void TAP_STDCALL SetIdGenerator(IdGeneratorOptions options);
 
 TAP_DLLEXPORT
-extern void SetWorkerId(uint32_t workerId);
+extern void TAP_STDCALL SetWorkerId(uint32_t workerId);
 
 TAP_DLLEXPORT
-extern uint64_t NextId();
+extern uint64_t TAP_STDCALL NextId();
 
 TAP_DLLEXPORT
-extern uint64_t TestId() ;
+extern uint64_t TAP_STDCALL TestId();

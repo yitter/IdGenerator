@@ -5,7 +5,12 @@ JDK 1.8+
 
 ## 引用 maven 包
 ```
-
+<dependency>
+	<groupId>com.github.yitter</groupId>
+	<artifactId>yitter-idgenerator</artifactId>
+	<version>1.0.1</version>
+	<type>pom</type>
+</dependency>
 ```
 
 ## 调用示例

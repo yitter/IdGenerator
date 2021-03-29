@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Yitter.IdGenerator;
 
 namespace Yitter.OrgSystem.TestA
@@ -54,20 +55,23 @@ namespace Yitter.OrgSystem.TestA
 
             while (true)
             {
-                RunSingle();
-                // Go(options);
-                //CallDll();
+                //RunSingle();
+                //Go(options);
+                CallDll();
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
         }
 
-        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.Cdecl)]
+        //[DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
+        //public static extern long NextId();
+
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern long NextId();
 
-        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern void SetWorkerId(uint workerId);
 
-        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern int TestId();
 
         private static void CallDll()
@@ -78,15 +82,27 @@ namespace Yitter.OrgSystem.TestA
                 int i = 0;
                 long id = 0;
                 DateTime start = DateTime.Now;
+                bool useMultiThread = false;
 
-                var ids = TestId();
-
+                //var ids = TestId();
                 //SetWorkerId(1);
 
                 while (i < 50000)
                 {
-                    id = NextId();
                     i++;
+
+                    if (useMultiThread)
+                    {
+                        Task.Run(() =>
+                         {
+                             id = NextId();
+                             Console.WriteLine("id：" + id);
+                         });
+                    }
+                    else
+                    {
+                        id = NextId();
+                    }
                 }
                 DateTime end = DateTime.Now;
                 Console.WriteLine("id:" + id);

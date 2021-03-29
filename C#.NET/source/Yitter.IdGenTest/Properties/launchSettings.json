@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Yitter.IdGenTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

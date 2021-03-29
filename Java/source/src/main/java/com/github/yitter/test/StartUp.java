@@ -1,9 +1,9 @@
-package com.yitter.test;
+package com.github.yitter.test;
 
-import com.yitter.contract.IdGeneratorOptions;
-import com.yitter.contract.IIdGenerator;
-import com.yitter.idgen.DefaultIdGenerator;
-import com.yitter.idgen.YitIdHelper;
+import com.github.yitter.contract.IIdGenerator;
+import com.github.yitter.contract.IdGeneratorOptions;
+import com.github.yitter.idgen.DefaultIdGenerator;
+import com.github.yitter.idgen.YitIdHelper;
 
 public class StartUp {
 

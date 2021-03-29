@@ -1,5 +1,11 @@
 # idgenerator
 
+##
+
+Go集成专项工程入口：https://gitee.com/yitter/idgenerator-go
+
+后文内容以 Go 专项工程为准。
+
 ## Go环境
 
 1.SDK，go1.16
