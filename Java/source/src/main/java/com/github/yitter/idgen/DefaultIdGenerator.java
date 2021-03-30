@@ -47,17 +47,15 @@ public class DefaultIdGenerator implements IIdGenerator {
         }
 
         int maxValue = maxSeqNumber;
-        if (options.MinSeqNumber < 1 || options.MinSeqNumber > maxValue) {
-            throw new IdGeneratorException("MinSeqNumber error. (range:[1, " + maxValue + "]");
+        if (options.MinSeqNumber < 5 || options.MinSeqNumber > maxValue) {
+            throw new IdGeneratorException("MinSeqNumber error. (range:[5, " + maxValue + "]");
         }
 
         switch (options.Method) {
-            case 1:
-                _SnowWorker = new SnowWorkerM1(options);
-                break;
             case 2:
                 _SnowWorker = new SnowWorkerM2(options);
                 break;
+            case 1:
             default:
                 _SnowWorker = new SnowWorkerM1(options);
                 break;

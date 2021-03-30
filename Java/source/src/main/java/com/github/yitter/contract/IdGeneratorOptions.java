@@ -51,7 +51,7 @@ public class IdGeneratorOptions {
 
     /**
      * 最小序列数（含）
-     * 默认5，不小于1，不大于MaxSeqNumber
+     * 默认5，不小于5，不大于MaxSeqNumber
      */
     public short MinSeqNumber = 5;
 

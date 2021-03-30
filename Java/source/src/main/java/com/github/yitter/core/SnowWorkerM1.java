@@ -63,7 +63,7 @@ public class SnowWorkerM1 implements ISnowWorker {
         WorkerId = options.WorkerId;
         WorkerIdBitLength = options.WorkerIdBitLength == 0 ? 6 : options.WorkerIdBitLength;
         SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
-        MaxSeqNumber = options.MaxSeqNumber > 0 ? options.MaxSeqNumber : (int) Math.pow(2, SeqBitLength) - 1;
+        MaxSeqNumber = options.MaxSeqNumber > 0 ? options.MaxSeqNumber : (1 << SeqBitLength) - 1;
         MinSeqNumber = options.MinSeqNumber;
         TopOverCostCount = options.TopOverCostCount;
         BaseTime = options.BaseTime != 0 ? options.BaseTime : 1582136402000L;
