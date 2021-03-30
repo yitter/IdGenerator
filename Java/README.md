@@ -13,6 +13,7 @@ JDK 1.8+
 ```
 
 ## 调用示例
+
 ```
 // 全局初始化设置WorkerId，默认最大2^16-1，可通过调整 WorkerIdBitLength 增加最大值
 IdGeneratorOptions options = new IdGeneratorOptions();
