@@ -11,7 +11,9 @@
 
 ## 技术支持
 
-开源地址：https://gitee.com/yitter/idgenerator
+开源地址1：https://gitee.com/yitter/idgenerator
+
+开源地址2：https://github.com/yitter/idgenerator
 
 QQ群：646049993
 
@@ -194,10 +196,6 @@ Java：[查看示例][2]
 Go：[查看示例][3]
 
 Rust：[查看示例][4]
-
-
-即将推出 PHP 扩展调用版本。
-
 
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
