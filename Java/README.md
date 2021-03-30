@@ -9,7 +9,6 @@ JDK 1.8+
 	<groupId>com.github.yitter</groupId>
 	<artifactId>yitter-idgenerator</artifactId>
 	<version>1.0.2</version>
-	<type>pom</type>
 </dependency>
 ```
 
