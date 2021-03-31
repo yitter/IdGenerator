@@ -6,7 +6,7 @@ use super::super::contract::*;
 use std::{thread};
 use chrono::Utc;
 use std::thread::sleep;
-use lazy_static::lazy_static;
+// use lazy_static::lazy_static;
 
 pub struct SnowWorkerM1 {
     ///基础时间

@@ -15,7 +15,6 @@ namespace Yitter.OrgSystem.TestA
         public IList<long> idList = new List<long>();
         private int GenIdCount;
         private int WorkerId;
-            
 
         public GenTest(IIdGenerator idGen, int genIdCount, int workerId)
         {

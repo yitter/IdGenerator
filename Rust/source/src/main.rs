@@ -6,6 +6,7 @@ use std::thread;
 use chrono::Utc;
 use std::time::Duration;
 
+
 fn main() {
     println!("Hello, world! Rust");
 
@@ -21,6 +22,8 @@ fn main() {
     options.SeqBitLength = 6;
     //... 可以继续设置其它 options 参数
     YitIdHelper::SetIdGenerator(options);
+
+    set_redis();
 
     // 以下开始测试生成数据，默认5W，单线程，可以修改 multiThread=true 启用多线程。
     loop {
@@ -50,4 +53,25 @@ fn main() {
         thread::sleep(std::time::Duration::from_millis(2000));
     }
 }
+
+fn set_redis() {
+
+    // match simple_redis::create("redis://127.0.0.1:6379/") {
+    //     Ok(mut client) =>  {
+    //         println!("Created Redis Client");
+    //
+    //         match client.set("my_key", "my_value") {
+    //             Err(error) => println!("Unable to set value in Redis: {}", error),
+    //             _ => println!("Value set in Redis")
+    //         };
+    //
+    //         match client.quit() {
+    //             Err(error) => println!("Error: {}", error),
+    //             _ => println!("Connection Closed.")
+    //         }
+    //     },
+    //     Err(error) => println!("Unable to create Redis client: {}", error)
+    // }
+
+ }
 

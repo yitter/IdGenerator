@@ -12,7 +12,7 @@ use std::sync::Mutex;
 use std::sync::Arc;
 use std::borrow::BorrowMut;
 
-static mut instance2: Option<Arc<Mutex<SnowWorkerM1>>> = None;
+// static mut instance2: Option<Arc<Mutex<SnowWorkerM1>>> = None;
 
 pub struct DefaultIdGenerator {
     pub Worker: SnowWorkerM1,
