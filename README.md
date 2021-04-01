@@ -1,4 +1,4 @@
-# 唯一ID生成器 IdGenerator  SnowFlake 雪花算法 原生多语言源码
+# 唯一ID生成器 IdGenerator  SnowFlake 雪花算法 原生多语言
 
 ## 介绍
 
