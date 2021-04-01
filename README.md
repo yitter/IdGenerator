@@ -29,11 +29,11 @@ QQ群：646049993
 
 <font color="green" size="5">💧</font>  如果这样的主键值太长，超过前端 JS Number 类型最大值，须把 Long 型转换为 String 型，你会觉得有点沮丧。
 
-<font color="green" size="5">💧</font> 尽管 Guid 能自增，但占用空间大，索引速度慢，你也不想用它。
+<font color="green" size="5">💧</font>  尽管 Guid 能自增，但占用空间大，索引速度慢，你也不想用它。
 
 <font color="green" size="5">💧</font>  应用实例可能超过50个，每个并发请求可达10W/s。
 
-<font color="green" size="5">💧</font> 在容器环境部署应用（水平扩展、自动伸缩）。
+<font color="green" size="5">💧</font>  在容器环境部署应用（水平扩展、自动伸缩）。
 
 <font color="green" size="5">💧</font>  不想依赖 redis 的自增操作。
 
