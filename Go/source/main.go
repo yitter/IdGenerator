@@ -23,7 +23,7 @@ func NextId() uint64 {
 // 注册一个新的WorkerId
 //export RegisterWorkerId
 func RegisterWorkerId(ip *C.char, port int, password *C.char, maxWorkerId int) int {
-	return regworkerid.RegisterWorkerId(C.GoString(ip), port, C.GoString(password), maxWorkerId)
+	return int(regworkerid.RegisterWorkerId(C.GoString(ip), port, C.GoString(password), maxWorkerId))
 }
 
 // 注销WorkerId
@@ -32,9 +32,9 @@ func UnRegisterWorkerId() {
 	regworkerid.UnRegisterWorkerId()
 }
 
-// 检查本地WorkerId是否有效
+// 检查本地WorkerId是否有效（0-有效，其它-无效）
 //export ValidateLocalWorkerId
-func ValidateLocalWorkerId(workerId int) bool {
+func ValidateLocalWorkerId(workerId int) int {
 	return regworkerid.ValidateLocalWorkerId(workerId)
 }
 

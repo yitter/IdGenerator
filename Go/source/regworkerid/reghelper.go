@@ -26,8 +26,12 @@ const _WorkerIdValueKeyPrefix string = "IdGen:WorkerId:Value:" // redis 中的ke
 const _WorkerIdFlag = "Y"                                      // IdGen:WorkerId:Value:xx 的值（将来可用 _token 替代）
 const _Log = false                                             // 是否输出日志
 
-func ValidateLocalWorkerId(workerId int) bool {
-	return workerId == _usingWorkerId
+func ValidateLocalWorkerId(workerId int) int {
+	if workerId == _usingWorkerId {
+		return 0
+	} else {
+		return -1
+	}
 }
 
 func UnRegisterWorkerId() {

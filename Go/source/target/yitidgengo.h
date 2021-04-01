@@ -75,8 +75,8 @@ extern __declspec(dllexport) GoInt RegisterWorkerId(char* ip, GoInt port, char* 
 // 注销WorkerId
 extern __declspec(dllexport) void UnRegisterWorkerId();
 
-// 检查本地WorkerId是否有效
-extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
+// 检查本地WorkerId是否有效（0-有效，其它-无效）
+extern __declspec(dllexport) GoInt ValidateLocalWorkerId(GoInt workerId);
 
 #ifdef __cplusplus
 }
