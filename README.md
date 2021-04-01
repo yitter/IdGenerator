@@ -182,6 +182,8 @@ extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
 
 ```
 
+redis作用：只用于注册 WorkerId ，不用于生产 ID。
+
 
 ####  其它分布式集成
 
