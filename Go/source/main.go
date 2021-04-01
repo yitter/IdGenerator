@@ -9,32 +9,40 @@ import (
 	"yitidgen/regworkerid"
 )
 
-//export SetOptions
+///export SetOptions
 func SetOptions(workerId uint16) {
 	var options = contract.NewIdGeneratorOptions(workerId)
 	idgen.SetIdGenerator(options)
 }
 
-//export NextId
+///export NextId
 func NextId() uint64 {
 	return idgen.NextId()
 }
 
+// 注册一个新的WorkerId
 //export RegisterWorkerId
 func RegisterWorkerId(ip *C.char, port int, password *C.char, maxWorkerId int) int {
 	return regworkerid.RegisterWorkerId(C.GoString(ip), port, C.GoString(password), maxWorkerId)
 }
 
+// 注销WorkerId
 //export UnRegisterWorkerId
 func UnRegisterWorkerId() {
 	regworkerid.UnRegisterWorkerId()
+}
+
+// 检查本地WorkerId是否有效
+//export ValidateLocalWorkerId
+func ValidateLocalWorkerId(workerId int) bool {
+	return regworkerid.ValidateLocalWorkerId(workerId)
 }
 
 func main() {
 	// 方法一：直接采用默认方法生成一个Id
 	fmt.Println("生成的Id:", idgen.NextId())
 
-	fmt.Println("生成的Id:", regworkerid.RegisterWorkerId("localhost", 6379, "", 4))
+	fmt.Println("注册的WorkerId:", regworkerid.RegisterWorkerId("localhost", 6379, "", 4))
 
 	return
 	// 方法二：自定义参数

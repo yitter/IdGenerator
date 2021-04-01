@@ -68,10 +68,15 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-extern __declspec(dllexport) void SetOptions(GoUint16 workerId);
-extern __declspec(dllexport) GoUint64 NextId();
+
+// 注册一个新的WorkerId
 extern __declspec(dllexport) GoInt RegisterWorkerId(char* ip, GoInt port, char* password, GoInt maxWorkerId);
+
+// 注销WorkerId
 extern __declspec(dllexport) void UnRegisterWorkerId();
+
+// 检查本地WorkerId是否有效
+extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
 
 #ifdef __cplusplus
 }
