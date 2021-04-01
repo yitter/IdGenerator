@@ -1,6 +1,6 @@
 # 唯一ID生成器 IdGenerator  SnowFlake 雪花算法 原生多语言
 
-## 💎💎💎介绍
+## 💎 介绍
 
 <font color="#11aaff" size="5">❄</font> 一个全新的雪花漂移算法，生成的ID更短、速度更快。 
 
@@ -11,7 +11,7 @@
 <font color="#11aaff" size="5">❄</font> 支持 k8s 等容器化部署，自动注册 WorkerId。
 
 
-## 技术支持
+## 💎 技术支持
 
 开源地址1：https://gitee.com/yitter/idgenerator
 
@@ -77,7 +77,7 @@ QQ群：646049993
 | 传统雪花算法 | 0.0045s | 0.053s  |  0.556s |
 | 雪花漂移算法  | 0.0015s | 0.012s |  0.113s |
 
-## 💎💎 效果
+## 效果
 
 🟣 js Number 类型最大数值：9007199254740992，本算法在保持并发性能（5W+/0.01s）和最大64个 WorkerId（6bit）的同时，能用70年才到 js Number Max 值。
 
@@ -150,7 +150,7 @@ ID示例（基于默认配置）：
 💍 可通过增加 SeqBitLength，支持更高的每秒并发数。默认配置能很高效地支持每秒 5W 并发请求，若要求更高，可适当增加 SeqBitLength 到 8~16，但这将增加Id长度。
 
 
-## 💎💎💎 集成建议
+## 集成建议
 
 #### 💎 常规集成
 
@@ -205,7 +205,7 @@ extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
 
 🟢4.任何加大 WorkerIdBitLength 或 SeqBitLength 的设置，都可能会增加 ID 的长度。
 
-#### 💎💎 配置变更
+#### 💎 配置变更
 
 配置变更指是系统运行一段时间后，再变更运行参数（IdGeneratorOptions选项值），请注意：
 
