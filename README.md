@@ -21,23 +21,23 @@ QQ群：646049993
 
 ## 需求来源
 
-<font color="green" size="5">❄</font>  作为架构设计的你，想要解决数据库主键唯一的问题，特别是在分布式系统多数据库的时候。
+<font color="green" size="5">💧</font>  作为架构设计的你，想要解决数据库主键唯一的问题，特别是在分布式系统多数据库的时候。
 
-<font color="green" size="5">❄</font>  你希望这个主键是用最少的存储空间，索引速度更快，Select、Insert 和 Update 更迅速。
+<font color="green" size="5">💧</font>  你希望这个主键是用最少的存储空间，索引速度更快，Select、Insert 和 Update 更迅速。
 
-<font color="green" size="5">❄</font>  你要考虑在分库分表（合库合表）时，主键值可直接使用，并能反映业务时序。
+<font color="green" size="5">💧</font>  你要考虑在分库分表（合库合表）时，主键值可直接使用，并能反映业务时序。
 
-<font color="green" size="5">❄</font>  如果这样的主键值太长，超过前端 JS Number 类型最大值，须把 Long 型转换为 String 型，你会觉得有点沮丧。
+<font color="green" size="5">💧</font>  如果这样的主键值太长，超过前端 JS Number 类型最大值，须把 Long 型转换为 String 型，你会觉得有点沮丧。
 
-<font color="green" size="5">❄</font> 尽管 Guid 能自增，但占用空间大，索引速度慢，你也不想用它。
+<font color="green" size="5">💧</font> 尽管 Guid 能自增，但占用空间大，索引速度慢，你也不想用它。
 
-<font color="green" size="5">❄</font>  应用实例可能超过50个，每个并发请求可达10W/s。
+<font color="green" size="5">💧</font>  应用实例可能超过50个，每个并发请求可达10W/s。
 
-<font color="green" size="5">❄</font> 在容器环境部署应用（水平扩展、自动伸缩）。
+<font color="green" size="5">💧</font> 在容器环境部署应用（水平扩展、自动伸缩）。
 
-<font color="green" size="5">❄</font>  不想依赖 redis 的自增操作。
+<font color="green" size="5">💧</font>  不想依赖 redis 的自增操作。
 
-<font color="green" size="5">❄</font>  你希望系统运行 100 年以上。
+<font color="green" size="5">💧</font>  你希望系统运行 100 年以上。
 
 
 ## 传统算法问题
