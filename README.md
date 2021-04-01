@@ -79,12 +79,12 @@ QQ群：646049993
 
 ## 💎💎 效果
 
-🔯	js Number 类型最大数值：9007199254740992，本算法在保持并发性能（5W+/0.01s）和最大64个 WorkerId（6bit）的同时，能用70年才到 js Number Max 值。
+🟣 js Number 类型最大数值：9007199254740992，本算法在保持并发性能（5W+/0.01s）和最大64个 WorkerId（6bit）的同时，能用70年才到 js Number Max 值。
 
-🔯	增加WorkerId位数到8bit（256节点）时，15年达到 js Number Max 值。
+🟣 增加WorkerId位数到8bit（256节点）时，15年达到 js Number Max 值。
 
 
-🔯	极致性能：500W/s~3000W/s。（所有测试数据均基于8代低压i7计算。）
+🟣 极致性能：500W/s~3000W/s。（所有测试数据均基于8代低压i7计算。）
 
 
 #### 💎 生成的ID
@@ -141,13 +141,13 @@ ID示例（基于默认配置）：
 
 #### 默认配置
 
-❄️ WorkerIdBitLength=6，能支持64个 WorkerId，编号0~63。
+💍 WorkerIdBitLength=6，能支持64个 WorkerId，编号0~63。
 
-❄️ 可通过减少 WorkerIdBitLength 到1~4（为4时最大支持WorkerId为2^4=16个），以减少Id长度。
+💍 可通过减少 WorkerIdBitLength 到1~4（为4时最大支持WorkerId为2^4=16个），以减少Id长度。
 
-❄️ SeqBitLength=6，能支持每秒并发5W请求时，平均处理速度不超过 0.005 s。（不同语言略有差别，最高性能不超过0.002s，平均不超过0.005s）
+💍 SeqBitLength=6，能支持每秒并发5W请求时，平均处理速度不超过 0.005 s。（不同语言略有差别，最高性能不超过0.002s，平均不超过0.005s）
 
-❄️ 可通过增加 SeqBitLength，支持更高的每秒并发数。默认配置能很高效地支持每秒 5W 并发请求，若要求更高，可适当增加 SeqBitLength 到 8~16，但这将增加Id长度。
+💍 可通过增加 SeqBitLength，支持更高的每秒并发数。默认配置能很高效地支持每秒 5W 并发请求，若要求更高，可适当增加 SeqBitLength 到 8~16，但这将增加Id长度。
 
 
 ## 💎💎💎 集成建议
@@ -171,9 +171,9 @@ ID示例（基于默认配置）：
 
 #### 💎 自动注册WorkerId
 
-❄️ 唯一ID生成器，依赖WorkerId，当业务服务需要水平自动化复制时，就要求它能自动化注册全局唯一WorkerId，然后各个容器化的无差别部署的业务服务，才能根据它生产唯一ID。
+🔍 唯一ID生成器，依赖WorkerId，当业务服务需要水平自动化复制时，就要求它能自动化注册全局唯一WorkerId，然后各个容器化的无差别部署的业务服务，才能根据它生产唯一ID。
 
-❄️ 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。动态库提供的C接口方法有：
+🔍 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。动态库提供的C接口方法有：
 
 ```
 
@@ -190,9 +190,9 @@ extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
 
 #### redis作用
 
-❄️ 只用于注册 WorkerId ，不用于生产 ID。
+🔎 只用于注册 WorkerId ，不用于生产 ID。
 
-❄️ 如果手工指定 WorkerId，即可不依赖 redis。
+🔎 如果手工指定 WorkerId，即可不依赖 redis。
 
 
 #### 其它分布式集成
