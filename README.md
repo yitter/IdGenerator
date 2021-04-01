@@ -166,12 +166,21 @@ ID示例（基于默认配置）：
 7.不要修改核心算法。本算法内部参数较多，逻辑较为复杂，在你尚未掌握核心逻辑时，请勿尝试修改核心代码且用于生产环境，除非通过大量细致、科学的测试验证。
 
 
-#### 自动/手动 设置 WorkerId
+#### 自动注册WorkerId
 
-1.如果Id生成服务是明确的，可在初始化时，手动设置 WorkerId。
+本算法提供一个开源的动态库（go实现），能在容器k8s环境下，通过 redis 自动注册 WorkerId。动态库提供的C接口方法有：
+```
 
-2.如果Id生成服务是不明确的，如容器环境：动态的、自动执行、生命周期完全自动化，可在初始化时通过Redis，自动申请 WorkerId，详见“Tools/AutoRegisterWorkerId”
+// 注册一个新的WorkerId
+extern __declspec(dllexport) GoInt RegisterWorkerId(char* ip, GoInt port, char* password, GoInt maxWorkerId);
 
+// 注销WorkerId
+extern __declspec(dllexport) void UnRegisterWorkerId();
+
+// 检查本地WorkerId是否有效
+extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
+
+```
 
 
 ####  其它分布式集成
