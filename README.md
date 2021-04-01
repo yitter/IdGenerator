@@ -225,8 +225,13 @@ Go：[查看示例][3]
 
 Rust：[查看示例][4]
 
+C：[查看示例][5]
+
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
 [2]: https://gitee.com/yitter/idgenerator/tree/master/Java
 [3]: https://gitee.com/yitter/idgenerator/tree/master/Go
 [4]: https://gitee.com/yitter/idgenerator/tree/master/Rust
+[5]: https://gitee.com/yitter/idgenerator/tree/master/C
+
+
