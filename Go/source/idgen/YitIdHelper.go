@@ -8,7 +8,6 @@ package idgen
 
 import (
 	"sync"
-	"yitidgen/contract"
 )
 
 //var yitIdHelper *YitIdHelper
@@ -50,7 +49,7 @@ type YitIdHelper struct {
 //	return yih.idGenInstance.NewLong()
 //}
 
-func SetIdGenerator(options *contract.IdGeneratorOptions) {
+func SetIdGenerator(options *IdGeneratorOptions) {
 	singletonMutex.Lock()
 	idGenerator = NewDefaultIdGenerator(options)
 	singletonMutex.Unlock()
@@ -59,7 +58,7 @@ func SetIdGenerator(options *contract.IdGeneratorOptions) {
 func NextId() uint64 {
 	if idGenerator == nil {
 		singletonMutex.Lock()
-		options := contract.NewIdGeneratorOptions(1)
+		options := NewIdGeneratorOptions(1)
 		idGenerator = NewDefaultIdGenerator(options)
 		singletonMutex.Unlock()
 	}

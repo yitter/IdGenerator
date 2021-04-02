@@ -1,8 +1,8 @@
 # idgenerator
 
-## ±àÒëËµÃ÷
+## ç¼–è¯‘è¯´æ˜
 
-1.Ä¬ÈÏÊÇ Linux »·¾³£¬ÓÃ CMake¡£
+1.é»˜è®¤æ˜¯ Linux ç¯å¢ƒï¼Œç”¨ CMakeã€‚
 
-2.Èç¹ûÊÇ Windows »·¾³£¬ÒªÓÃ Cygwin »ò MinGW¡£
+2.å¦‚æœæ˜¯ Windows ç¯å¢ƒï¼Œè¦ç”¨ Cygwin æˆ– MinGWã€‚
 

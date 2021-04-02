@@ -1,35 +1,43 @@
-# idgenerator
+#  â„ï¸ idenerator-go
 
-##
+## ä»‹ç»
+é¡¹ç›®æ›´å¤šä»‹ç»å‚ç…§ï¼šhttps://github.com/yitter/idgenerator
 
-Go¼¯³É×¨Ïî¹¤³ÌÈë¿Ú£ºhttps://gitee.com/yitter/idgenerator-go
+## Goç¯å¢ƒ
 
-ºóÎÄÄÚÈİÒÔ Go ×¨Ïî¹¤³ÌÎª×¼¡£
+1.SDKï¼Œgo1.14
 
-## Go»·¾³
-
-1.SDK£¬go1.16
-
-2.ÆôÓÃ Go-Modules
+2.å¯ç”¨ Go-Modules
 
 ```
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 ```
 
-
-## Go´úÂëÊ¾Àı
+3. å®‰è£…æ–¹å¼
 ```
-var yid = idgen.YitIdHelper{}
-fmt.Println(yid.NextId())
-
-// ·½·¨¶ş£º×Ô¶¨Òå²ÎÊı
-var options = contract.NewIdGeneratorOptions(1)
-//options.WorkerIdBitLength = 6
-//options.SeqBitLength = 6
-//options.TopOverCostCount = 2000
-//options.BaseTime = time.Date(2020, 2, 20, 2, 20, 2, 20, time.UTC).UnixNano() / 1e6
-yid.SetIdGenerator(options)
-
+    go get -u -v github.com/yitter/idgenerator-go
+```
+æˆ– go.mod ä¸­æ·»åŠ å¼•ç”¨
+```
+require github.com/yitter/idgenerator-go v1.2.0
 ```
 
+## Goä»£ç ç¤ºä¾‹
+```
+
+// å®šä¹‰å‚æ•°
+var options = idgen.NewIdGeneratorOptions(1)
+options.WorkerId = 1
+options.WorkerIdBitLength = 6
+options.SeqBitLength = 6
+// ...
+idgen.SetIdGenerator(options)
+
+// è°ƒç”¨æ–¹æ³•ç”ŸæˆId
+var id = idgen.NextId()
+
+```
+
+## ä»£ç è´¡çŒ®è€…(æŒ‰æ—¶é—´é¡ºåº)
+guoyahao | amuluowin | houseme

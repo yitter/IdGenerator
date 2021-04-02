@@ -7,18 +7,17 @@
 package idgen
 
 import (
+	"strconv"
 	"time"
-	"yitidgen/contract"
-	"yitidgen/core"
 )
 
 type DefaultIdGenerator struct {
-	Options              *contract.IdGeneratorOptions
-	SnowWorker           contract.ISnowWorker
-	IdGeneratorException contract.IdGeneratorException
+	Options              *IdGeneratorOptions
+	SnowWorker           ISnowWorker
+	IdGeneratorException IdGeneratorException
 }
 
-func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGenerator {
+func NewDefaultIdGenerator(options *IdGeneratorOptions) *DefaultIdGenerator {
 	if options == nil {
 		panic("dig.Options error.")
 	}
@@ -32,9 +31,9 @@ func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGener
 		panic("error：WorkerIdBitLength + SeqBitLength <= 22")
 	}
 
-	maxWorkerIdNumber := uint16(1<<options.WorkerIdBitLength) - 1
-	if options.WorkerId > maxWorkerIdNumber {
-		panic("WorkerId error. (range:[1, " + string(maxWorkerIdNumber) + "]")
+	maxWorkerIDNumber := uint16(1<<options.WorkerIdBitLength) - 1
+	if options.WorkerId > maxWorkerIDNumber {
+		panic("WorkerId error. (range:[1, " + strconv.FormatUint(uint64(maxWorkerIDNumber), 10) + "]")
 	}
 
 	if options.SeqBitLength < 2 || options.SeqBitLength > 21 {
@@ -43,22 +42,23 @@ func NewDefaultIdGenerator(options *contract.IdGeneratorOptions) *DefaultIdGener
 
 	maxSeqNumber := uint32(1<<options.SeqBitLength) - 1
 	if options.MaxSeqNumber > maxSeqNumber {
-		panic("MaxSeqNumber error. (range:[1, " + string(maxSeqNumber) + "]")
+		panic("MaxSeqNumber error. (range:[1, " + strconv.FormatUint(uint64(maxSeqNumber), 10) + "]")
 	}
 
 	if options.MinSeqNumber > maxSeqNumber {
-		panic("MinSeqNumber error. (range:[1, " + string(maxSeqNumber) + "]")
+		panic("MinSeqNumber error. (range:[1, " + strconv.FormatUint(uint64(maxSeqNumber), 10) + "]")
 	}
 
-	var snowWorker contract.ISnowWorker
+
+	var snowWorker ISnowWorker
 
 	switch options.Method {
 	case 1:
-		snowWorker = core.NewSnowWorkerM1(options)
+		snowWorker = NewSnowWorkerM1(options)
 	case 2:
-		snowWorker = core.NewSnowWorkerM2(options)
+		snowWorker = NewSnowWorkerM2(options)
 	default:
-		snowWorker = core.NewSnowWorkerM1(options)
+		snowWorker = NewSnowWorkerM1(options)
 	}
 
 	if options.Method == 1 {
