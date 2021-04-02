@@ -12,7 +12,7 @@
 ```
 go env -w GO111MODULE=on
 
-# Next *ONLY* for China-Developer:
+# Next *ONLY* for China-Users:
 go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 
 ```
