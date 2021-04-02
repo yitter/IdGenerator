@@ -66,6 +66,7 @@ func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int
 	_ConnString = ip + ":" + strconv.Itoa(port)
 	_Password = password
 	_client = newRedisClient()
+	defer _client.Close()
 
 	_, err := _client.Ping(_ctx).Result()
 	if err != nil {
@@ -74,7 +75,6 @@ func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int
 		if _Log {
 			fmt.Println("init redis ok")
 		}
-		defer _client.Close()
 	}
 
 	_loopCount = 0
