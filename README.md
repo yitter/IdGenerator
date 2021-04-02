@@ -1,14 +1,5 @@
 # 比雪花算法更好用的ID生成算法（单机或分布式唯一ID）
 
-## 转载声明
-
-<font color="#11aaff" size="5">©</font> 本项目所有者未在博客园网之外发表过推文，其它网站所现介绍，均属拷贝之作。
-
-<font color="#11aaff" size="5">©</font> 外网原样拷贝转载或加工转载时，须标记转载字样且保留开源链接，否则禁止转载。
-
-<font color="#11aaff" size="5">©</font> 算法版权属于本项目账号所有者（Yitter）。
-
-
 ## 💎 算法介绍
 
 <font color="#11aaff" size="5">❄</font> 一个全新的雪花漂移算法，生成的ID更短、速度更快。 
@@ -239,6 +230,14 @@ extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
 
 🌲🏳️‍🌈 C：[查看示例][5]
 
+
+## 转载声明
+
+<font color="#11aaff" size="5">©</font> 本项目所有者未在cnblogs、csdn之外发表过推文，其它网站所现介绍，均属拷贝之作。
+
+<font color="#11aaff" size="5">©</font> 外网原样拷贝转载或加工转载时，须标记转载字样且保留开源链接，否则禁止转载。
+
+<font color="#11aaff" size="5">©</font> 算法版权属于本项目账号所有者（Yitter）。
 
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
