@@ -49,8 +49,6 @@ func UnRegisterWorkerId() {
 	_usingWorkerId = -1
 	_lifeIndex = -1
 	_workerIdLock.Unlock()
-
-	_client.Close()
 }
 
 func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int {
