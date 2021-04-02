@@ -1,6 +1,15 @@
-# 唯一ID生成器 IdGenerator  SnowFlake 雪花算法 原生多语言
+# 比雪花算法更好用的ID生成算法
 
-## 💎 介绍
+## 转载及版权声明
+
+<font color="#11aaff" size="5">©</font> 本人从未在博客园之外的网站，发表过关于本算法的长文，其它网站上存在的介绍文章，均属他人拷贝之作。
+
+<font color="#11aaff" size="5">©</font> 所有拷贝之作，均须保留项目开源链接，否则禁止转载。
+
+<font color="#11aaff" size="5">©</font> 拷贝之作，内容难免过期，当前页面才有最新内容。
+
+
+## 💎 算法介绍
 
 <font color="#11aaff" size="5">❄</font> 一个全新的雪花漂移算法，生成的ID更短、速度更快。 
 
@@ -229,6 +238,7 @@ extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
 🌲🏳️‍🌈 Rust：[查看示例][4]
 
 🌲🏳️‍🌈 C：[查看示例][5]
+
 
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
