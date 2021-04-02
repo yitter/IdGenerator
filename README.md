@@ -15,9 +15,10 @@
 
 <font color="#11aaff" size="5">❄</font> 核心在于缩短ID长度的同时，具有极高瞬时并发处理量（保守值 50W/0.1s）。 
 
-<font color="#11aaff" size="5">❄</font> 原生支持 C#/Java/Go/Rust/C 等语言，并由 Rust 提供 PHP、Python、Node.js、Ruby 等语言多线程安全调用库(FFI)。
+<font color="#11aaff" size="5">❄</font> 原生支持 C#/Java/Go/Rust/C 等语言，并由 Rust 提供 PHP、Python、Node.js、Ruby 等语言多线程安全调用库(FFI)。如果你的应用有语言开发，基于本算法提供的逻辑实现，集成会更简单，逻辑会更一致。
 
 <font color="#11aaff" size="5">❄</font> 支持 k8s 等容器化部署，自动注册 WorkerId。
+
 
 
 ## 💎 技术支持
