@@ -27,11 +27,11 @@ require github.com/yitter/idgenerator-go v1.2.0
 ```
 
 // 定义参数
-var options = idgen.NewIdGeneratorOptions(1)
-options.WorkerId = 1
-options.WorkerIdBitLength = 6
-options.SeqBitLength = 6
-// ...
+var options = idgen.NewIdGeneratorOptions(1) // 构造函数输入 WorkerId
+// options.WorkerId = 1
+// options.WorkerIdBitLength = 6
+// options.SeqBitLength = 6
+// ... 以上参数一般不需要设置，系统有默认值
 idgen.SetIdGenerator(options)
 
 // 调用方法生成Id
