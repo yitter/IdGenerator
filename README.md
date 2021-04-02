@@ -59,13 +59,13 @@ QQ群：646049993
 
 <font color="green" size="5">✔</font> 速度更快，是传统雪花算法的2-5倍，0.1秒可生成50万个。（i7笔记本，默认算法配置6bit+6bit）
 
-<font color="green" size="5">✔</font>支持时间回拨处理。比如服务器时间回拨1秒，本算法能自动适应生成临界时间的唯一ID。
+<font color="green" size="5">✔</font> 支持时间回拨处理。比如服务器时间回拨1秒，本算法能自动适应生成临界时间的唯一ID。
 
-<font color="green" size="5">✔</font>支持手工插入新ID。当业务需要在历史时间生成新ID时，用本算法的预留位能生成5000个每秒。
+<font color="green" size="5">✔</font> 支持手工插入新ID。当业务需要在历史时间生成新ID时，用本算法的预留位能生成5000个每秒。
 
 <font color="green" size="5">✔</font> 漂移时能外发通知事件。让调用方确切知道算法漂移记录，Log并发调用量。
 
-<font color="green" size="5">✔</font>不依赖任何外部缓存和数据库。（k8s环境下自动注册 WorkerId 的动态库依赖 redis）
+<font color="green" size="5">✔</font> 不依赖任何外部缓存和数据库。（k8s环境下自动注册 WorkerId 的动态库依赖 redis）
 
 <font color="green" size="5">✔</font> 基础功能，开箱即用，无需配置文件、数据库连接等。
 
