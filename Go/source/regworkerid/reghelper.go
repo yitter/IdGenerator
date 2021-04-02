@@ -23,6 +23,9 @@ var _MaxLoopCount = 10               // 最大循环次数（无可用WorkerId�
 var _SleepMillisecondEveryLoop = 200 // 每次循环后，暂停时间
 var _MaxWorkerId int = 0             // 最大WorkerId值，超过此值从0开始
 
+var _ConnString = ""
+var _Password = ""
+
 const _WorkerIdIndexKey string = "IdGen:WorkerId:Index"        // redis 中的key
 const _WorkerIdValueKeyPrefix string = "IdGen:WorkerId:Value:" // redis 中的key
 const _WorkerIdFlag = "Y"                                      // IdGen:WorkerId:Value:xx 的值（将来可用 _token 替代）
@@ -47,13 +50,13 @@ func UnRegisterWorkerId() {
 	_lifeIndex = -1
 	_workerIdLock.Unlock()
 
-	_client.Quit(_ctx)
+	_client.Close()
 }
 
 func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int {
 	// maxWorkerId不能小于0
 	if maxWorkerId < 0 {
-		return -1
+		return -2
 	}
 
 	// 如果当前已注册过 WorkerId，则先注销，并终止先前的自动续期线程
@@ -62,15 +65,9 @@ func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int
 	}
 
 	_MaxWorkerId = maxWorkerId
-	_client = redis.NewClient(&redis.Options{
-		Addr:         ip + ":" + strconv.Itoa(port),
-		Password:     password,
-		DB:           0,
-		//PoolSize:     1000,
-		//ReadTimeout:  time.Millisecond * time.Duration(100),
-		//WriteTimeout: time.Millisecond * time.Duration(100),
-		//IdleTimeout:  time.Second * time.Duration(60),
-	})
+	_ConnString = ip + ":" + strconv.Itoa(port)
+	_Password = password
+	_client = newRedisClient()
 
 	_, err := _client.Ping(_ctx).Result()
 	if err != nil {
@@ -79,10 +76,23 @@ func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int
 		if _Log {
 			fmt.Println("init redis ok")
 		}
+		defer _client.Close()
 	}
 
 	_loopCount = 0
 	return getNextWorkerId()
+}
+
+func newRedisClient() *redis.Client {
+	return redis.NewClient(&redis.Options{
+		Addr:     _ConnString,
+		Password: _Password,
+		DB:       0,
+		//PoolSize:     1000,
+		//ReadTimeout:  time.Millisecond * time.Duration(100),
+		//WriteTimeout: time.Millisecond * time.Duration(100),
+		//IdleTimeout:  time.Second * time.Duration(60),
+	})
 }
 
 func getNextWorkerId() int {
@@ -104,9 +114,12 @@ func getNextWorkerId() int {
 			setWorkerIdIndex(-1)
 			endReset() // 此步有可能不被执行？
 			_loopCount++
+
 			// 超过一定次数，直接终止操作
 			if _loopCount > _MaxLoopCount {
 				_loopCount = 0
+
+				// 返回错误
 				return -1
 			}
 
@@ -163,7 +176,7 @@ func extendWorkerIdLifeTime(lifeIndex int) {
 
 	// 循环操作：间隔一定时间，刷新 WorkerId 在 redis 中的有效时间。
 	for {
-		time.Sleep(time.Duration(_WorkerIdLifeTimeSeconds/3) * time.Millisecond)
+		time.Sleep(time.Duration(_WorkerIdLifeTimeSeconds/3) * time.Second)
 
 		// 上锁操作，防止跟 UnRegisterWorkerId 操作重叠
 		_workerIdLock.Lock()
@@ -206,7 +219,9 @@ func setWorkerIdFlag(index int) {
 }
 
 func extendWorkerIdFlag(index int) {
-	_client.Expire(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index), time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
+	var client = newRedisClient()
+	defer client.Close()
+	client.Expire(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index), time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
 }
 
 func canReset() bool {

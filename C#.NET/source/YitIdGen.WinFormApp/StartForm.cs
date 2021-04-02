@@ -29,7 +29,7 @@ namespace WInFormApp
         //public static extern ulong RegisterWorkerId2();
 
         [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern long UnRegisterWorkerId();
+        public static extern void UnRegisterWorkerId();
 
 
         [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
@@ -67,7 +67,14 @@ namespace WInFormApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            UnRegisterWorkerId();
+            try
+            {
+                UnRegisterWorkerId();
+            }
+            catch (Exception ex)
+            {
+                txtIdList.Text = ex.Message;
+            }
             // GetWorkerId("localhost", 6379);
         }
     }
