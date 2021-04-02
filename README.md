@@ -19,6 +19,7 @@
 
 <font color="#11aaff" size="5">❄</font> 支持 k8s 等容器化部署，自动注册 WorkerId。
 
+<font color="#11aaff" size="5">❄</font> 可在单机或分布式环境中生成唯一ID。
 
 
 ## 💎 技术支持
