@@ -70,6 +70,7 @@ namespace WInFormApp
             try
             {
                 UnRegisterWorkerId();
+                txtIdList.Text += "LogOff";
             }
             catch (Exception ex)
             {

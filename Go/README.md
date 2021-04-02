@@ -11,10 +11,14 @@
 
 ```
 go env -w GO111MODULE=on
+
+# Next *ONLY* for China-Developer:
 go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct
+
 ```
 
 3. 安装方式
+
 ```
 go get -u -v github.com/yitter/idgenerator-go
 ```
