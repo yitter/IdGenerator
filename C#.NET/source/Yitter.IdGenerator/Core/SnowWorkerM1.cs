@@ -264,7 +264,7 @@ namespace Yitter.IdGenerator
                     BeginTurnBackAction(_TurnBackTimeTick);
                 }
 
-                Thread.Sleep(10);
+                //Thread.Sleep(1);
                 return CalcTurnBackId(_TurnBackTimeTick);
             }
 

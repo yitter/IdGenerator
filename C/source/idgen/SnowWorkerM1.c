@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <sys/time.h>
+#include <unistd.h>
 #include "SnowWorkerM1.h"
 
 
@@ -73,16 +74,21 @@ static inline uint64_t NextNormalId(SnowFlakeWorker *worker) {
                 worker->_TurnBackIndex = 1;
             }
         }
+
+        // usleep(1000); // 暂停1ms
         return CalcTurnBackId(worker);
     }
+
     if (worker->_TurnBackTimeTick > 0) {
         worker->_TurnBackTimeTick = 0;
     }
+
     if (currentTimeTick > worker->_LastTimeTick) {
         worker->_LastTimeTick = currentTimeTick;
         worker->_CurrentSeqNumber = worker->MinSeqNumber;
         return CalcId(worker);
     }
+
     if (worker->_CurrentSeqNumber > worker->MaxSeqNumber) {
         worker->_TermIndex++;
         worker->_LastTimeTick++;
@@ -92,6 +98,7 @@ static inline uint64_t NextNormalId(SnowFlakeWorker *worker) {
         worker->_GenCountInOneTerm = 1;
         return CalcId(worker);
     }
+
     return CalcId(worker);
 }
 
@@ -131,13 +138,13 @@ extern uint64_t WorkerM1NextId(SnowFlakeWorker *worker) {
 }
 
 extern uint64_t GetCurrentTimeTick(SnowFlakeWorker *worker) {
-     struct timeval tv;
+    struct timeval tv;
     gettimeofday(&tv, NULL);
     return ((uint64_t) tv.tv_sec * 1000 + tv.tv_usec / 1000 - worker->BaseTime);
 }
 
 extern uint64_t GetCurrentTime() {
-     struct timeval tv;
+    struct timeval tv;
     gettimeofday(&tv, NULL);
     return ((uint64_t) (tv.tv_sec)) * 1000 + tv.tv_usec / 1000;
 
@@ -147,7 +154,7 @@ extern uint64_t GetCurrentTime() {
 }
 
 extern uint64_t GetCurrentMicroTime() {
-     struct timeval tv;
+    struct timeval tv;
     gettimeofday(&tv, NULL);
     return ((uint64_t) tv.tv_sec * 1000000 + tv.tv_usec);
 }

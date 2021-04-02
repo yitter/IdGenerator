@@ -204,7 +204,7 @@ impl SnowWorkerM1 {
                 self.BeginTurnBackAction(self._TurnBackTimeTick);
             }
 
-            thread::sleep(std::time::Duration::from_millis(10));
+            // thread::sleep(std::time::Duration::from_millis(1));
             return self.CalcTurnBackId(self._TurnBackTimeTick);
         }
 

@@ -152,19 +152,22 @@ func (m1 *SnowWorkerM1) NextNormalId() uint64 {
 			m1.BeginTurnBackAction(m1._TurnBackTimeTick)
 		}
 
-		time.Sleep(time.Duration(1) * time.Millisecond)
+		// time.Sleep(time.Duration(1) * time.Millisecond)
 		return m1.CalcTurnBackId(m1._TurnBackTimeTick)
 	}
+
 	// 时间追平时，_TurnBackTimeTick清零
 	if m1._TurnBackTimeTick > 0 {
 		m1.EndTurnBackAction(m1._TurnBackTimeTick)
 		m1._TurnBackTimeTick = 0
 	}
+
 	if currentTimeTick > m1._LastTimeTick {
 		m1._LastTimeTick = currentTimeTick
 		m1._CurrentSeqNumber = m1.MinSeqNumber
 		return m1.CalcId(m1._LastTimeTick)
 	}
+
 	if m1._CurrentSeqNumber > m1.MaxSeqNumber {
 		m1.BeginOverCostAction(currentTimeTick)
 		m1._TermIndex++
