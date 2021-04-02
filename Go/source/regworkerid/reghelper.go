@@ -1,14 +1,16 @@
 package regworkerid
 
 import (
+	"context"
 	"fmt"
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 	"strconv"
 	"sync"
 	"time"
 )
 
 var _client *redis.Client
+var _ctx = context.Background()
 var _workerIdLock sync.Mutex
 
 var _usingWorkerId int = -1 // 当前已注册的WorkerId
@@ -40,10 +42,12 @@ func UnRegisterWorkerId() {
 	}
 
 	_workerIdLock.Lock()
-	_client.Del(_WorkerIdValueKeyPrefix + strconv.Itoa(_usingWorkerId))
+	_client.Del(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(_usingWorkerId))
 	_usingWorkerId = -1
 	_lifeIndex = -1
 	_workerIdLock.Unlock()
+
+	_client.Quit(_ctx)
 }
 
 func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int {
@@ -60,13 +64,15 @@ func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int
 	_MaxWorkerId = maxWorkerId
 	_client = redis.NewClient(&redis.Options{
 		Addr:         ip + ":" + strconv.Itoa(port),
-		PoolSize:     1000,
-		ReadTimeout:  time.Millisecond * time.Duration(100),
-		WriteTimeout: time.Millisecond * time.Duration(100),
-		IdleTimeout:  time.Second * time.Duration(60),
 		Password:     password,
+		DB:           0,
+		//PoolSize:     1000,
+		//ReadTimeout:  time.Millisecond * time.Duration(100),
+		//WriteTimeout: time.Millisecond * time.Duration(100),
+		//IdleTimeout:  time.Second * time.Duration(60),
 	})
-	_, err := _client.Ping().Result()
+
+	_, err := _client.Ping(_ctx).Result()
 	if err != nil {
 		panic("init redis error")
 	} else {
@@ -81,7 +87,7 @@ func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int
 
 func getNextWorkerId() int {
 	// 获取当前 WorkerIdIndex
-	r, err := _client.Incr(_WorkerIdIndexKey).Result()
+	r, err := _client.Incr(_ctx, _WorkerIdIndexKey).Result()
 	if err != nil {
 		return 0
 	}
@@ -180,7 +186,7 @@ func extendWorkerIdLifeTime(lifeIndex int) {
 }
 
 func get(key string) (string, bool) {
-	r, err := _client.Get(key).Result()
+	r, err := _client.Get(_ctx, key).Result()
 	if err != nil {
 		return "", false
 	}
@@ -188,23 +194,23 @@ func get(key string) (string, bool) {
 }
 
 func set(key string, val string, expTime int32) {
-	_client.Set(key, val, time.Duration(expTime)*time.Second)
+	_client.Set(_ctx, key, val, time.Duration(expTime)*time.Second)
 }
 
 func setWorkerIdIndex(val int) {
-	_client.Set(_WorkerIdIndexKey, val, 0)
+	_client.Set(_ctx, _WorkerIdIndexKey, val, 0)
 }
 
 func setWorkerIdFlag(index int) {
-	_client.Set(_WorkerIdValueKeyPrefix+strconv.Itoa(index), _WorkerIdFlag, time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
+	_client.Set(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index), _WorkerIdFlag, time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
 }
 
 func extendWorkerIdFlag(index int) {
-	_client.Expire(_WorkerIdValueKeyPrefix+strconv.Itoa(index), time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
+	_client.Expire(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index), time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
 }
 
 func canReset() bool {
-	r, err := _client.Incr(_WorkerIdValueKeyPrefix + "Edit").Result()
+	r, err := _client.Incr(_ctx, _WorkerIdValueKeyPrefix+"Edit").Result()
 	if err != nil {
 		return false
 	}
@@ -218,11 +224,11 @@ func canReset() bool {
 
 func endReset() {
 	// _client.Set(_WorkerIdValueKeyPrefix+"Edit", 0, time.Duration(2)*time.Second)
-	_client.Set(_WorkerIdValueKeyPrefix+"Edit", 0, 0)
+	_client.Set(_ctx, _WorkerIdValueKeyPrefix+"Edit", 0, 0)
 }
 
 func getWorkerIdFlag(index int) (string, bool) {
-	r, err := _client.Get(_WorkerIdValueKeyPrefix + strconv.Itoa(index)).Result()
+	r, err := _client.Get(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index)).Result()
 	if err != nil {
 		return "", false
 	}
@@ -230,7 +236,7 @@ func getWorkerIdFlag(index int) (string, bool) {
 }
 
 func isAvailable(index int) bool {
-	r, err := _client.Get(_WorkerIdValueKeyPrefix + strconv.Itoa(index)).Result()
+	r, err := _client.Get(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index)).Result()
 
 	if _Log {
 		fmt.Println("XX isAvailable:" + r)
