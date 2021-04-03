@@ -25,12 +25,11 @@ namespace WInFormApp
         public static extern long NextId2();
 
         [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern long RegisterWorkerId(string ip, int port, string password, int maxWorkerIdNumber);
+        public static extern IntPtr RegisterMany(string ip, int port, string password, int maxWorkerIdNumber, int idCount);
         //public static extern ulong RegisterWorkerId2();
 
         [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern void UnRegisterWorkerId();
-
+        public static extern void UnRegister();
 
         [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern void SetWorkerId(uint workerId);
@@ -54,7 +53,12 @@ namespace WInFormApp
                 var ip = "localhost";
 
                 //txtIdList.Text += RegisterWorkerId(Encoding.UTF8.GetBytes(ip), 6379) + "\r\n";
-                txtIdList.Text += RegisterWorkerId(ip, 6379, "", 4) + "\r\n";
+                var ids = RegisterMany(ip, 6379, "", 4, 3);
+                //foreach (var id in ids)
+                //{
+                //    txtIdList.Text += id;
+                //}
+
                 //txtIdList.Text += RegisterWorkerId() + "\r\n";
 
                 //txtIdList.Text += Test() + "\r\n";
@@ -69,7 +73,7 @@ namespace WInFormApp
         {
             try
             {
-                UnRegisterWorkerId();
+                UnRegister();
                 txtIdList.Text += "LogOff";
             }
             catch (Exception ex)

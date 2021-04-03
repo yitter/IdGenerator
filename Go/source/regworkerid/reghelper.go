@@ -13,78 +13,167 @@ var _client *redis.Client
 var _ctx = context.Background()
 var _workerIdLock sync.Mutex
 
-var _usingWorkerId int = -1 // 当前已注册的WorkerId
-var _loopCount int = 0      // 循环数量
-var _lifeIndex int = -1     // WorkerId本地生命时序（本地多次注册时，生命时序会不同）
-var _token int = -1         // WorkerId远程注册时用的token，将存储在 IdGen:WorkerId:Value:xx 的值中（本功能暂未启用）
+var _workerIdList []int32 // 当前已注册的WorkerId
+var _loopCount = 0        // 循环数量
+var _lifeIndex = -1       // WorkerId本地生命时序（本地多次注册时，生命时序会不同）
+var _token = -1           // WorkerId远程注册时用的token，将存储在 IdGen:WorkerId:Value:xx 的值中（本功能暂未启用）
 
 var _WorkerIdLifeTimeSeconds = 15    // IdGen:WorkerId:Value:xx 的值在 redis 中的有效期（单位秒，最好是3的整数倍）
 var _MaxLoopCount = 10               // 最大循环次数（无可用WorkerId时循环查找）
 var _SleepMillisecondEveryLoop = 200 // 每次循环后，暂停时间
-var _MaxWorkerId int = 0             // 最大WorkerId值，超过此值从0开始
+var _MaxWorkerId int32 = 0           // 最大WorkerId值，超过此值从0开始
 
-var _ConnString = ""
-var _Password = ""
+var _RedisConnString = ""
+var _RedisPassword = ""
 
 const _WorkerIdIndexKey string = "IdGen:WorkerId:Index"        // redis 中的key
 const _WorkerIdValueKeyPrefix string = "IdGen:WorkerId:Value:" // redis 中的key
 const _WorkerIdFlag = "Y"                                      // IdGen:WorkerId:Value:xx 的值（将来可用 _token 替代）
-const _Log = false                                             // 是否输出日志
+const _Log = true                                              // 是否输出日志
 
-func ValidateLocalWorkerId(workerId int) int {
-	if workerId == _usingWorkerId {
-		return 0
-	} else {
-		return -1
+func Validate(workerId int32) int32 {
+	for _, value := range _workerIdList {
+		if value == workerId {
+			return 1
+		}
 	}
+
+	return 0
+
+	//if workerId == _usingWorkerId {
+	//	return 0
+	//} else {
+	//	return -1
+	//}
 }
 
-func UnRegisterWorkerId() {
-	if _usingWorkerId < 0 {
-		return
-	}
-
+func UnRegister() {
 	_workerIdLock.Lock()
-	_client.Del(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(_usingWorkerId))
-	_usingWorkerId = -1
+
 	_lifeIndex = -1
+	for _, value := range _workerIdList {
+		if value > -1 {
+			_client.Del(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(int(value)))
+		}
+	}
+	_workerIdList = []int32{}
+
 	_workerIdLock.Unlock()
 }
 
-func RegisterWorkerId(ip string, port int, password string, maxWorkerId int) int {
-	// maxWorkerId不能小于0
+func autoUnRegister() {
+	// 如果当前已注册过 WorkerId，则先注销，并终止先前的自动续期线程
+	if len(_workerIdList) > 0 {
+		UnRegister()
+	}
+}
+
+func RegisterMany(ip string, port int32, password string, maxWorkerId int32, totalCount int32) []int32 {
+	if maxWorkerId < 0 {
+		return []int32{-2}
+	}
+
+	if totalCount < 1 {
+		return []int32{-1}
+	}
+
+	autoUnRegister()
+
+	_MaxWorkerId = maxWorkerId
+	_RedisConnString = ip + ":" + strconv.Itoa(int(port))
+	_RedisPassword = password
+	_client = newRedisClient()
+	if _client == nil {
+		return []int32{-1}
+	}
+	defer func() {
+		if _client != nil {
+			_ = _client.Close()
+		}
+	}()
+	//_, err := _client.Ping(_ctx).Result()
+	//if err != nil {
+	//	//panic("init redis error")
+	//	return []int{-3}
+	//} else {
+	//	if _Log {
+	//		fmt.Println("init redis ok")
+	//	}
+	//}
+
+	_lifeIndex++
+	_workerIdList = make([]int32, totalCount)
+	for key := range _workerIdList {
+		_workerIdList[key] = -1 // 全部初始化-1
+	}
+
+	useExtendFunc := false
+	for key := range _workerIdList {
+		id := register(_lifeIndex)
+		if id > -1 {
+			useExtendFunc = true
+			_workerIdList[key] = id //= append(_workerIdList, id)
+		} else {
+			break
+		}
+	}
+
+	if useExtendFunc {
+		go extendLifeTime(_lifeIndex)
+	}
+
+	return _workerIdList
+}
+
+func RegisterOne(ip string, port int32, password string, maxWorkerId int32) int32 {
 	if maxWorkerId < 0 {
 		return -2
 	}
 
-	// 如果当前已注册过 WorkerId，则先注销，并终止先前的自动续期线程
-	if _usingWorkerId > -1 {
-		UnRegisterWorkerId()
-	}
+	autoUnRegister()
 
 	_MaxWorkerId = maxWorkerId
-	_ConnString = ip + ":" + strconv.Itoa(port)
-	_Password = password
+	_RedisConnString = ip + ":" + strconv.Itoa(int(port))
+	_RedisPassword = password
+	_loopCount = 0
 	_client = newRedisClient()
-	defer _client.Close()
-
-	_, err := _client.Ping(_ctx).Result()
-	if err != nil {
-		panic("init redis error")
-	} else {
-		if _Log {
-			fmt.Println("init redis ok")
+	if _client == nil {
+		return -3
+	}
+	defer func() {
+		if _client != nil {
+			_ = _client.Close()
 		}
+	}()
+	//_, err := _client.Ping(_ctx).Result()
+	//if err != nil {
+	//	// panic("init redis error")
+	//	return -3
+	//} else {
+	//	if _Log {
+	//		fmt.Println("init redis ok")
+	//	}
+	//}
+
+	_lifeIndex++
+	var id = register(_lifeIndex)
+	if id > -1 {
+		_workerIdList = []int32{id}
+		go extendLifeTime(_lifeIndex)
 	}
 
+	return id
+}
+
+func register(lifeTime int) int32 {
 	_loopCount = 0
-	return getNextWorkerId()
+	return getNextWorkerId(lifeTime)
 }
 
 func newRedisClient() *redis.Client {
 	return redis.NewClient(&redis.Options{
-		Addr:     _ConnString,
-		Password: _Password,
+		Addr:     _RedisConnString,
+		Password: _RedisPassword,
 		DB:       0,
 		//PoolSize:     1000,
 		//ReadTimeout:  time.Millisecond * time.Duration(100),
@@ -93,16 +182,16 @@ func newRedisClient() *redis.Client {
 	})
 }
 
-func getNextWorkerId() int {
+func getNextWorkerId(lifeTime int) int32 {
 	// 获取当前 WorkerIdIndex
 	r, err := _client.Incr(_ctx, _WorkerIdIndexKey).Result()
 	if err != nil {
-		return 0
+		return -1
 	}
 
-	candidateId := int(r)
+	candidateId := int32(r)
 	if _Log {
-		fmt.Println("Begin candidateId:" + strconv.Itoa(candidateId))
+		fmt.Println("Begin candidateId:" + strconv.Itoa(int(candidateId)))
 	}
 
 	// 如果 candidateId 大于最大值，则重置
@@ -128,7 +217,7 @@ func getNextWorkerId() int {
 				fmt.Println("canReset loop")
 			}
 
-			return getNextWorkerId()
+			return getNextWorkerId(lifeTime)
 		} else {
 			// 如果有其它应用正在编辑，则本应用暂停200ms后，再继续
 			time.Sleep(time.Duration(200) * time.Millisecond)
@@ -137,46 +226,45 @@ func getNextWorkerId() int {
 				fmt.Println("not canReset loop")
 			}
 
-			return getNextWorkerId()
+			return getNextWorkerId(lifeTime)
 		}
 	}
 
 	if _Log {
-		fmt.Println("candidateId:" + strconv.Itoa(candidateId))
+		fmt.Println("candidateId:" + strconv.Itoa(int(candidateId)))
 	}
 
 	if isAvailable(candidateId) {
 		if _Log {
-			fmt.Println("AA: isAvailable:" + strconv.Itoa(candidateId))
+			fmt.Println("AA: isAvailable:" + strconv.Itoa(int(candidateId)))
 		}
 
 		// 最新获得的 WorkerIdIndex，在 redis 中是可用状态
 		setWorkerIdFlag(candidateId)
-		_usingWorkerId = candidateId
 		_loopCount = 0
 
 		// 获取到可用 WorkerId 后，启用新线程，每隔 1/3个 _WorkerIdLifeTimeSeconds 时间，向服务器续期（延长一次 LifeTime）
-		_lifeIndex++
-		go extendWorkerIdLifeTime(_lifeIndex)
+		// go extendWorkerIdLifeTime(lifeTime, candidateId)
 
 		return candidateId
 	} else {
 		if _Log {
-			fmt.Println("BB: not isAvailable:" + strconv.Itoa(candidateId))
+			fmt.Println("BB: not isAvailable:" + strconv.Itoa(int(candidateId)))
 		}
 		// 最新获得的 WorkerIdIndex，在 redis 中是不可用状态，则继续下一个 WorkerIdIndex
-		return getNextWorkerId()
+		return getNextWorkerId(lifeTime)
 	}
 }
 
-func extendWorkerIdLifeTime(lifeIndex int) {
+func extendLifeTime(lifeIndex int) {
+	// 获取到可用 WorkerId 后，启用新线程，每隔 1/3个 _WorkerIdLifeTimeSeconds 时间，向服务器续期（延长一次 LifeTime）
 	var myLifeIndex = lifeIndex
 
 	// 循环操作：间隔一定时间，刷新 WorkerId 在 redis 中的有效时间。
 	for {
 		time.Sleep(time.Duration(_WorkerIdLifeTimeSeconds/3) * time.Second)
 
-		// 上锁操作，防止跟 UnRegisterWorkerId 操作重叠
+		// 上锁操作，防止跟 UnRegister 操作重叠
 		_workerIdLock.Lock()
 
 		// 如果临时变量 myLifeIndex 不等于 全局变量 _lifeIndex，表明全局状态被修改，当前线程可终止，不应继续操作 redis
@@ -185,12 +273,44 @@ func extendWorkerIdLifeTime(lifeIndex int) {
 		}
 
 		// 已经被注销，则终止（此步是上一步的二次验证）
-		if _usingWorkerId < 0 {
+		if len(_workerIdList) < 1 {
 			break
 		}
 
 		// 延长 redis 数据有效期
-		extendWorkerIdFlag(_usingWorkerId)
+		for _, value := range _workerIdList {
+			if value > -1 {
+				extendWorkerIdFlag(value)
+			}
+		}
+
+		_workerIdLock.Unlock()
+	}
+}
+
+func extendWorkerIdLifeTime(lifeIndex int, workerId int32) {
+	var myLifeIndex = lifeIndex
+	var myWorkerId = workerId
+
+	// 循环操作：间隔一定时间，刷新 WorkerId 在 redis 中的有效时间。
+	for {
+		time.Sleep(time.Duration(_WorkerIdLifeTimeSeconds/3) * time.Second)
+
+		// 上锁操作，防止跟 UnRegister 操作重叠
+		_workerIdLock.Lock()
+
+		// 如果临时变量 myLifeIndex 不等于 全局变量 _lifeIndex，表明全局状态被修改，当前线程可终止，不应继续操作 redis
+		if myLifeIndex != _lifeIndex {
+			break
+		}
+
+		// 已经被注销，则终止（此步是上一步的二次验证）
+		//if _usingWorkerId < 0 {
+		//	break
+		//}
+
+		// 延长 redis 数据有效期
+		extendWorkerIdFlag(myWorkerId)
 
 		_workerIdLock.Unlock()
 	}
@@ -212,14 +332,22 @@ func setWorkerIdIndex(val int) {
 	_client.Set(_ctx, _WorkerIdIndexKey, val, 0)
 }
 
-func setWorkerIdFlag(index int) {
-	_client.Set(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index), _WorkerIdFlag, time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
+func setWorkerIdFlag(workerId int32) {
+	_client.Set(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(int(workerId)), _WorkerIdFlag, time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
 }
 
-func extendWorkerIdFlag(index int) {
+func extendWorkerIdFlag(workerId int32) {
 	var client = newRedisClient()
-	defer client.Close()
-	client.Expire(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index), time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
+	if client == nil {
+		return
+	}
+	defer func() {
+		if client != nil {
+			_ = client.Close()
+		}
+	}()
+
+	client.Expire(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(int(workerId)), time.Duration(_WorkerIdLifeTimeSeconds)*time.Second)
 }
 
 func canReset() bool {
@@ -229,7 +357,7 @@ func canReset() bool {
 	}
 
 	if _Log {
-		fmt.Println("canReset:" + string(r))
+		fmt.Println("canReset:" + strconv.Itoa(int(r)))
 	}
 
 	return r != 1
@@ -240,16 +368,16 @@ func endReset() {
 	_client.Set(_ctx, _WorkerIdValueKeyPrefix+"Edit", 0, 0)
 }
 
-func getWorkerIdFlag(index int) (string, bool) {
-	r, err := _client.Get(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index)).Result()
+func getWorkerIdFlag(workerId int32) (string, bool) {
+	r, err := _client.Get(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(int(workerId))).Result()
 	if err != nil {
 		return "", false
 	}
 	return r, true
 }
 
-func isAvailable(index int) bool {
-	r, err := _client.Get(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(index)).Result()
+func isAvailable(workerId int32) bool {
+	r, err := _client.Get(_ctx, _WorkerIdValueKeyPrefix+strconv.Itoa(int(workerId))).Result()
 
 	if _Log {
 		fmt.Println("XX isAvailable:" + r)

@@ -4,6 +4,7 @@ import (
 	"C"
 	"fmt"
 	"time"
+	"unsafe"
 	"yitidgen/idgen"
 	"yitidgen/regworkerid"
 )
@@ -19,50 +20,66 @@ func NextId() uint64 {
 	return idgen.NextId()
 }
 
-// 注册一个新的WorkerId
-//export RegisterWorkerId
-func RegisterWorkerId(ip *C.char, port int, password *C.char, maxWorkerId int) int {
-	return int(regworkerid.RegisterWorkerId(C.GoString(ip), port, C.GoString(password), maxWorkerId))
+// 注册一个 WorkerId，会先注销所有本机已注册的记录
+//export RegisterOne
+func RegisterOne(ip *C.char, port int32, password *C.char, maxWorkerId int32) int32 {
+	return regworkerid.RegisterOne(C.GoString(ip), port, C.GoString(password), maxWorkerId)
 }
 
-// 注销WorkerId
-//export UnRegisterWorkerId
-func UnRegisterWorkerId() {
-	regworkerid.UnRegisterWorkerId()
+// 注册多个 WorkerId，会先注销所有本机已注册的记录
+//export RegisterMany
+func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId int32, totalCount int32) *C.int {
+	values := regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount)
+	return (*C.int)(unsafe.Pointer(&values))
+}
+
+// 注销本机已注册的 WorkerId
+//export UnRegister
+func UnRegister() {
+	regworkerid.UnRegister()
 }
 
 // 检查本地WorkerId是否有效（0-有效，其它-无效）
-//export ValidateLocalWorkerId
-func ValidateLocalWorkerId(workerId int) int {
-	return regworkerid.ValidateLocalWorkerId(workerId)
+//export Validate
+func Validate(workerId int32) int32 {
+	return regworkerid.Validate(workerId)
 }
 
 func main() {
-	// 方法一：直接采用默认方法生成一个Id
-	fmt.Println("生成的Id:", idgen.NextId())
+	const testGenId = true // 测试设置
 
-	fmt.Println("注册的WorkerId:", regworkerid.RegisterWorkerId("localhost", 6379, "", 4))
+	if testGenId {
+		// 自定义参数
+		var options = idgen.NewIdGeneratorOptions(1)
+		options.WorkerIdBitLength = 6
+		options.SeqBitLength = 6
+		options.BaseTime = time.Date(2020, 2, 20, 2, 20, 2, 20, time.UTC).UnixNano() / 1e6
+		idgen.SetIdGenerator(options)
 
-	// 方法二：自定义参数
-	var options = idgen.NewIdGeneratorOptions(1)
-	options.WorkerIdBitLength = 6
-	options.SeqBitLength = 6
-	options.BaseTime = time.Date(2020, 2, 20, 2, 20, 2, 20, time.UTC).UnixNano() / 1e6
-	idgen.SetIdGenerator(options)
+		var genCount = 50000
+		for {
+			var begin = time.Now().UnixNano() / 1e3
+			for i := 0; i < genCount; i++ {
+				// 生成ID
+				idgen.NextId()
+			}
+			var end = time.Now().UnixNano() / 1e3
 
-	var genCount = 50000
-
-	for {
-		var begin = time.Now().UnixNano() / 1e3
-		for i := 0; i < genCount; i++ {
-			idgen.NextId()
+			fmt.Println(end - begin)
+			time.Sleep(time.Duration(1000) * time.Millisecond)
 		}
-		var end = time.Now().UnixNano() / 1e3
+	} else {
+		workerIdList := regworkerid.RegisterMany("localhost", 6379, "", 4, 3)
+		for _, value := range workerIdList {
+			fmt.Println("注册的WorkerId:", value)
+		}
 
-		fmt.Println(end - begin)
-		time.Sleep(time.Duration(1000) * time.Millisecond)
+		//var workerId = regworkerid.RegisterOne("localhost", 6379, "", 4)
+		//fmt.Println("注册的WorkerId:", workerId)
+
+		fmt.Println("end")
+		time.Sleep(time.Duration(300) * time.Second)
 	}
-
 }
 
 // go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go

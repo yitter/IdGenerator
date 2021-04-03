@@ -10,7 +10,6 @@ namespace Yitter.OrgSystem.TestA
 {
     class Program
     {
-
         // 测试参数（默认配置下，最佳性能是10W/s）
         static int genIdCount = 50000;  // 计算ID数量（如果要验证50W效率，请将TopOverCostCount设置为20000或适当增加SeqBitLength）
         static short method = 1; // 1-漂移算法，2-传统算法
@@ -25,9 +24,38 @@ namespace Yitter.OrgSystem.TestA
         static int workerCount = 1;
 
 
+        //[DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
+        //public static extern long NextId();
+
+        [DllImport("yitidgengo.dll", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
+        public static extern long NextId2();
+
+        [DllImport("yitidgengo.so", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
+        public static extern long NextId();
+
+        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern void SetWorkerId(uint workerId);
+
+        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern int TestId();
+
+        [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern long RegisterWorkerId(string ip, int port, string password, int maxWorkerIdNumber);
+        //public static extern ulong RegisterWorkerId2();
+
+        [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern void UnRegisterWorkerId();
+
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World! C#");
+
+            RegisterWorkerId();
+            while (true)
+            {
+                Thread.Sleep(20000);
+            }
 
             var options = new IdGeneratorOptions()
             {
@@ -55,27 +83,19 @@ namespace Yitter.OrgSystem.TestA
 
             while (true)
             {
-                //RunSingle();
-                CallDll();
+                RunSingle();
+                //CallDll();
                 //Go(options);
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
         }
 
-        //[DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
-        //public static extern long NextId();
-
-        [DllImport("yitidgengo.dll", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
-        public static extern long NextId2();
-
-        [DllImport("yitidgengo.so", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
-        public static extern long NextId();
-
-        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern void SetWorkerId(uint workerId);
-
-        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern int TestId();
+        private static void RegisterWorkerId()
+        {
+            var workerId = RegisterWorkerId("118.178.140.203", 4037, "zhou@@myredis", 4);
+            Console.WriteLine("workerId：" + workerId);
+            return;
+        }
 
         private static void CallDll()
         {
