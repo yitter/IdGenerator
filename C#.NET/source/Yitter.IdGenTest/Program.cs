@@ -55,8 +55,8 @@ namespace Yitter.OrgSystem.TestA
 
             while (true)
             {
-                RunSingle();
-                //CallDll();
+                //RunSingle();
+                CallDll();
                 //Go(options);
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
@@ -65,7 +65,10 @@ namespace Yitter.OrgSystem.TestA
         //[DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
         //public static extern long NextId();
 
-        [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("yitidgengo.dll", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
+        public static extern long NextId2();
+
+        [DllImport("yitidgengo.so", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
         public static extern long NextId();
 
         [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
@@ -78,7 +81,6 @@ namespace Yitter.OrgSystem.TestA
         {
             try
             {
-
                 int i = 0;
                 long id = 0;
                 DateTime start = DateTime.Now;
