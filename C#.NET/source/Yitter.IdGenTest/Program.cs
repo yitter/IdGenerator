@@ -86,12 +86,14 @@ namespace Yitter.OrgSystem.TestA
                 RunSingle();
                 //CallDll();
                 //Go(options);
+
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
         }
 
         private static void RegisterWorkerId()
         {
+            
         }
 
         private static void CallDll()
