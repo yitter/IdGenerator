@@ -39,23 +39,10 @@ namespace Yitter.OrgSystem.TestA
         [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern int TestId();
 
-        [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern long RegisterWorkerId(string ip, int port, string password, int maxWorkerIdNumber);
-        //public static extern ulong RegisterWorkerId2();
-
-        [DllImport("yitidgengo.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern void UnRegisterWorkerId();
-
 
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World! C#");
-
-            //RegisterWorkerId();
-            //while (true)
-            //{
-            //    Thread.Sleep(20000);
-            //}
 
             var options = new IdGeneratorOptions()
             {
@@ -86,15 +73,10 @@ namespace Yitter.OrgSystem.TestA
                 RunSingle();
                 //CallDll();
                 //Go(options);
-
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
             }
         }
 
-        private static void RegisterWorkerId()
-        {
-            
-        }
 
         private static void CallDll()
         {
