@@ -51,11 +51,11 @@ namespace Yitter.OrgSystem.TestA
         {
             Console.WriteLine("Hello World! C#");
 
-            RegisterWorkerId();
-            while (true)
-            {
-                Thread.Sleep(20000);
-            }
+            //RegisterWorkerId();
+            //while (true)
+            //{
+            //    Thread.Sleep(20000);
+            //}
 
             var options = new IdGeneratorOptions()
             {
@@ -92,9 +92,6 @@ namespace Yitter.OrgSystem.TestA
 
         private static void RegisterWorkerId()
         {
-            var workerId = RegisterWorkerId("118.178.140.203", 4037, "zhou@@myredis", 4);
-            Console.WriteLine("workerId：" + workerId);
-            return;
         }
 
         private static void CallDll()
