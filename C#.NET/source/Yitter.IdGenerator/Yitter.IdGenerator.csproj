@@ -16,9 +16,9 @@
     <Company>Yitter</Company>
     <Authors>Yitter</Authors>
     <Copyright>Yitter</Copyright>
-    <PackageProjectUrl>https://gitee.com/yitter/idgenerator</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/yitter/idgenerator</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.9</Version>
+    <Version>1.0.10</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 

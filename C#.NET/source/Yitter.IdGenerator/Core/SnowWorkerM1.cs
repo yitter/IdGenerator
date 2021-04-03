@@ -86,11 +86,6 @@ namespace Yitter.IdGenerator
                 BaseTime = options.BaseTime;
             }
 
-            if (WorkerId < 1)
-            {
-                WorkerId = (ushort)DateTime.Now.Millisecond;
-            }
-
             if (SeqBitLength == 0)
             {
                 SeqBitLength = 6;
