@@ -8,13 +8,13 @@ import (
 	"yitidgen/regworkerid"
 )
 
-///export SetOptions
+//export SetOptions
 func SetOptions(workerId uint16) {
 	var options = idgen.NewIdGeneratorOptions(workerId)
 	idgen.SetIdGenerator(options)
 }
 
-///export NextId
+//export NextId
 func NextId() uint64 {
 	return idgen.NextId()
 }
@@ -65,5 +65,6 @@ func main() {
 
 }
 
-// go build -o target\yitidgengo.dll -buildmode=c-shared main.go
-
+// go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go
+// go install -buildmode=shared -linkshared std
+// go build -o ./target/yitidgengo.so -buildmode=c-shared main.go

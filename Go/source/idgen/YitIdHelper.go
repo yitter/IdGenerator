@@ -58,8 +58,10 @@ func SetIdGenerator(options *IdGeneratorOptions) {
 func NextId() uint64 {
 	if idGenerator == nil {
 		singletonMutex.Lock()
-		options := NewIdGeneratorOptions(1)
-		idGenerator = NewDefaultIdGenerator(options)
+		if idGenerator == nil {
+			options := NewIdGeneratorOptions(1)
+			idGenerator = NewDefaultIdGenerator(options)
+		}
 		singletonMutex.Unlock()
 	}
 
