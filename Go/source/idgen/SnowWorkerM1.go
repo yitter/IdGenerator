@@ -13,15 +13,16 @@ import (
 
 // SnowWorkerM1 .
 type SnowWorkerM1 struct {
-	BaseTime                int64  //基础时间
-	WorkerId                uint16 //机器码
-	WorkerIdBitLength       byte   //机器码位长
-	SeqBitLength            byte   //自增序列数位长
-	MaxSeqNumber            uint32 //最大序列数（含）
-	MinSeqNumber            uint32 //最小序列数（含）
-	TopOverCostCount        uint32 //最大漂移次数
-	_TimestampShift         byte
-	_CurrentSeqNumber       uint32
+	BaseTime          int64  //基础时间
+	WorkerId          uint16 //机器码
+	WorkerIdBitLength byte   //机器码位长
+	SeqBitLength      byte   //自增序列数位长
+	MaxSeqNumber      uint32 //最大序列数（含）
+	MinSeqNumber      uint32 //最小序列数（含）
+	TopOverCostCount  uint32 //最大漂移次数
+	_TimestampShift   byte
+	_CurrentSeqNumber uint32
+
 	_LastTimeTick           int64
 	_TurnBackTimeTick       int64
 	_TurnBackIndex          byte
@@ -29,6 +30,7 @@ type SnowWorkerM1 struct {
 	_OverCostCountInOneTerm uint32
 	_GenCountInOneTerm      uint32
 	_TermIndex              uint32
+
 	sync.Mutex
 }
 
@@ -38,26 +40,7 @@ func NewSnowWorkerM1(options *IdGeneratorOptions) ISnowWorker {
 	var seqBitLength byte
 	var maxSeqNumber uint32
 
-	var workerId = options.WorkerId
-
-	if options.WorkerIdBitLength == 0 {
-		workerIdBitLength = 6
-	} else {
-		workerIdBitLength = options.WorkerIdBitLength
-	}
-	if options.SeqBitLength == 0 {
-		seqBitLength = 6
-	} else {
-		seqBitLength = options.SeqBitLength
-	}
-	if options.MaxSeqNumber > 0 {
-		maxSeqNumber = options.MaxSeqNumber
-	} else {
-		maxSeqNumber = (1 << seqBitLength) - 1
-	}
-	var minSeqNumber = options.MinSeqNumber
-	var topOverCostCount = options.TopOverCostCount
-
+	// 1.BaseTime
 	var baseTime int64
 	if options.BaseTime != 0 {
 		baseTime = options.BaseTime
@@ -65,19 +48,61 @@ func NewSnowWorkerM1(options *IdGeneratorOptions) ISnowWorker {
 		baseTime = 1582136402000
 	}
 
-	timestampShift := (byte)(options.WorkerIdBitLength + options.SeqBitLength)
-	currentSeqNumber := options.MinSeqNumber
+	// 2.WorkerIdBitLength
+	if options.WorkerIdBitLength == 0 {
+		workerIdBitLength = 6
+	} else {
+		workerIdBitLength = options.WorkerIdBitLength
+	}
+
+	// 3.WorkerId
+	var workerId = options.WorkerId
+
+	// 4.SeqBitLength
+	if options.SeqBitLength == 0 {
+		seqBitLength = 6
+	} else {
+		seqBitLength = options.SeqBitLength
+	}
+
+	// 5.MaxSeqNumber
+	if options.MaxSeqNumber <= 0 {
+		maxSeqNumber = (1 << seqBitLength) - 1
+	} else {
+		maxSeqNumber = options.MaxSeqNumber
+	}
+
+	// 6.MinSeqNumber
+	var minSeqNumber = options.MinSeqNumber
+
+	// 7.Others
+	var topOverCostCount = options.TopOverCostCount
+	if topOverCostCount == 0 {
+		topOverCostCount = 2000
+	}
+
+	timestampShift := (byte)(workerIdBitLength + seqBitLength)
+	currentSeqNumber := minSeqNumber
 
 	return &SnowWorkerM1{
 		BaseTime:          baseTime,
-		WorkerId:          workerId,
 		WorkerIdBitLength: workerIdBitLength,
+		WorkerId:          workerId,
 		SeqBitLength:      seqBitLength,
 		MaxSeqNumber:      maxSeqNumber,
 		MinSeqNumber:      minSeqNumber,
 		TopOverCostCount:  topOverCostCount,
 		_TimestampShift:   timestampShift,
-		_CurrentSeqNumber: currentSeqNumber}
+		_CurrentSeqNumber: currentSeqNumber,
+
+		_LastTimeTick:           0,
+		_TurnBackTimeTick:       0,
+		_TurnBackIndex:          0,
+		_IsOverCost:             false,
+		_OverCostCountInOneTerm: 0,
+		_GenCountInOneTerm:      0,
+		_TermIndex:              0,
+	}
 }
 
 // DoGenIDAction .

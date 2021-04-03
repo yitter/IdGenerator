@@ -1,34 +1,34 @@
 
-## ÔËĞĞ»·¾³
+## è¿è¡Œç¯å¢ƒ
 
 JDK 1.8+
 
-## ÒıÓÃ maven °ü
+## å¼•ç”¨ maven åŒ…
 ```
 <dependency>
 	<groupId>com.github.yitter</groupId>
 	<artifactId>yitter-idgenerator</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.5</version>
 </dependency>
 ```
 
-## µ÷ÓÃÊ¾Àı
+## è°ƒç”¨ç¤ºä¾‹
 
 ```
-// È«¾Ö³õÊ¼»¯ÉèÖÃWorkerId£¬Ä¬ÈÏ×î´ó2^16-1£¬¿ÉÍ¨¹ıµ÷Õû WorkerIdBitLength Ôö¼Ó×î´óÖµ
+// å…¨å±€åˆå§‹åŒ–è®¾ç½®WorkerIdï¼Œé»˜è®¤æœ€å¤§2^16-1ï¼Œå¯é€šè¿‡è°ƒæ•´ WorkerIdBitLength å¢åŠ æœ€å¤§å€¼
 IdGeneratorOptions options = new IdGeneratorOptions();
 options.WorkerId = 1;
 YitIdHelper.setIdGenerator(options);
-// ÒÔÉÏ³õÊ¼»¯¹ı³ÌÈ«¾ÖÖ»ĞèÒ»´Î£¬ÇÒ±ØĞë×îÏÈÉèÖÃ
+// ä»¥ä¸Šåˆå§‹åŒ–è¿‡ç¨‹å…¨å±€åªéœ€ä¸€æ¬¡ï¼Œä¸”å¿…é¡»æœ€å…ˆè®¾ç½®
 
-// ³õÊ¼»¯ÒÔºó£¬¼´¿ÉÔÚĞèÒªÉú³ÉIDµÄµØ·½£¬µ÷ÓÃÒÔÏÂ·½·¨¡£
+// åˆå§‹åŒ–ä»¥åï¼Œå³å¯åœ¨éœ€è¦ç”ŸæˆIDçš„åœ°æ–¹ï¼Œè°ƒç”¨ä»¥ä¸‹æ–¹æ³•ã€‚
 long newId = YitIdHelper.nextId();
 
 ```
-Èç¹û»ùÓÚDI¿ò¼Ü¼¯³É£¬¿ÉÒÔ²Î¿¼ YitIdHelper È¥¹ÜÀí IdGenerator ¶ÔÏó£¬ĞëÊ¹ÓÃ**µ¥Àı**Ä£Ê½¡£
+å¦‚æœåŸºäºDIæ¡†æ¶é›†æˆï¼Œå¯ä»¥å‚è€ƒ YitIdHelper å»ç®¡ç† IdGenerator å¯¹è±¡ï¼Œé¡»ä½¿ç”¨**å•ä¾‹**æ¨¡å¼ã€‚
 
 
-## options Ä¬ÈÏÖµ¼°ËµÃ÷
+## options é»˜è®¤å€¼åŠè¯´æ˜
 
-²Î¿¼Ô´Âë£º/contract/IdGeneratorOptions.java
+å‚è€ƒæºç ï¼š/contract/IdGeneratorOptions.java
 

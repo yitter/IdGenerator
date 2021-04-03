@@ -43,7 +43,7 @@ impl SnowWorkerM1 {
 
     pub fn SetOptions(&mut self, options: IdGeneratorOptions) {
 
-        // BaseTime
+        // 1.BaseTime
         if options.BaseTime == 0 {
             self.BaseTime = 1582136402000;
         } else if options.BaseTime < 631123200000 || options.BaseTime > Utc::now().timestamp_millis() {
@@ -52,7 +52,7 @@ impl SnowWorkerM1 {
             self.BaseTime = options.BaseTime;
         }
 
-        // WorkerIdBitLength
+        // 2.WorkerIdBitLength
         if options.WorkerIdBitLength <= 0
         {
             panic!("WorkerIdBitLength error.(range:[1, 21])");
@@ -64,15 +64,18 @@ impl SnowWorkerM1 {
             self.WorkerIdBitLength = if options.WorkerIdBitLength <= 0 { 6 } else { options.WorkerIdBitLength };
         }
 
-        // WorkerId
-        let maxWorkerIdNumber = (1 << options.WorkerIdBitLength) - 1;
+        // 3.WorkerId
+        let mut maxWorkerIdNumber = (1 << options.WorkerIdBitLength) - 1;
+        if maxWorkerIdNumber == 0 {
+            maxWorkerIdNumber = 63;
+        }
         if options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber {
-            panic!("WorkerId error. (range:[0, {} ]", if maxWorkerIdNumber <= 0 { 63 } else { maxWorkerIdNumber });
+            panic!("WorkerId error. (range:[0, {} ]", maxWorkerIdNumber);
         } else {
             self.WorkerId = options.WorkerId;
         }
 
-        // SeqBitLength
+        // 4.SeqBitLength
         if options.SeqBitLength < 2 || options.SeqBitLength > 21 {
             panic!("SeqBitLength error. (range:[2, 21])");
         } else {
@@ -80,24 +83,29 @@ impl SnowWorkerM1 {
             self.SeqBitLength = if options.SeqBitLength <= 0 { 6 } else { options.SeqBitLength };
         }
 
-        // MaxSeqNumber
-        let maxSeqNumber = (1 << options.SeqBitLength) - 1;
-        if options.MaxSeqNumber > maxSeqNumber {
+        // 5.MaxSeqNumber
+        let mut maxSeqNumber = (1 << options.SeqBitLength) - 1;
+        if maxSeqNumber == 0 {
+            maxSeqNumber = 63;
+        }
+        if options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber {
             panic!("MaxSeqNumber error. (range:[1, {}]", maxSeqNumber);
         } else {
-            self.MaxSeqNumber = if options.MaxSeqNumber <= 0 { maxSeqNumber } else { options.MaxSeqNumber };
+            self.MaxSeqNumber = if options.MaxSeqNumber == 0 { maxSeqNumber } else { options.MaxSeqNumber };
         }
 
-        // MinSeqNumber
-        if options.MinSeqNumber > maxSeqNumber || options.MinSeqNumber < 5 {
+        // 6.MinSeqNumber
+        if options.MinSeqNumber < 5 || options.MinSeqNumber > maxSeqNumber {
             panic!("MinSeqNumber error. (range:[5, {}]", maxSeqNumber);
         } else {
-            self.MinSeqNumber = if options.MinSeqNumber <= 0 { 5 } else { options.MinSeqNumber };
+            self.MinSeqNumber = options.MinSeqNumber;
+            // self.MinSeqNumber = if options.MinSeqNumber <= 0 { 5 } else { options.MinSeqNumber };
         }
 
+        // 7.Others
         self.TopOverCostCount = if options.TopOverCostCount == 0 { 2000 } else { options.TopOverCostCount };
-        self._TimestampShift = options.WorkerIdBitLength + options.SeqBitLength;
-        self._CurrentSeqNumber = options.MinSeqNumber;
+        self._TimestampShift = self.WorkerIdBitLength + self.SeqBitLength;
+        self._CurrentSeqNumber = self.MinSeqNumber;
 
         if options.Method == 1 {
             sleep(std::time::Duration::from_millis(500));
@@ -107,14 +115,15 @@ impl SnowWorkerM1 {
     pub fn New(options: IdGeneratorOptions) -> SnowWorkerM1 {
         let mut worker = SnowWorkerM1 {
             BaseTime: 1582136402000,
-            WorkerId: 0,
             WorkerIdBitLength: 0,
+            WorkerId: 0,
             SeqBitLength: 0,
             MaxSeqNumber: 0,
             MinSeqNumber: 0,
             TopOverCostCount: 0,
             _TimestampShift: 0,
             _CurrentSeqNumber: 0,
+
             _LastTimeTick: 0,
             _TurnBackTimeTick: 0,
             _TurnBackIndex: 0,

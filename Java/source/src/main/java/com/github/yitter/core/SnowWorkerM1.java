@@ -50,8 +50,8 @@ public class SnowWorkerM1 implements ISnowWorker {
     protected final static byte[] _SyncLock = new byte[0];
 
     protected short _CurrentSeqNumber;
-    protected long _LastTimeTick = -1L;
-    protected long _TurnBackTimeTick = -1L;
+    protected long _LastTimeTick = 0;
+    protected long _TurnBackTimeTick = 0;
     protected byte _TurnBackIndex = 0;
 
     protected boolean _IsOverCost = false;
@@ -60,15 +60,15 @@ public class SnowWorkerM1 implements ISnowWorker {
     protected int _TermIndex = 0;
 
     public SnowWorkerM1(IdGeneratorOptions options) {
-        WorkerId = options.WorkerId;
-        WorkerIdBitLength = options.WorkerIdBitLength == 0 ? 6 : options.WorkerIdBitLength;
-        SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
-        MaxSeqNumber = options.MaxSeqNumber > 0 ? options.MaxSeqNumber : (1 << SeqBitLength) - 1;
-        MinSeqNumber = options.MinSeqNumber;
-        TopOverCostCount = options.TopOverCostCount;
         BaseTime = options.BaseTime != 0 ? options.BaseTime : 1582136402000L;
+        WorkerIdBitLength = options.WorkerIdBitLength == 0 ? 6 : options.WorkerIdBitLength;
+        WorkerId = options.WorkerId;
+        SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
+        MaxSeqNumber = options.MaxSeqNumber <= 0 ? (1 << SeqBitLength) - 1 : options.MaxSeqNumber;
+        MinSeqNumber = options.MinSeqNumber;
+        TopOverCostCount = options.TopOverCostCount == 0 ? 2000 : options.TopOverCostCount;
         _TimestampShift = (byte) (WorkerIdBitLength + SeqBitLength);
-        _CurrentSeqNumber = options.MinSeqNumber;
+        _CurrentSeqNumber = MinSeqNumber;
     }
 
     private void DoGenIdAction(OverCostActionArg arg) {
@@ -182,11 +182,12 @@ public class SnowWorkerM1 implements ISnowWorker {
                 BeginTurnBackAction(_TurnBackTimeTick);
             }
 
-            try {
-                // Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                 Thread.sleep(1);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+
             return CalcTurnBackId(_TurnBackTimeTick);
         }
 

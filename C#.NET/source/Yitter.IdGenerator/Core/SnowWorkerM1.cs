@@ -57,8 +57,8 @@ namespace Yitter.IdGenerator
         protected static object _SyncLock = new object();
 
         protected ushort _CurrentSeqNumber;
-        protected long _LastTimeTick = -1L;
-        protected long _TurnBackTimeTick = -1L;
+        protected long _LastTimeTick = 0; // -1L
+        protected long _TurnBackTimeTick = 0; // -1L;
         protected byte _TurnBackIndex = 0;
 
         protected bool _IsOverCost = false;
@@ -74,31 +74,53 @@ namespace Yitter.IdGenerator
 
         public SnowWorkerM1(IdGeneratorOptions options)
         {
-            WorkerId = options.WorkerId;
-            WorkerIdBitLength = options.WorkerIdBitLength;
-            SeqBitLength = options.SeqBitLength;
-            MaxSeqNumber = options.MaxSeqNumber;
-            MinSeqNumber = options.MinSeqNumber;
-            TopOverCostCount = options.TopOverCostCount;
-
+            // 1.BaseTime
             if (options.BaseTime != DateTime.MinValue)
             {
                 BaseTime = options.BaseTime;
             }
 
-            if (SeqBitLength == 0)
-            {
-                SeqBitLength = 6;
-            }
-
-            if (WorkerIdBitLength == 0)
+            // 2.WorkerIdBitLength
+            if (options.WorkerIdBitLength == 0)
             {
                 WorkerIdBitLength = 6;
             }
+            else
+            {
+                WorkerIdBitLength = options.WorkerIdBitLength;
+            }
 
+            // 3.WorkerId
+            WorkerId = options.WorkerId;
+
+            // 4.SeqBitLength
+            if (options.SeqBitLength == 0)
+            {
+                SeqBitLength = 6;
+            }
+            else
+            {
+                SeqBitLength = options.SeqBitLength;
+            }
+
+            // 5.MaxSeqNumber
             if (MaxSeqNumber == 0)
             {
                 MaxSeqNumber = (1 << SeqBitLength) - 1;
+            }
+            else
+            {
+                MaxSeqNumber = options.MaxSeqNumber;
+            }
+
+            // 6.MinSeqNumber
+            MinSeqNumber = options.MinSeqNumber;
+
+            // 7.Others
+            TopOverCostCount = options.TopOverCostCount;
+            if (TopOverCostCount == 0)
+            {
+                TopOverCostCount = 2000;
             }
 
             _TimestampShift = (byte)(WorkerIdBitLength + SeqBitLength);

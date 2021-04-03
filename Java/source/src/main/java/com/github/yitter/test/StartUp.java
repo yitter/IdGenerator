@@ -53,3 +53,5 @@ public class StartUp {
         }
     }
 }
+
+// mvn clean deploy -P release
