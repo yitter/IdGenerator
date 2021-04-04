@@ -109,8 +109,7 @@ QQ群：646049993
 
 <font color="#11aaff" size="5">❄</font> WorkerId，最大值 2^WorkerIdBitLength-1。
 
-
-💍 默认配置值：
+<font color="#11aaff" size="5">❄</font> 默认配置值：
 
 ```
 WorkerIdBitLength = 6
