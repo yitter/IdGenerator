@@ -103,11 +103,11 @@ QQ群：646049993
 
 <font color="#11aaff" size="5">❄</font> WorkerIdBitLength，决定 WorkerId 的最大值。
 
-<font color="#11aaff" size="5">❄</font> SeqBitLength，决定每毫秒生成的ID个数。
+<font color="#11aaff" size="5">❄</font> SeqBitLength，决定每毫秒生成的 ID 个数。
 
-<font color="#11aaff" size="5">❄</font> WorkerIdBitLength + SeqBitLength 必须小于12。
+<font color="#11aaff" size="5">❄</font> WorkerIdBitLength + SeqBitLength 不能超过 22。
 
-<font color="#11aaff" size="5">❄</font> WorkerId，最大值2^WorkerIdBitLength-1。
+<font color="#11aaff" size="5">❄</font> WorkerId，最大值 2^WorkerIdBitLength-1。
 
 
 💍 默认配置值：
