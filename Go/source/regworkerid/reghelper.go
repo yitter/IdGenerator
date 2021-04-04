@@ -29,7 +29,7 @@ var _RedisPassword = ""
 const _WorkerIdIndexKey string = "IdGen:WorkerId:Index"        // redis 中的key
 const _WorkerIdValueKeyPrefix string = "IdGen:WorkerId:Value:" // redis 中的key
 const _WorkerIdFlag = "Y"                                      // IdGen:WorkerId:Value:xx 的值（将来可用 _token 替代）
-const _Log = true                                              // 是否输出日志
+const _Log = false                                              // 是否输出日志
 
 func Validate(workerId int32) int32 {
 	for _, value := range _workerIdList {
