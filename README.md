@@ -188,11 +188,10 @@ extern __declspec(dllexport) void UnRegister();
 extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 ```
 
-#### redis作用
+redis作用
 
-🔎 只用于注册 WorkerId ，不用于生产 ID。
+🔎 在集成“自动注册WorkerId”功能时，用于注册 WorkerId ，不用于生产 ID。
 
-🔎 如果手工指定 WorkerId，即可不依赖 redis。
 
 
 #### 💎 配置变更
