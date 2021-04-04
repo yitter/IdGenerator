@@ -195,16 +195,6 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 🔎 如果手工指定 WorkerId，即可不依赖 redis。
 
 
-#### 其它分布式集成
-
-🟢1.可增加 WorkerIdBitLength 到最大20，支持 1,048,576 个节点，且不影响上述并发性能。[算法支持]
-
-🟢2.采用中心化 IdGenerator 集群，生成可用 Id 列表，存入 Redis 队列供节点消费。此时64个中心化节点数足够大型互联网项目使用。[需集成方扩展实现]
-
-🟢3.以上2条二选一即可，采用方法2一般是因为不想增加最终 ID 长度，但节点数超过64个。
-
-🟢4.任何加大 WorkerIdBitLength 或 SeqBitLength 的设置，都可能会增加 ID 的长度。
-
 #### 💎 配置变更
 
 配置变更指是系统运行一段时间后，再变更运行参数（IdGeneratorOptions选项值），请注意：
