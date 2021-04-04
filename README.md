@@ -170,21 +170,8 @@ SeqBitLength = 6
 
 🔍 唯一ID生成器，依赖WorkerId，当业务服务需要水平自动化复制时，就要求它能自动化注册全局唯一WorkerId，然后各个容器化的无差别部署的业务服务，才能根据它生产唯一ID。
 
-🔍 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。动态库提供的C接口方法有：
-
-```
-// 注册一个 WorkerId，会先注销所有本机已注册的记录
-extern __declspec(dllexport) GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId);
-
-// 注册多个 WorkerId，会先注销所有本机已注册的记录
-extern __declspec(dllexport) int* RegisterMany(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId, GoInt32 totalCount);
-
-// 注销本机已注册的 WorkerId
-extern __declspec(dllexport) void UnRegister();
-
-// 检查本地WorkerId是否有效（0-有效，其它-无效）
-extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
-```
+🔍 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。动态库提供的C接口方法可参考
+源码文件 [ Tools/AutoRegisterWorkerId/lib/yitidgengo.h ]
 
 redis作用
 

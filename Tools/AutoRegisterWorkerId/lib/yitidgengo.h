@@ -68,15 +68,20 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
+extern __declspec(dllexport) void SetOptions(GoUint16 workerId);
+extern __declspec(dllexport) GoUint64 NextId();
 
-// 注册一个新的WorkerId
-extern __declspec(dllexport) GoInt RegisterWorkerId(char* ip, GoInt port, char* password, GoInt maxWorkerId);
+// 注册一个 WorkerId，会先注销所有本机已注册的记录
+extern __declspec(dllexport) GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId);
 
-// 注销WorkerId
-extern __declspec(dllexport) void UnRegisterWorkerId();
+// 注册多个 WorkerId，会先注销所有本机已注册的记录
+extern __declspec(dllexport) int* RegisterMany(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId, GoInt32 totalCount);
 
-// 检查本地WorkerId是否有效
-extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
+// 注销本机已注册的 WorkerId
+extern __declspec(dllexport) void UnRegister();
+
+// 检查本地WorkerId是否有效（0-有效，其它-无效）
+extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 
 #ifdef __cplusplus
 }
