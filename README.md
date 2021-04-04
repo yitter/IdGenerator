@@ -136,8 +136,9 @@ SeqBitLength = 6
 
 ### 长度估算
 
+```
 💍 每增加 1位 WorkerIdBitLength 或 SeqBitLength，生成的ID数字值将会乘以2（基础长度可参考前“ID示例”），反之则除以2。
-
+```
 
 ### 能用多久
 
@@ -174,7 +175,6 @@ SeqBitLength = 6
 🔍 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。动态库提供的C接口方法有：
 
 ```
-
 // 注册一个新的WorkerId
 extern __declspec(dllexport) GoInt RegisterWorkerId(char* ip, GoInt port, char* password, GoInt maxWorkerId);
 
@@ -183,7 +183,6 @@ extern __declspec(dllexport) void UnRegisterWorkerId();
 
 // 检查本地WorkerId是否有效
 extern __declspec(dllexport) GoUint8 ValidateLocalWorkerId(GoInt workerId);
-
 ```
 
 #### redis作用
