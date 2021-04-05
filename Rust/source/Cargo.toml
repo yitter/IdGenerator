@@ -1,5 +1,5 @@
 [package]
-name = "yitter_idgen"
+name = "idgen"
 version = "1.0.0"
 authors = ["yitter <yitter@126.com>"]
 edition = "2018"
@@ -13,10 +13,10 @@ keywords = ["snowflake", "idgenerator"]
 
 [dependencies]
 libc = "*"
-chrono = "0.4.10"
+chrono = "0.4"
 #lazy_static = "1.4.0"
 
 [lib]
-name = "yitter_idgen"
+name = "idgen"
 path = "./src/lib.rs"
 crate-type = ["cdylib"]

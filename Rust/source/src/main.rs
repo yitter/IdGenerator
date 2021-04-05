@@ -1,7 +1,6 @@
-mod yitgen;
+mod idgen;
 
-use yitgen::contract::*;
-use yitgen::gen::*;
+use idgen::*;
 use std::thread;
 use chrono::Utc;
 use std::time::Duration;

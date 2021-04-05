@@ -2,10 +2,10 @@
  * 版权属于：yitter(yitter@126.com)
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-use super::super::contract::*;
 use std::{thread};
 use chrono::Utc;
 use std::thread::sleep;
+use crate::idgen::*;
 // use lazy_static::lazy_static;
 
 pub struct SnowWorkerM1 {

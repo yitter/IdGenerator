@@ -2,11 +2,9 @@
  * 版权属于：yitter(yitter@126.com)
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
-use super::super::contract::*;
-use super::super::core::*;
-use super::*;
 use std::sync::Mutex;
 use std::sync::Arc;
+use crate::idgen::*;
 
 pub struct YitIdHelper;
 

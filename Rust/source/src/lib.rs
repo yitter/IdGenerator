@@ -1,7 +1,4 @@
-mod yitgen;
-
-use yitgen::gen::YitIdHelper;
-use yitgen::contract::*;
+mod idgen;
 
 #[macro_use]
 // extern crate lazy_static;
@@ -12,6 +9,7 @@ extern crate libc;
 use libc::{c_char, uint32_t};
 use std::ffi::{CStr, CString};
 use std::str;
+pub use idgen::*;
 
 // lazy_static! {
 //         static ref TestValue: Vec<i32> = vec!(0);

@@ -5,12 +5,10 @@
 use std::{thread, time};
 use std::net::UdpSocket;
 use chrono::Utc;
-use super::super::contract::*;
-use super::super::core::*;
-use super::*;
 use std::sync::Mutex;
 use std::sync::Arc;
 use std::borrow::BorrowMut;
+use crate::idgen::*;
 
 // static mut instance2: Option<Arc<Mutex<SnowWorkerM1>>> = None;
 
