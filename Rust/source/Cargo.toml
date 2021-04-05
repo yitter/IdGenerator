@@ -13,7 +13,7 @@ keywords = ["snowflake", "idgenerator"]
 
 [dependencies]
 libc = "*"
-chrono = "0.4"
+chrono = "0.4.19"
 #lazy_static = "1.4.0"
 
 [lib]
