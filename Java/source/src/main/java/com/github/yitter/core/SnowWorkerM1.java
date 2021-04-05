@@ -76,49 +76,17 @@ public class SnowWorkerM1 implements ISnowWorker {
     }
 
     private void BeginOverCostAction(long useTimeTick) {
-//        if (GenAction == null) {
-//            return;
-//        }
-//
-//        DoGenIdAction(new OverCostActionArg(
-//                WorkerId,
-//                useTimeTick,
-//                1,
-//                _OverCostCountInOneTerm,
-//                _GenCountInOneTerm,
-//                _TermIndex));
+
     }
 
     private void EndOverCostAction(long useTimeTick) {
         if (_TermIndex > 10000) {
             _TermIndex = 0;
         }
-//
-//        if (GenAction == null) {
-//            return;
-//        }
-//
-//        DoGenIdAction(new OverCostActionArg(
-//                WorkerId,
-//                useTimeTick,
-//                2,
-//                _OverCostCountInOneTerm,
-//                _GenCountInOneTerm,
-//                _TermIndex));
     }
 
     private void BeginTurnBackAction(long useTimeTick) {
-//        if (GenAction == null) {
-//            return;
-//        }
-//
-//        DoGenIdAction(new OverCostActionArg(
-//                WorkerId,
-//                useTimeTick,
-//                8,
-//                _OverCostCountInOneTerm,
-//                _GenCountInOneTerm,
-//                _TermIndex));
+
     }
 
     private void EndTurnBackAction(long useTimeTick) {
