@@ -14,7 +14,7 @@ JDK 1.8+
 
 ## 调用示例（Java）
 
-第1步，全局初始化（应用程序启动时执行一次）：
+第1步，**全局** 初始化（应用程序启动时执行一次）：
 ```
 // 创建 IdGeneratorOptions 对象，构造函数输入 WorkerId：
 IdGeneratorOptions options = new IdGeneratorOptions(1);
@@ -32,6 +32,6 @@ YitIdHelper.setIdGenerator(options);
 long newId = YitIdHelper.nextId();
 ```
 
-如果基于DI框架集成，可以参考 YitIdHelper 去管理 IdGenerator 对象，须使用**单例**模式。
+如果基于DI框架集成，可以参考 YitIdHelper 去管理 IdGenerator 对象，须使用 **单例** 模式。
 
 

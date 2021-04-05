@@ -22,7 +22,7 @@ go get -u -v github.com/yitter/idgenerator-go
 
 ## 调用示例（Go）
 
-第1步，全局初始化（应用程序启动时执行一次）：
+第1步，**全局** 初始化（应用程序启动时执行一次）：
 ```
 // 创建 IdGeneratorOptions 对象，构造函数输入 WorkerId：
 var options = idgen.NewIdGeneratorOptions(1)
