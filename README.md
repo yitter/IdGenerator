@@ -212,10 +212,10 @@ redis作用
 如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
 
 
-[1]: /tree/master/C%23.NET
-[2]: /tree/master/Java
-[3]: /tree/master/Go
-[4]: /tree/master/Rust
-[5]: /tree/master/C
-[6]: /tree/master/ZeOthers/Vlang
+[1]: https://github.com/yitter/idgenerator/tree/master/C%23.NET
+[2]: https://github.com/yitter/idgenerator/tree/master/Java
+[3]: https://github.com/yitter/idgenerator/tree/master/Go
+[4]: https://github.com/yitter/idgenerator/tree/master/Rust
+[5]: https://github.com/yitter/idgenerator/tree/master/C
+[6]: https://github.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
 
