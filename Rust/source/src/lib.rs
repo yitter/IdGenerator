@@ -105,3 +105,5 @@ pub extern "C" fn NextId() -> i64 {
 //
 // //return 1;
 // }
+
+// cargo build --release
