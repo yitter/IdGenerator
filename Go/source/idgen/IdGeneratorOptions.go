@@ -13,7 +13,7 @@ type IdGeneratorOptions struct {
 	WorkerIdBitLength byte   // 机器码位长，范围：1-21（要求：序列数位长+机器码位长不超过22）
 	SeqBitLength      byte   // 序列数位长，范围：2-21（要求：序列数位长+机器码位长不超过22）
 	MaxSeqNumber      uint32 // 最大序列数（含），（由SeqBitLength计算的最大值）
-	MinSeqNumber      uint32 // 最小序列数（含），默认5，不小于1，不大于MaxSeqNumber
+	MinSeqNumber      uint32 // 最小序列数（含），默认5，不小于5，不大于MaxSeqNumber
 	TopOverCostCount  uint32 // 最大漂移次数（含），默认2000，推荐范围500-10000（与计算能力有关）
 }
 

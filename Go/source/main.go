@@ -82,6 +82,6 @@ func main() {
 	}
 }
 
-// go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go
-// go install -buildmode=shared -linkshared std
-// go build -o ./target/yitidgengo.so -buildmode=c-shared main.go
+// windows: go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go
+//// go install -buildmode=shared -linkshared std
+//linux: go build -o ./target/yitidgengo.so -buildmode=c-shared main.go
