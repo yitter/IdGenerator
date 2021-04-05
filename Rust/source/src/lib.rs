@@ -5,10 +5,10 @@ use yitgen::contract::*;
 
 #[macro_use]
 extern crate lazy_static;
-extern crate redis;
+// extern crate redis;
 extern crate libc;
 
-use redis::Commands;
+// use redis::Commands;
 
 use libc::{c_char, uint32_t};
 use std::ffi::{CStr, CString};
