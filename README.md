@@ -205,11 +205,15 @@ redis作用
 
 🌲🏳️‍🌈 C：[查看示例][5]
 
+🌲🏳️‍🌈 Vlang：[查看示例][6]
+
+如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
+
 
 [1]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
 [2]: https://gitee.com/yitter/idgenerator/tree/master/Java
 [3]: https://gitee.com/yitter/idgenerator/tree/master/Go
 [4]: https://gitee.com/yitter/idgenerator/tree/master/Rust
 [5]: https://gitee.com/yitter/idgenerator/tree/master/C
-
+[6]: https://gitee.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
 

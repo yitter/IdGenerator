@@ -106,4 +106,5 @@ pub extern "C" fn NextId() -> i64 {
 // //return 1;
 // }
 
-// cargo build --release
+// build-win-x64: cargo build --release
+// build-linux-x64: cargo build --target x86_64-unknown-linux-musl --release
