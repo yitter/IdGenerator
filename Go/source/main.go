@@ -16,7 +16,7 @@ func SetOptions(workerId uint16) {
 }
 
 //export NextId
-func NextId() uint64 {
+func NextId() int64 {
 	return idgen.NextId()
 }
 

@@ -4,9 +4,9 @@
  */
 pub struct OverCostActionArg {
     ActionType: u32,
-    TimeTick: u64,
+    TimeTick: i64,
     WorkerId: u16,
-    OverCostCountInOneTerm: u32,
-    GenCountInOneTerm: u32,
-    TermIndex: u32,
+    OverCostCountInOneTerm: i32,
+    GenCountInOneTerm: i32,
+    TermIndex: i32,
 }

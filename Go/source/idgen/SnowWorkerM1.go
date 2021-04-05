@@ -128,7 +128,7 @@ func (m1 *SnowWorkerM1) EndTurnBackAction(useTimeTick int64) {
 
 }
 
-func (m1 *SnowWorkerM1) NextOverCostId() uint64 {
+func (m1 *SnowWorkerM1) NextOverCostId() int64 {
 	currentTimeTick := m1.GetCurrentTimeTick()
 	if currentTimeTick > m1._LastTimeTick {
 		m1.EndOverCostAction(currentTimeTick)
@@ -163,7 +163,7 @@ func (m1 *SnowWorkerM1) NextOverCostId() uint64 {
 }
 
 // NextNormalID .
-func (m1 *SnowWorkerM1) NextNormalId() uint64 {
+func (m1 *SnowWorkerM1) NextNormalId() int64 {
 	currentTimeTick := m1.GetCurrentTimeTick()
 	if currentTimeTick < m1._LastTimeTick {
 		if m1._TurnBackTimeTick < 1 {
@@ -209,15 +209,15 @@ func (m1 *SnowWorkerM1) NextNormalId() uint64 {
 }
 
 // CalcID .
-func (m1 *SnowWorkerM1) CalcId(useTimeTick int64) uint64 {
-	result := uint64(useTimeTick<<m1._TimestampShift) + uint64(m1.WorkerId<<m1.SeqBitLength) + uint64(m1._CurrentSeqNumber)
+func (m1 *SnowWorkerM1) CalcId(useTimeTick int64) int64 {
+	result := int64(useTimeTick<<m1._TimestampShift) + int64(m1.WorkerId<<m1.SeqBitLength) + int64(m1._CurrentSeqNumber)
 	m1._CurrentSeqNumber++
 	return result
 }
 
 // CalcTurnBackID .
-func (m1 *SnowWorkerM1) CalcTurnBackId(useTimeTick int64) uint64 {
-	result := uint64(useTimeTick<<m1._TimestampShift) + uint64(m1.WorkerId<<m1.SeqBitLength) + uint64(m1._TurnBackIndex)
+func (m1 *SnowWorkerM1) CalcTurnBackId(useTimeTick int64) int64 {
+	result := int64(useTimeTick<<m1._TimestampShift) + int64(m1.WorkerId<<m1.SeqBitLength) + int64(m1._TurnBackIndex)
 	m1._TurnBackTimeTick--
 	return result
 }
@@ -238,7 +238,7 @@ func (m1 *SnowWorkerM1) GetNextTimeTick() int64 {
 }
 
 // NextId .
-func (m1 *SnowWorkerM1) NextId() uint64 {
+func (m1 *SnowWorkerM1) NextId() int64 {
 	m1.Lock()
 	defer m1.Unlock()
 	if m1._IsOverCost {

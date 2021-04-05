@@ -3,5 +3,5 @@
  * 开源地址：https://gitee.com/yitter/idgenerator
  */
 pub trait ISnowWorker {
-    fn NextId(&self) -> u64;
+    fn NextId(&self) -> i64;
 }

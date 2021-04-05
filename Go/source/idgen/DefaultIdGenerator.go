@@ -84,6 +84,6 @@ func NewDefaultIdGenerator(options *IdGeneratorOptions) *DefaultIdGenerator {
 	}
 }
 
-func (dig DefaultIdGenerator) NewLong() uint64 {
+func (dig DefaultIdGenerator) NewLong() int64 {
 	return dig.SnowWorker.NextId()
 }

@@ -14,24 +14,24 @@
 
 pthread_mutex_t ThreadMutex = PTHREAD_MUTEX_INITIALIZER;
 
-static void EndOverCostAction(uint64_t useTimeTick, SnowFlakeWorker *worker);
+static void EndOverCostAction(int64_t useTimeTick, SnowFlakeWorker *worker);
 
-static uint64_t NextOverCostId(SnowFlakeWorker *worker);
+static int64_t NextOverCostId(SnowFlakeWorker *worker);
 
-static uint64_t NextNormalId(SnowFlakeWorker *worker);
+static int64_t NextNormalId(SnowFlakeWorker *worker);
 
-static uint64_t CalcId(SnowFlakeWorker *worker);
+static int64_t CalcId(SnowFlakeWorker *worker);
 
-static uint64_t CalcTurnBackId(SnowFlakeWorker *worker);
+static int64_t CalcTurnBackId(SnowFlakeWorker *worker);
 
 
-static inline void EndOverCostAction(uint64_t useTimeTick, SnowFlakeWorker *worker) {
+static inline void EndOverCostAction(int64_t useTimeTick, SnowFlakeWorker *worker) {
     if (worker->_TermIndex > 10000) {
         worker->_TermIndex = 0;
     }
 }
 
-static inline uint64_t NextOverCostId(SnowFlakeWorker *worker) {
+static inline int64_t NextOverCostId(SnowFlakeWorker *worker) {
     uint64_t currentTimeTick = GetCurrentTimeTick(worker);
     if (currentTimeTick > worker->_LastTimeTick) {
         EndOverCostAction(currentTimeTick, worker);
@@ -64,7 +64,7 @@ static inline uint64_t NextOverCostId(SnowFlakeWorker *worker) {
     return CalcId(worker);
 }
 
-static inline uint64_t NextNormalId(SnowFlakeWorker *worker) {
+static inline int64_t NextNormalId(SnowFlakeWorker *worker) {
     uint64_t currentTimeTick = GetCurrentTimeTick(worker);
     if (currentTimeTick < worker->_LastTimeTick) {
         if (worker->_TurnBackTimeTick < 1) {
@@ -102,14 +102,14 @@ static inline uint64_t NextNormalId(SnowFlakeWorker *worker) {
     return CalcId(worker);
 }
 
-static inline uint64_t CalcId(SnowFlakeWorker *worker) {
+static inline int64_t CalcId(SnowFlakeWorker *worker) {
     uint64_t result = (worker->_LastTimeTick << worker->_TimestampShift) | (worker->WorkerId << worker->SeqBitLength) |
                       (worker->_CurrentSeqNumber);
     worker->_CurrentSeqNumber++;
     return result;
 }
 
-static inline uint64_t CalcTurnBackId(SnowFlakeWorker *worker) {
+static inline int64_t CalcTurnBackId(SnowFlakeWorker *worker) {
     uint64_t result = (worker->_LastTimeTick << worker->_TimestampShift) | (worker->WorkerId << worker->SeqBitLength) |
                       (worker->_TurnBackTimeTick);
     worker->_TurnBackTimeTick--;
@@ -130,36 +130,36 @@ extern SnowFlakeWorker *NewSnowFlakeWorker() {
     return worker;
 }
 
-extern uint64_t WorkerM1NextId(SnowFlakeWorker *worker) {
+extern int64_t WorkerM1NextId(SnowFlakeWorker *worker) {
     pthread_mutex_lock(&ThreadMutex);
-    uint64_t id = worker->_IsOverCost ? NextOverCostId(worker) : NextNormalId(worker);
+    int64_t id = worker->_IsOverCost ? NextOverCostId(worker) : NextNormalId(worker);
     pthread_mutex_unlock(&ThreadMutex);
     return id;
 }
 
-extern uint64_t GetCurrentTimeTick(SnowFlakeWorker *worker) {
+extern int64_t GetCurrentTimeTick(SnowFlakeWorker *worker) {
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return ((uint64_t) tv.tv_sec * 1000 + tv.tv_usec / 1000 - worker->BaseTime);
+    return ((int64_t) tv.tv_sec * 1000 + tv.tv_usec / 1000 - worker->BaseTime);
 }
 
-extern uint64_t GetCurrentTime() {
+extern int64_t GetCurrentTime() {
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return ((uint64_t) (tv.tv_sec)) * 1000 + tv.tv_usec / 1000;
+    return ((int64_t) (tv.tv_sec)) * 1000 + tv.tv_usec / 1000;
 
     //static struct timeb t1;
     //    ftime(&t1);
     //    return (uint64_t) ((t1.time * 1000 + t1.millitm));
 }
 
-extern uint64_t GetCurrentMicroTime() {
+extern int64_t GetCurrentMicroTime() {
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return ((uint64_t) tv.tv_sec * 1000000 + tv.tv_usec);
+    return ((int64_t) tv.tv_sec * 1000000 + tv.tv_usec);
 }
 
-extern uint64_t GetNextTimeTick(SnowFlakeWorker *worker) {
+extern int64_t GetNextTimeTick(SnowFlakeWorker *worker) {
     uint64_t tempTimeTicker = GetCurrentTimeTick(worker);
     while (tempTimeTicker <= worker->_LastTimeTick) {
         tempTimeTicker = GetCurrentTimeTick(worker);

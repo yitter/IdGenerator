@@ -41,13 +41,13 @@ typedef struct SnowFlakeWorker {
 
 extern SnowFlakeWorker *NewSnowFlakeWorker();
 
-extern uint64_t WorkerM1NextId(SnowFlakeWorker *worker);
+extern int64_t WorkerM1NextId(SnowFlakeWorker *worker);
 
-extern uint64_t GetCurrentTimeTick(SnowFlakeWorker *worker);
+extern int64_t GetCurrentTimeTick(SnowFlakeWorker *worker);
 
-extern uint64_t GetNextTimeTick(SnowFlakeWorker *worker);
+extern int64_t GetNextTimeTick(SnowFlakeWorker *worker);
 
-extern uint64_t GetCurrentTime();
+extern int64_t GetCurrentTime();
 
-extern uint64_t GetCurrentMicroTime();
+extern int64_t GetCurrentMicroTime();
 

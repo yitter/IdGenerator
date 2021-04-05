@@ -21,7 +21,7 @@ func NewSnowWorkerM2(options *IdGeneratorOptions) ISnowWorker {
 	}
 }
 
-func (m2 SnowWorkerM2) NextId() uint64 {
+func (m2 SnowWorkerM2) NextId() int64 {
 	m2.Lock()
 	defer m2.Unlock()
 	currentTimeTick := m2.GetCurrentTimeTick()
@@ -38,6 +38,6 @@ func (m2 SnowWorkerM2) NextId() uint64 {
 		fmt.Println("Time error for {0} milliseconds", strconv.FormatInt(m2._LastTimeTick-currentTimeTick, 10))
 	}
 	m2._LastTimeTick = currentTimeTick
-	result := uint64(currentTimeTick << m2._TimestampShift) + uint64(m2.WorkerId<<m2.SeqBitLength) + uint64(m2._CurrentSeqNumber)
+	result := int64(currentTimeTick << m2._TimestampShift) + int64(m2.WorkerId<<m2.SeqBitLength) + int64(m2._CurrentSeqNumber)
 	return result
 }

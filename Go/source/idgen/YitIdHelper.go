@@ -15,7 +15,7 @@ func SetIdGenerator(options *IdGeneratorOptions) {
 }
 
 // NextId .
-func NextId() uint64 {
+func NextId() int64 {
 	if idGenerator == nil {
 		singletonMutex.Lock()
 		defer singletonMutex.Unlock()

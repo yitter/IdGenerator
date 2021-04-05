@@ -13,18 +13,13 @@ extern void SetIdGenerator(IdGeneratorOptions options) {
 
 extern void SetWorkerId(uint32_t workerId) {
     IdGeneratorOptions options = BuildIdGenOptions(workerId);
-    // SetOptions(options);
     SetIdGenerator(options);
 }
 
-extern uint64_t NextId() {
+extern int64_t NextId() {
     return GetIdGenInstance()->NextId();
 //    IdGenerator *generator = GetIdGenInstance();
 //    uint64_t id = generator->NextId();
 //    free(generator);
 //    return id;
-}
-
-extern uint64_t TestId() {
-    return 123456;
 }

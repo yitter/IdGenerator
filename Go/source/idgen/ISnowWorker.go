@@ -7,5 +7,5 @@
 package idgen
 
 type ISnowWorker interface {
-	NextId() uint64
+	NextId() int64
 }

@@ -15,7 +15,5 @@ TAP_DLLEXPORT
 extern void TAP_STDCALL SetWorkerId(uint32_t workerId);
 
 TAP_DLLEXPORT
-extern uint64_t TAP_STDCALL NextId();
+extern int64_t TAP_STDCALL NextId();
 
-TAP_DLLEXPORT
-extern uint64_t TAP_STDCALL TestId();
