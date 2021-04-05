@@ -195,27 +195,33 @@ redis作用
 🔎 在集成“自动注册WorkerId”功能时，用于注册 WorkerId ，不用于生产 ID。
 
 
-## 💎 代码示例
+## 💎 已实现的语言
 
-🌲🏳️‍🌈 C#：[查看示例][1]
+🌲🏳️‍🌈 C#：github: [查看示例][1] | gitee: [查看示例][11] 
 
-🌲🏳️‍🌈 Java：[查看示例][2]
+🌲🏳️‍🌈 Java：github: [查看示例][2] | gitee: [查看示例][21] 
 
-🌲🏳️‍🌈 Go：[查看示例][3]
+🌲🏳️‍🌈 Go：github: [查看示例][3] | gitee: [查看示例][31] 
 
-🌲🏳️‍🌈 Rust：[查看示例][4]
+🌲🏳️‍🌈 Rust：github: [查看示例][4] | gitee: [查看示例][41] 
 
-🌲🏳️‍🌈 C：[查看示例][5]
+🌲🏳️‍🌈 C：github: [查看示例][5] | gitee: [查看示例][51] 
 
-🌲🏳️‍🌈 Vlang：[查看示例][6]
+🌲🏳️‍🌈 Vlang：github: [查看示例][6] | gitee: [查看示例][61] 
 
 如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
 
 
-[1]: ./idgenerator/C%23.NET
+[1]: https://github.com/yitter/idgenerator/tree/master/%23.NET
 [2]: https://github.com/yitter/idgenerator/tree/master/Java
 [3]: https://github.com/yitter/idgenerator/tree/master/Go
 [4]: https://github.com/yitter/idgenerator/tree/master/Rust
 [5]: https://github.com/yitter/idgenerator/tree/master/C
 [6]: https://github.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
 
+[11]: https://gitee.com/yitter/idgenerator/tree/master/%23.NET
+[21]: https://gitee.com/yitter/idgenerator/tree/master/Java
+[31]: https://gitee.com/yitter/idgenerator/tree/master/Go
+[41]: https://gite.com/yitter/idgenerator/tree/master/Rust
+[51]: https://gitee.com/yitter/idgenerator/tree/master/C
+[61]: https://gitee.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
