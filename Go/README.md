@@ -1,21 +1,9 @@
-#  ❄ idenerator-go
+﻿#  ❄ idenerator-go
 
 ## 介绍
 项目更多介绍参照：https://github.com/yitter/idgenerator
 
-## Go环境
-
-1.SDK，go1.14
-
-2.启用 Go-Modules
-```
-go env -w GO111MODULE=on
-
-# Next *ONLY* for China-Users:
-go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct
-```
-
-3. 安装方式
+## 引用全局库
 ```
 go get -u -v github.com/yitter/idgenerator-go
 ```
@@ -40,5 +28,18 @@ idgen.SetIdGenerator(options)
 var newId = idgen.NextId()
 ```
 
+## 关于Go环境
+
+1.SDK，go1.14
+
+2.启用 Go-Modules
+```
+go env -w GO111MODULE=on
+
+# Next *ONLY* for China-Users:
+go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct
+```
+
 ## 代码贡献者(按时间顺序)
 guoyahao | amuluowin | houseme
+

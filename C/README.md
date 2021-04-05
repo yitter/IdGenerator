@@ -1,4 +1,4 @@
-# idgenerator
+﻿# idgenerator
 
 ## 编译说明
 

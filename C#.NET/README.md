@@ -1,9 +1,9 @@
-
+﻿
 ## 运行环境
 
 .NET Standard 2.0+
 
-## 引用nuget包
+## 引用 nuget 包
 ```
 <PackageReference Include="Yitter.IdGenerator" Version="1.0.*" />
 ```

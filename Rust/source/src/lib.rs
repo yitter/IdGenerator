@@ -14,17 +14,17 @@ use libc::{c_char, uint32_t};
 use std::ffi::{CStr, CString};
 use std::str;
 
-lazy_static! {
-        //static ref TestValue: Vec<i32> = vec!(0);
-        // static ref MAP: HashMap<u32, String> = HashMap::new();
- }
+// lazy_static! {
+//         static ref TestValue: Vec<i32> = vec!(0);
+//         static ref MAP: HashMap<u32, String> = HashMap::new();
+//  }
 
 
-// // #[export_name = "SetIdGenerator"]
-// #[no_mangle]
-// pub extern "C" fn SetIdGenerator(options: IdGeneratorOptions) {
-//     YitIdHelper::SetIdGenerator(options);
-// }
+// #[export_name = "SetIdGenerator"]
+#[no_mangle]
+pub extern "C" fn SetIdGenerator(options: IdGeneratorOptions) {
+    YitIdHelper::SetIdGenerator(options);
+}
 
 #[no_mangle]
 pub extern "C" fn SetOptions(workerId: u32, workerIdBitLength: u8, seqBitLength: u8) {
