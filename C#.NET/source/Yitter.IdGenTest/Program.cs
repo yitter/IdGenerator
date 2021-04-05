@@ -24,22 +24,6 @@ namespace Yitter.OrgSystem.TestA
         static int workerCount = 1;
 
 
-        //[DllImport("yitidgenc.dll", CallingConvention = CallingConvention.StdCall)]
-        //public static extern long NextId();
-
-        [DllImport("yitidgengo.dll", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
-        public static extern long NextId2();
-
-        [DllImport("yitidgengo.so", EntryPoint = "NextId", CallingConvention = CallingConvention.StdCall)]
-        public static extern long NextId();
-
-        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern void SetWorkerId(uint workerId);
-
-        [DllImport("yitidgen.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern int TestId();
-
-
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World! C#");
@@ -74,46 +58,6 @@ namespace Yitter.OrgSystem.TestA
                 //CallDll();
                 //Go(options);
                 Thread.Sleep(1000); // 每隔1秒执行一次Go
-            }
-        }
-
-
-        private static void CallDll()
-        {
-            try
-            {
-                int i = 0;
-                long id = 0;
-                DateTime start = DateTime.Now;
-                bool useMultiThread = false;
-
-                //var ids = TestId();
-                //SetWorkerId(1);
-
-                while (i < 50000)
-                {
-                    i++;
-
-                    if (useMultiThread)
-                    {
-                        Task.Run(() =>
-                         {
-                             id = NextId();
-                             Console.WriteLine("id：" + id);
-                         });
-                    }
-                    else
-                    {
-                        id = NextId();
-                    }
-                }
-                DateTime end = DateTime.Now;
-                Console.WriteLine("id:" + id);
-                Console.WriteLine($"+++++++++++C# call rust dll, gen 5W, total: {(end - start).TotalMilliseconds} ms");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
             }
         }
 

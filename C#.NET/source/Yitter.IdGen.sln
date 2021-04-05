@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yitter.IdGenerator", "Yitte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yitter.IdGenTest", "Yitter.IdGenTest\Yitter.IdGenTest.csproj", "{67426F7D-0A3B-4645-B4D7-5487215D3E2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YitIdGen.WinFormApp", "YitIdGen.WinFormApp\YitIdGen.WinFormApp.csproj", "{1035D82E-3F37-4940-AA32-5D1E0E53AFA5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{67426F7D-0A3B-4645-B4D7-5487215D3E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67426F7D-0A3B-4645-B4D7-5487215D3E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67426F7D-0A3B-4645-B4D7-5487215D3E2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1035D82E-3F37-4940-AA32-5D1E0E53AFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1035D82E-3F37-4940-AA32-5D1E0E53AFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1035D82E-3F37-4940-AA32-5D1E0E53AFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1035D82E-3F37-4940-AA32-5D1E0E53AFA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
