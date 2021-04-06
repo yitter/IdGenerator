@@ -197,6 +197,8 @@ QQ群：646049993
 
 🔍 通过redis注册WorkerId，并不是唯一的方法。你也可以自己开发一个配置中心服务，各个应用服务启动时，通过配置中心获取唯一 WorkerId。
 
+🔍 当然，如果你的服务不需要自动扩展，你就不必自动注册WorkerId，而是为每个应用手工设定一个唯一值。
+
 
 动态库下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
 
