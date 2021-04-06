@@ -236,6 +236,8 @@ namespace Yitter.IdGenerator
             {
                 EndOverCostAction(currentTimeTick);
 
+                // TODO: 在漂移终止，等待时间对齐时，如果发生时间回拨较长，则此处可能等待较长时间。可优化为：在漂移终止时增加时间回拨应对逻辑。（该情况发生概率很低）
+
                 _LastTimeTick = GetNextTimeTick();
                 _CurrentSeqNumber = MinSeqNumber;
                 _IsOverCost = false;
