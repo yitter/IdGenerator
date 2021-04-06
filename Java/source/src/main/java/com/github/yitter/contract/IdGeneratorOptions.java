@@ -6,7 +6,7 @@ package com.github.yitter.contract;
 
 /**
  * 雪花算法使用的参数
- * 此处代码不采用 get/set 那种冗长的写法
+ * 参数说明，参考 README.md 的 “配置参数” 章节。
  */
 public class IdGeneratorOptions {
 
@@ -23,35 +23,32 @@ public class IdGeneratorOptions {
     public long BaseTime = 1582136402000L;
 
     /**
-     * 机器码，必须由外部系统设置
-     * 与 WorkerIdBitLength 有关系
-     * （short类型，最大值32766，如果有更高要求，请修改数据类型，或联系作者)
+     * 机器码
+     * 必须由外部设定，最大值 2^WorkerIdBitLength-1
      */
     public short WorkerId = 0;
 
     /**
      * 机器码位长
-     * 范围：1-21（要求：序列数位长+机器码位长不超过22）。
-     * 建议范围：6-12。
+     * 默认值6，取值范围 [1, 15]（要求：序列数位长+机器码位长不超过22）
      */
     public byte WorkerIdBitLength = 6;
 
     /**
      * 序列数位长
-     * 范围：2-21（要求：序列数位长+机器码位长不超过22）。
-     * 建议范围：6-14。
+     * 默认值6，取值范围 [3, 21]（要求：序列数位长+机器码位长不超过22）
      */
     public byte SeqBitLength = 6;
 
     /**
      * 最大序列数（含）
-     * （由SeqBitLength计算的最大值）
+     * 设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1]）
      */
     public short MaxSeqNumber = 0;
 
     /**
      * 最小序列数（含）
-     * 默认5，不小于5，不大于MaxSeqNumber
+     * 默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号是0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位
      */
     public short MinSeqNumber = 5;
 

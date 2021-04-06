@@ -102,23 +102,6 @@ QQ群：646049993
 🔶 允许时间回拨至本算法预设基数（参数可调）。
 
 
-## 💎 配置参数
-
-<font color="#11aaff" size="5">❄</font> WorkerIdBitLength，决定 WorkerId 的最大值。
-
-<font color="#11aaff" size="5">❄</font> SeqBitLength，决定每毫秒生成的 ID 个数。
-
-<font color="#11aaff" size="5">❄</font> WorkerIdBitLength + SeqBitLength 不能超过 22。
-
-<font color="#11aaff" size="5">❄</font> WorkerId，最大值 2^WorkerIdBitLength-1。
-
-<font color="#11aaff" size="5">❄</font> 默认配置值：
-
-```
-WorkerIdBitLength = 6
-SeqBitLength = 6
-```
-
 ## 💎 ID组成
 
  * 本算法生成的ID由3部分组成（沿用雪花算法定义）：
@@ -161,6 +144,19 @@ SeqBitLength = 6
 🔵 在支持 1024 个工作节点时，ID可用 4480 年不重复。
 
 🔵 在支持 4096 个工作节点时，ID可用 1120 年不重复。
+
+
+## 💎 配置参数
+
+<font color="#11aaff" size="5">❄</font> WorkerIdBitLength，WorkerId位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，。
+
+<font color="#11aaff" size="5">❄</font> SeqBitLength，自增数位长，默认值6，取值范围 [3, 21]（建议不小于4），决定每毫秒生成的 ID 个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
+
+<font color="#11aaff" size="5">❄</font> WorkerId，机器码，无默认值，必须由外部设定，最大值 2^WorkerIdBitLength-1。不同机器或不同应用不能相同，本算法提供一个通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
+
+<font color="#11aaff" size="5">❄</font> MinSeqNumber，最小自增数，默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个自增数对应编号是0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位。
+
+<font color="#11aaff" size="5">❄</font> MaxSeqNumber，最大自增数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大自增数取最大值（2^SeqBitLength-1]），不为0时，用该设置值为最大自增数，一般不用设置最大自增数，除非多机共享WorkerId分段生成ID（此时还要正确设置最小自增数）。
 
 
 ## 💎 常规集成

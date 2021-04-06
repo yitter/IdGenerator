@@ -29,34 +29,31 @@ namespace Yitter.IdGenerator
 
         /// <summary>
         /// 机器码
-        /// 与 WorkerIdBitLength 有关系
-        /// （ushort类型，最大值65535，如果有更高要求，请修改数据类型，或联系作者)
+        /// 必须由外部设定，最大值 2^WorkerIdBitLength-1
         /// </summary>
         public virtual ushort WorkerId { get; set; } = 0;
 
         /// <summary>
         /// 机器码位长
-        /// 范围：1-21（要求：序列数位长+机器码位长不超过22）。
-        /// 建议范围：6-12。
+        /// 默认值6，取值范围 [1, 15]（要求：序列数位长+机器码位长不超过22）
         /// </summary>
         public virtual byte WorkerIdBitLength { get; set; } = 6;//10;
 
         /// <summary>
         /// 序列数位长
-        /// 范围：2-21（要求：序列数位长+机器码位长不超过22）。
-        /// 建议范围：6-14。
+        /// 默认值6，取值范围 [3, 21]（要求：序列数位长+机器码位长不超过22）
         /// </summary>
         public virtual byte SeqBitLength { get; set; } = 6;//10;
 
         /// <summary>
         /// 最大序列数（含）
-        /// （由SeqBitLength计算的最大值）
+        /// 设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1]）
         /// </summary>
         public virtual int MaxSeqNumber { get; set; } = 0;
 
         /// <summary>
         /// 最小序列数（含）
-        /// 默认5，不小于5，不大于MaxSeqNumber
+        /// 默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号是0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位
         /// </summary>
         public virtual ushort MinSeqNumber { get; set; } = 5;
 
