@@ -8,7 +8,7 @@ JDK 1.8+
 <dependency>
 	<groupId>com.github.yitter</groupId>
 	<artifactId>yitter-idgenerator</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 </dependency>
 ```
 
