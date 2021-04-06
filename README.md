@@ -148,7 +148,7 @@ QQ群：646049993
 
 ## 💎 参数设置
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerIdBitLength***</font>，WorkerId位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，实际上有些语言采用 无符号ushort(uint16) 类型接收该参数，所以最大值是16，如果是采用有符号short(int16)，则最大值为15。
+<font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerIdBitLength***</font>，机器码位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，实际上有些语言采用 无符号ushort(uint16) 类型接收该参数，所以最大值是16，如果是采用有符号short(int16)，则最大值为15。
 
 <font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerId***</font>，机器码，无默认值，必须由外部设定，最大值 2^WorkerIdBitLength-1（实际上根据语言的实现不同可能会限定在 65535 或 32766，原理同 WorkerIdBitLength 的规则）。不同机器或不同应用不能相同，本算法提供一个通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
 
