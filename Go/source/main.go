@@ -4,7 +4,6 @@ import (
 	"C"
 	"fmt"
 	"time"
-	"unsafe"
 	"yitidgen/idgen"
 	"yitidgen/regworkerid"
 )
@@ -27,10 +26,11 @@ func RegisterOne(ip *C.char, port int32, password *C.char, maxWorkerId int32) in
 }
 
 // 注册多个 WorkerId，会先注销所有本机已注册的记录
-//export RegisterMany
-func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId int32, totalCount int32) *C.int {
-	values := regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount)
-	return (*C.int)(unsafe.Pointer(&values))
+///export RegisterMany
+func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId int32, totalCount int32) []int32 {
+	//values := regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount)
+	//return (*C.int)(unsafe.Pointer(&values))
+	return regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount);
 }
 
 // 注销本机已注册的 WorkerId
@@ -82,6 +82,8 @@ func main() {
 	}
 }
 
-// windows: go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go
-//// go install -buildmode=shared -linkshared std
-//linux: go build -o ./target/yitidgengo.so -buildmode=c-shared main.go
+// windows:
+// go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go
+
+// linux init: go install -buildmode=shared -linkshared std
+// go build -o ./target/yitidgengo.so -buildmode=c-shared main.go
