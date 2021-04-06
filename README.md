@@ -200,6 +200,10 @@ QQ群：646049993
 动态库接口定义：
 ```
 // 注册一个 WorkerId，会先注销所有本机已注册的记录
+// ip: redis 服务器地址
+// port: redis 端口
+// password: redis 访问密码，可为空字符串“”
+// maxWorkerId: 最大 WorkerId
 extern __declspec(dllexport) GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId);
 
 // 注销本机已注册的 WorkerId
