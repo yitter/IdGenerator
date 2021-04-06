@@ -26,7 +26,7 @@ typedef struct IdGenOptions {
     /// 最大序列数（含），设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1]）
     uint32_t MaxSeqNumber;
 
-    /// 最小序列数（含），默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号是0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位
+    /// 最小序列数（含），默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位
     uint32_t MinSeqNumber;
 
     /// 最大漂移次数（含），默认2000，推荐范围 500-20000（与计算能力有关）

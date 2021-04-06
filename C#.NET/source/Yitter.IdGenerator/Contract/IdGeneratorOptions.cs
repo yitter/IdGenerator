@@ -53,7 +53,7 @@ namespace Yitter.IdGenerator
 
         /// <summary>
         /// 最小序列数（含）
-        /// 默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号是0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位
+        /// 默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位
         /// </summary>
         public virtual ushort MinSeqNumber { get; set; } = 5;
 
