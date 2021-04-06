@@ -193,7 +193,9 @@ QQ群：646049993
 
 🔍 唯一ID生成器，依赖WorkerId，当业务服务需要水平无差别复制时，就要求它能自动注册全局唯一WorkerId，然后才能根据它生产唯一ID。
 
-🔍 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。由于动态库文件较大，目前源码中不含编译后的 so （linux）和 dll（windows）文件。
+🔍 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。
+
+动态库下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
 
 动态库接口定义：
 ```
