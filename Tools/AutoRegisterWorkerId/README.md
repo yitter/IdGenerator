@@ -2,15 +2,7 @@
 
 ## 关于AutoRegisterWorkerId
 
-这是自动注册 WorkerId 的工具。可在容器环境下集成使用。
-
-
-## 步骤集成
-
-全局执行一次：
-
-1.设置Redis连接。
-
-2.获取 WorkerId，赋值给 IdGenerator。
+自动注册 WorkerId 参考：
+https://gitee.com/yitter/idgenerator#%E8%87%AA%E5%8A%A8%E6%B3%A8%E5%86%8Cworkerid
 
 
