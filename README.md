@@ -193,7 +193,10 @@ QQ群：646049993
 
 🔍 唯一ID生成器，依赖WorkerId，当业务服务需要水平无差别复制时，就要求它能自动注册全局唯一WorkerId，然后才能根据它生产唯一ID。
 
-🔍 本算法提供一个开源的动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。
+🔍 本算法提供一个开源动态库（go语言实现），能在容器 k8s（或其它容器化集群） 环境下，通过 redis 自动注册 WorkerId。
+
+🔍 通过redis注册WorkerId，并不是唯一的方法。你也可以自己开发一个配置中心服务，各个应用服务启动时，通过配置中心获取唯一 WorkerId。
+
 
 动态库下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
 
@@ -212,13 +215,6 @@ extern __declspec(dllexport) void UnRegister();
 // 检查本地WorkerId是否有效（0-有效，其它-无效）
 extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 ```
-
-redis作用
-
-🔎 在集成“自动注册WorkerId”功能时，用于注册 WorkerId ，不用于生产 ID。
-
-🔎 通过redis注册WorkerId，并不是唯一的方法。你也可以自己开发一个配置中心服务，各个应用终端通过配置中心获取唯一WorkerId。
-
 
 ## 💎 已实现的语言
 
