@@ -227,6 +227,7 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 | 🌲 Go| [查看示例][3]  | [查看示例][31]  |  
 | 🌲 Rust | [查看示例][4]  | [查看示例][41]  |  
 | 🌲 C | [查看示例][5]  | [查看示例][51]  |  
+| 🌲 PHP扩展 | [查看示例][7]  | [查看示例][71]  |  
 | 🌲 Vlang | [查看示例][6]  | [查看示例][61]  |  
 
 如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
@@ -238,6 +239,7 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 [4]: https://github.com/yitter/idgenerator/tree/master/Rust
 [5]: https://github.com/yitter/idgenerator/tree/master/C
 [6]: https://github.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
+[7]: https://github.com/yitter/idgenerator/tree/master/PHP
 
 [11]: https://gitee.com/yitter/idgenerator/tree/master/%23.NET
 [21]: https://gitee.com/yitter/idgenerator/tree/master/Java
@@ -245,3 +247,4 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 [41]: https://gite.com/yitter/idgenerator/tree/master/Rust
 [51]: https://gitee.com/yitter/idgenerator/tree/master/C
 [61]: https://gitee.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
+[71]: https://gitee.com/yitter/idgenerator/tree/master/PHP
