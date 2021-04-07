@@ -64,12 +64,12 @@ static int snowdrift_init()
   if (shm_alloc(&shmctx) == -1)
   {
     zend_throw_exception_ex(NULL, 0, "shared memory malloc failed");
-    RETURN_FALSE;
+    return FAILURE;
   }
   if (SD_G(MaxSeqNumber) <= SD_G(MinSeqNumber))
   {
     zend_throw_exception_ex(NULL, 0, "MaxSeqNumber must GE then MinSeqNumber");
-    RETURN_FALSE;
+    return FAILURE;
   }
   bzero(shmctx.addr, num * sizeof(snowflake));
   sf = (snowflake *)shmctx.addr;
