@@ -35,7 +35,7 @@ static struct shm shmctx;
 static snowflake *sf;
 zend_class_entry snowdrift_ce;
 
-uint8_t num = 0;
+static uint8_t wid_num = 0;
 
 /* {{{ PHP_INI  */
 
@@ -43,7 +43,7 @@ PHP_INI_BEGIN()
 STD_PHP_INI_ENTRY("snowdrift.Method", "1", PHP_INI_SYSTEM, OnUpdateLongGEZero, Method, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.BaseTime", "1582136402000", PHP_INI_SYSTEM, OnUpdateLongGEZero, BaseTime, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.WorkerId", "1", PHP_INI_SYSTEM, OnUpdateLongGEZero, WorkerId, zend_snowdrift_globals, snowdrift_globals)
-STD_PHP_INI_ENTRY("snowdrift.WorkerIdNum", "1", PHP_INI_SYSTEM, OnUpdateLongGEZero, WorkerIdNum, zend_snowdrift_globals, snowdrift_globals)
+STD_PHP_INI_ENTRY("snowdrift.WorkerIdNum", "63", PHP_INI_SYSTEM, OnUpdateLongGEZero, WorkerIdNum, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.WorkerIdBitLength", "6", PHP_INI_SYSTEM, OnUpdateLongGEZero, WorkerIdBitLength, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.SeqBitLength", "6", PHP_INI_SYSTEM, OnUpdateLongGEZero, SeqBitLength, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.MaxSeqNumber", "0", PHP_INI_SYSTEM, OnUpdateLongGEZero, MaxSeqNumber, zend_snowdrift_globals, snowdrift_globals)
@@ -55,25 +55,23 @@ PHP_INI_END()
 
 static int snowdrift_init()
 {
-  num = (-1L << SD_G(WorkerIdBitLength)) ^ -1L;
-  if (SD_G(WorkerIdNum) < num)
+  wid_num = (-1L << SD_G(WorkerIdBitLength)) ^ -1L;
+  if (SD_G(WorkerIdNum) < wid_num)
   {
-    num = SD_G(WorkerIdNum);
+    wid_num = SD_G(WorkerIdNum);
   }
-  shmctx.size = num * sizeof(snowflake);
+  shmctx.size = wid_num * sizeof(snowflake);
   if (shm_alloc(&shmctx) == -1)
   {
-    zend_throw_exception_ex(NULL, 0, "shared memory malloc failed");
     return FAILURE;
   }
-  if (SD_G(MaxSeqNumber) <= SD_G(MinSeqNumber))
+  if (SD_G(MaxSeqNumber) < SD_G(MinSeqNumber))
   {
-    zend_throw_exception_ex(NULL, 0, "MaxSeqNumber must GE then MinSeqNumber");
     return FAILURE;
   }
-  bzero(shmctx.addr, num * sizeof(snowflake));
+  bzero(shmctx.addr, wid_num * sizeof(snowflake));
   sf = (snowflake *)shmctx.addr;
-  for (int i = 0; i < num; i++)
+  for (int i = 0; i < wid_num; i++)
   {
     snowflake *tmp = (sf + i);
     tmp->Method = SD_G(Method);
@@ -97,9 +95,9 @@ PHP_METHOD(snowdrift, NextId)
     RETURN_FALSE;
   }
   wid--;
-  if (wid < 0 || wid > num - 1)
+  if (wid < 0 || wid > wid_num)
   {
-    zend_throw_exception_ex(NULL, 0, "wid error! wid between 0 and %d", num - 1);
+    zend_throw_exception_ex(NULL, 0, "wid error! wid between 1 and %d", wid_num);
     RETURN_NULL();
   }
   snowflake *flake = (sf + wid);
@@ -117,9 +115,9 @@ PHP_METHOD(snowdrift, NextNumId)
     RETURN_FALSE;
   }
   wid--;
-  if (wid < 0 || wid > num - 1)
+  if (wid < 0 || wid > wid_num)
   {
-    zend_throw_exception_ex(NULL, 0, "wid error! wid between 0 and %d", num - 1);
+    zend_throw_exception_ex(NULL, 0, "wid error! wid between 1 and %d", wid_num);
     RETURN_NULL();
   }
   snowflake *flake = (sf + wid);

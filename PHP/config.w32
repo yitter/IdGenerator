@@ -8,10 +8,11 @@
 ARG_ENABLE("snowdrift", "enable snowdrift support", "no");
 
 if (PHP_SNOWDRIFT != "no") {
-	THIS_DIR=`dirname $0`
-  	snowdrift_source_file="snowdrift.c\
-  	$THIS_DIR/src/snowflake/snowflake.c
-  	"
+	snowdrift_source_file="snowdrift.c\
+	src/snowflake/snowflake.c\
+	src/snowflake/shm.c\
+	src/snowflake/spinlock.c
+	"
 	EXTENSION("snowdrift", $snowdrift_source_file, PHP_EXTNAME_SHARED, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
 }
 
