@@ -1,0 +1,36 @@
+language: php
+
+compiler:
+  - gcc
+  - clang
+
+os:
+  - linux
+
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
+  - 8.0
+#  - nightly
+
+notifications:
+  email: 63851587@qq.com
+
+env:
+  - REPORT_EXIT_STATUS=1 NO_INTERACTION=1
+
+before_install:
+  - chmod +x ./travis/compile.sh
+  - chmod +x ./travis/run-tests.sh
+
+#Compile
+before_script:
+    - ./travis/compile.sh
+
+# Run PHPs run-tests.php
+script:
+    - ./travis/run-tests.sh

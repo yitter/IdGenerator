@@ -1,0 +1,17 @@
+// $Id$
+// vim:ft=javascript
+
+// If your extension references something external, use ARG_WITH
+// ARG_WITH("snowdrift", "for snowdrift support", "no");
+
+// Otherwise, use ARG_ENABLE
+ARG_ENABLE("snowdrift", "enable snowdrift support", "no");
+
+if (PHP_SNOWDRIFT != "no") {
+	THIS_DIR=`dirname $0`
+  	snowdrift_source_file="snowdrift.c\
+  	$THIS_DIR/src/snowflake/snowflake.c
+  	"
+	EXTENSION("snowdrift", $snowdrift_source_file, PHP_EXTNAME_SHARED, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
+}
+
