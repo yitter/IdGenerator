@@ -1,8 +1,8 @@
-# idgenerator
+ï»¿# idgenerator
 
-## ¹ØÓÚAutoRegisterWorkerId
+## å…³äºAutoRegisterWorkerId
 
-×Ô¶¯×¢²á WorkerId ²Î¿¼£º
+è‡ªåŠ¨æ³¨å†Œ WorkerId å‚è€ƒï¼š
 https://gitee.com/yitter/idgenerator#%E8%87%AA%E5%8A%A8%E6%B3%A8%E5%86%8Cworkerid
 
 
