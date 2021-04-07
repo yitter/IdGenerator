@@ -150,13 +150,13 @@ QQ群：646049993
 
 <font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerIdBitLength***</font>，机器码位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，实际上有些语言采用 无符号ushort(uint16) 类型接收该参数，所以最大值是16，如果是采用有符号short(int16)，则最大值为15。
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerId***</font>，机器码，无默认值，必须由外部设定，默认情况下最大值63，理论最大值 2^WorkerIdBitLength-1（实际上根据语言的实现不同可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 的规则）。不同机器或不同应用实例不可相同，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
+<font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerId***</font>，机器码，**最重要参数**，无默认值，必须由外部设定，默认情况下最大值63，理论最大值 2^WorkerIdBitLength-1（实际上根据语言的实现不同可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 的规则）。不同机器或不同应用实例不可相同，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
 
 <font color="#11aaff" size="5">❄</font> <font color=blue>***SeqBitLength***</font>，序列数位长，默认值6，取值范围 [3, 21]（建议不小于4），决定每毫秒生成的 ID 个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
 
 <font color="#11aaff" size="5">❄</font> <font color=blue>***MinSeqNumber***</font>，最小序列数，默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位。
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***MaxSeqNumber***</font>，最大序列数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1]），不为0时，用该设置值为最大序列数，一般不用设置最大序列数，除非多机共享WorkerId分段生成ID（此时还要正确设置最小序列数）。
+<font color="#11aaff" size="5">❄</font> <font color=blue>***MaxSeqNumber***</font>，最大序列数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1），不为0时，用该设置值为最大序列数，一般无需设置最大序列数，除非多机共享WorkerId分段生成ID（此时还要正确设置最小序列数）。
 
 
 ## 💎 常规集成
