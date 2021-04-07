@@ -43,7 +43,10 @@ void Config(snowflake *flake)
   flake->BaseTime = flake->BaseTime != 0 ? flake->BaseTime : 1577808000000;
   flake->_TimestampShift = (uint8_t)(flake->WorkerIdBitLength + flake->SeqBitLength);
   flake->_CurrentSeqNumber = flake->MinSeqNumber;
-  return;
+  if (flake->MaxSeqNumber <= flake->MinSeqNumber)
+  {
+    flake->MinSeqNumber = 0;
+  }
 }
 
 void inline EndOverCostAction(uint64_t useTimeTick, snowflake *flake)

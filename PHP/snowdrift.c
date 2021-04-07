@@ -43,11 +43,10 @@ PHP_INI_BEGIN()
 STD_PHP_INI_ENTRY("snowdrift.Method", "1", PHP_INI_SYSTEM, OnUpdateLongGEZero, Method, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.BaseTime", "1582136402000", PHP_INI_SYSTEM, OnUpdateLongGEZero, BaseTime, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.WorkerId", "1", PHP_INI_SYSTEM, OnUpdateLongGEZero, WorkerId, zend_snowdrift_globals, snowdrift_globals)
-STD_PHP_INI_ENTRY("snowdrift.WorkerIdNum", "63", PHP_INI_SYSTEM, OnUpdateLongGEZero, WorkerIdNum, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.WorkerIdBitLength", "6", PHP_INI_SYSTEM, OnUpdateLongGEZero, WorkerIdBitLength, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.SeqBitLength", "6", PHP_INI_SYSTEM, OnUpdateLongGEZero, SeqBitLength, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.MaxSeqNumber", "0", PHP_INI_SYSTEM, OnUpdateLongGEZero, MaxSeqNumber, zend_snowdrift_globals, snowdrift_globals)
-STD_PHP_INI_ENTRY("snowdrift.MinSeqNumber", "0", PHP_INI_SYSTEM, OnUpdateLongGEZero, MinSeqNumber, zend_snowdrift_globals, snowdrift_globals)
+STD_PHP_INI_ENTRY("snowdrift.MinSeqNumber", "5", PHP_INI_SYSTEM, OnUpdateLongGEZero, MinSeqNumber, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.TopOverCostCount", "2000", PHP_INI_SYSTEM, OnUpdateLongGEZero, TopOverCostCount, zend_snowdrift_globals, snowdrift_globals)
 PHP_INI_END()
 
@@ -56,16 +55,12 @@ PHP_INI_END()
 static int snowdrift_init()
 {
   wid_num = (-1L << SD_G(WorkerIdBitLength)) ^ -1L;
-  if (SD_G(WorkerIdNum) < wid_num)
-  {
-    wid_num = SD_G(WorkerIdNum);
-  }
   shmctx.size = wid_num * sizeof(snowflake);
   if (shm_alloc(&shmctx) == -1)
   {
     return FAILURE;
   }
-  if (SD_G(MaxSeqNumber) < SD_G(MinSeqNumber))
+  if (SD_G(MaxSeqNumber) != 0 && SD_G(MaxSeqNumber) < SD_G(MinSeqNumber))
   {
     return FAILURE;
   }

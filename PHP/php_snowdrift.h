@@ -54,7 +54,6 @@ ZEND_BEGIN_MODULE_GLOBALS(snowdrift)
 uint8_t Method;
 uint64_t BaseTime;
 uint8_t WorkerId;
-uint8_t WorkerIdNum;
 uint8_t WorkerIdBitLength;
 uint8_t SeqBitLength;
 uint32_t MaxSeqNumber;
