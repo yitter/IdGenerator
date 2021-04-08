@@ -233,6 +233,8 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
 
 
+[![Giteye chart](https://chart.giteye.net/gitee/yitter/idgenerator/YEBB8LQN.png)](https://giteye.net/chart/YEBB8LQN)
+
 
 [1]: https://github.com/yitter/idgenerator/tree/master/%23.NET
 [2]: https://github.com/yitter/idgenerator/tree/master/Java
