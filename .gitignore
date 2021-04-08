@@ -257,3 +257,10 @@ target/
 
 # macOS
 .DS_Store
+D/test/test
+D/libyitterd.a
+D/dub.*.json
+*/.dub/*
+*/test/.dub/*
+C/source/build/*
+D/test/dub.*.json

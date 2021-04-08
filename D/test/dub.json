@@ -1,0 +1,14 @@
+{
+	"authors": [
+		"yitter",
+		"HuntLabs"
+	],
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "test",
+	"dependencies": {
+		"yitterd" : {
+			"path": "../"
+		}
+	}
+}

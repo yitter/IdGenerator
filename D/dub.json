@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"yitter",
+		"HuntLabs"
+	],
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "yitterd"
+}

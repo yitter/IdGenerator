@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.13)
 project(YitIdGen)
 set(CMAKE_C_STANDARD 11)
 
@@ -7,6 +7,7 @@ set(CMAKE_C_STANDARD 11)
 
 aux_source_directory(. DIR_SRCS)
 add_subdirectory(idgen)
+
 
 #编译动态库
 #set(LIB_SRC YitIdHelper.h YitIdHelper.c)
@@ -21,7 +22,7 @@ add_subdirectory(idgen)
 set(LIB_SRC YitIdHelper.h YitIdHelper.c)
 add_library(YitIdHelper ${LIB_SRC})
 add_executable(YitIdGen main.c)
-target_link_libraries(YitIdGen YitIdHelper)
-target_link_libraries(YitIdGen idgen)
+target_link_libraries(YitIdGen YitIdHelper pthread)
+target_link_libraries(YitIdGen idgen pthread)
 
 
