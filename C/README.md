@@ -26,3 +26,4 @@ SetIdGenerator(options);
 // 初始化以后，即可在任何需要生成ID的地方，调用以下方法：
 long newId = NextId();
 ```
+
