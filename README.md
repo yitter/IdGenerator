@@ -1,14 +1,22 @@
 # 比雪花算法更好用的数据主键新算法
 
+## 💎 技术支持
+
+开源地址1：https://github.com/yitter/idgenerator
+
+开源地址2：https://gitee.com/yitter/idgenerator
+
+QQ群：646049993
+
 ## 💎 基本介绍
 
 <font color="#11aaff" size="5">❄</font> 一个全新的雪花漂移算法，生成的ID更短、速度更快。 
 
 <font color="#11aaff" size="5">❄</font> 核心在于缩短ID长度的同时，具备极高QPS（保守值 50W/0.1s）。 
 
-<font color="#11aaff" size="5">❄</font> 原生支持 C#/Java/Go/Rust/C 等语言，并由 Rust 提供 PHP、Python、Node.js、Ruby 等语言多线程安全调用库(FFI)。
+<font color="#11aaff" size="5">❄</font> 原生支持 C#/Java/Go/Rust/C 等语言，并提供 PHP、Python、Node.js、Ruby 等语言多线程安全调用库(FFI)。
 
-<font color="#11aaff" size="5">❄</font> 支持 k8s 等容器化部署，水平复制，自动注册 WorkerId。
+<font color="#11aaff" size="5">❄</font> 支持 k8s 等容器环境自动扩容（自动注册 WorkerId）。
 
 <font color="#11aaff" size="5">❄</font> 可在单机或分布式环境中生成唯一ID。
 
@@ -224,14 +232,6 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 
 如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
 
-
-## 💎 技术支持
-
-开源地址1：https://github.com/yitter/idgenerator
-
-开源地址2：https://gitee.com/yitter/idgenerator
-
-QQ群：646049993
 
 
 [1]: https://github.com/yitter/idgenerator/tree/master/%23.NET
