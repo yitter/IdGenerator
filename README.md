@@ -228,7 +228,7 @@ extern __declspec(dllexport) void UnRegister();
 extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 ```
 
-## 💎 已实现的语言
+## 已实现的语言
 
 | 语言 |  github  |  gitee  | 
 |  ----  | ----  |  ----  |
@@ -238,7 +238,8 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 | 🌲 Rust | [查看示例][4]  | [查看示例][41]  |  
 | 🌲 C | [查看示例][5]  | [查看示例][51]  |  
 | 🌲 PHP扩展 | [查看示例][7]  | [查看示例][71]  |  
-| 🌲 Vlang | [查看示例][6]  | [查看示例][61]  |  
+| 🌲 V | [查看示例][6]  | [查看示例][61]  |  
+| 🌲 D | [查看示例][72]  | [查看示例][73]  |  
 
 如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
 
@@ -261,6 +262,9 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 [51]: https://gitee.com/yitter/idgenerator/tree/master/C
 [61]: https://gitee.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
 [71]: https://gitee.com/yitter/idgenerator/tree/master/PHP
+
+[72]: https://github.com/yitter/idgenerator/tree/master/D
+[73]: https://gitee.com/yitter/idgenerator/tree/master/D
 
 [80]: https://github.com/twitter-archive/snowflake
 [81]: https://github.com/baidu/uid-generator
