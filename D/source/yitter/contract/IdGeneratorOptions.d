@@ -22,8 +22,7 @@ class IdGeneratorOptions {
      * 基础时间（ms单位）
      * 不能超过当前系统时间
      */
-    // long BaseTime = 1582136402000L;
-    SysTime BaseTime;
+    long BaseTime = 1582136402000L;
 
     /**
      * 机器码
@@ -62,11 +61,9 @@ class IdGeneratorOptions {
     short TopOverCostCount = 2000;
 
     this() {
-        BaseTime = SysTime(DateTime(2020, 2, 20, 2, 20, 2));
     }
 
     this(short workerId) {
         WorkerId = workerId;
-        BaseTime = SysTime(DateTime(2020, 2, 20, 2, 20, 2));
     }
 }

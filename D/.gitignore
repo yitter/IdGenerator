@@ -1,9 +1,9 @@
 
 .DS_Store
-./test/test
-./libyitterd.a
-./dub.*.json
-./.dub/*
-./test/.dub/*
-./test/dub.*.json
+test/test
+libyitterd.a
+dub.*.json
+.dub/*
+test/.dub/*
+test/dub.*.json
 

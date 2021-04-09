@@ -8,6 +8,8 @@ import yitter.contract.IIdGenerator;
 import yitter.contract.ISnowWorker;
 import yitter.contract.IdGeneratorException;
 import yitter.contract.IdGeneratorOptions;
+
+import yitter.core.DateTimeHelper;
 import yitter.core.SnowWorkerM1;
 import yitter.core.SnowWorkerM2;
 
@@ -31,8 +33,7 @@ class DefaultIdGenerator : IIdGenerator {
         }
 
         // 1.BaseTime
-        SysTime MinBaseTime = SysTime(DateTime(2020, 2, 20, 2, 20, 2)).add!"years"(-50);
-        if (options.BaseTime < MinBaseTime || options.BaseTime > Clock.currTime) {
+        if (options.BaseTime < 315504000000L || options.BaseTime > DateTimeHelper.currentTimeMillis) {
             throw new IdGeneratorException("BaseTime error.");
         }
 

@@ -21,8 +21,7 @@ class SnowWorkerM2 : SnowWorkerM1 {
         super(options);
     }
 
-    override
-    long nextId() {
+    override long nextId() {
         synchronized {
             long currentTimeTick = GetCurrentTimeTick();
 

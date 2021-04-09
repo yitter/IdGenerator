@@ -32,7 +32,7 @@ class GenTest {
 
         // writeln(id);
         writeln("++++++++++++++++++++++++++++++++++++++++WorkerId: "
-                ~ WorkerId.to!string() ~ ", total: " ~ dur.total!("msecs").to!string() ~ " ms");
+                ~ WorkerId.to!string() ~ ", total: " ~ dur.total!("usecs").to!string() ~ " us");
 
     }
 }

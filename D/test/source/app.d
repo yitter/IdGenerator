@@ -27,7 +27,7 @@ void main()
 	IdGeneratorOptions options = new IdGeneratorOptions();
 
 	options.Method = method;
-	options.BaseTime = SysTime(DateTime(2020, 2, 20, 21, 51, 33));
+	options.BaseTime = 1582206693000L;
 	options.WorkerId = 1;
 
 	IIdGenerator idGen = new DefaultIdGenerator(options);
@@ -37,13 +37,13 @@ void main()
 	YitIdHelper.setIdGenerator(options);
 	long newId = YitIdHelper.nextId();
 	writeln("=====================================");
-	writeln("这是用方法 " ~ method.to!string() ~ " 生成的 Id：" ~ newId.to!string());
+	writeln("Method " ~ method.to!string() ~ " used, the result Id：" ~ newId.to!string());
 
 	// 然后循环测试一下，看看并发请求时的耗时情况
 	try {
 		while (true) {
 			genTest.GenStart();
-			// Thread.sleep(200.msecs); // 每隔1秒执行一次GenStart
+			Thread.sleep(1000.msecs); 
 			// writeln("Hello World! D");
 		}
 	} catch (Exception e) {

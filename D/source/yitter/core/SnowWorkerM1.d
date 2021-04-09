@@ -4,6 +4,7 @@
  */
 module yitter.core.SnowWorkerM1;
 
+import yitter.core.DateTimeHelper;
 import yitter.contract.ISnowWorker;
 import yitter.contract.IdGeneratorOptions;
 import yitter.contract.OverCostActionArg;
@@ -11,12 +12,13 @@ import yitter.contract.IdGeneratorException;
 
 import std.datetime;
 
+
 class SnowWorkerM1 : ISnowWorker {
 
     /**
      * 基础时间
      */
-    protected SysTime BaseTime;
+    protected long BaseTime;
 
     /**
      * 机器码
@@ -49,7 +51,6 @@ class SnowWorkerM1 : ISnowWorker {
     protected int TopOverCostCount;
 
     protected byte _TimestampShift;
-    // protected __gshared Object _SyncLock; // = new byte[0];
 
     protected short _CurrentSeqNumber;
     protected long _LastTimeTick = 0;
@@ -61,12 +62,8 @@ class SnowWorkerM1 : ISnowWorker {
     protected int _GenCountInOneTerm = 0;
     protected int _TermIndex = 0;
 
-    // shared static this() {
-    //     _SyncLock = new Object();
-    // }
-
     this(IdGeneratorOptions options) {        
-        BaseTime = options.BaseTime != SysTime.min ? options.BaseTime : SysTime(DateTime(2020, 2, 20, 2, 20, 2));
+        BaseTime = options.BaseTime != 0 ? options.BaseTime : 1582136402000L;
         WorkerIdBitLength = options.WorkerIdBitLength == 0 ? 6 : options.WorkerIdBitLength;
         WorkerId = options.WorkerId;
         SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
@@ -212,14 +209,11 @@ class SnowWorkerM1 : ISnowWorker {
     }
 
     protected long GetCurrentTimeTick() {
-        SysTime now = Clock.currTime;
-        Duration dur = Clock.currTime - BaseTime;
-        return dur.total!("msecs");
+        return DateTimeHelper.currentTimeMillis - BaseTime;
     }
 
     protected long GetNextTimeTick() {
         long tempTimeTicker = GetCurrentTimeTick();
-
         while (tempTimeTicker <= _LastTimeTick) {
             tempTimeTicker = GetCurrentTimeTick();
         }
@@ -227,8 +221,7 @@ class SnowWorkerM1 : ISnowWorker {
         return tempTimeTicker;
     }
 
-    override
-    long nextId() {
+    override long nextId() {
         synchronized {
             return _IsOverCost ? NextOverCostId() : NextNormalId();
         }
