@@ -1,4 +1,4 @@
-# 比雪花算法更好用的数据主键新算法
+# 雪花算法里最好用的主键ID新算法
 
 ## 💎 技术支持
 
@@ -10,9 +10,7 @@ QQ群：646049993
 
 ## 💎 基本介绍
 
-<font color="#11aaff" size="5">❄</font> 一个全新的雪花漂移算法，生成的ID更短、速度更快。 
-
-<font color="#11aaff" size="5">❄</font> 核心在于缩短ID长度的同时，具备极高QPS（保守值 50W/0.1s）。 
+<font color="#11aaff" size="5">❄</font> 一个全新的雪花算法（雪花漂移），生成的ID更短、速度更快。
 
 <font color="#11aaff" size="5">❄</font> 原生支持 C#/Java/Go/Rust/C 等语言，并提供 PHP、Python、Node.js、Ruby 等语言多线程安全调用库(FFI)。
 
