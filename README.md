@@ -23,6 +23,26 @@ QQ群：646049993
 <font color="#11aaff" size="5">❄</font> 这是计算机历史上最全面的雪花ID生成器，未来会超越自己。（目前还未发现更好的，或许你可以😀）
 
 
+## 为什么要雪花ID？
+
+🌀 因为大厂都在用，推特、百度、美团、滴滴等等。
+
+🌀 大厂们不但自己用，而且还开源：[百度][81] | [美团][82] | [滴滴][83] | [雪花ID鼻祖-推特][80]。
+
+🌀 雪花ID是走向分布式架构的垫脚石，如果只会Guid和数据库自增，怎么能说自己做过分布式应用系统。
+
+🌀 要想进大厂，先学会雪花ID。
+
+
+## 为什么不用大厂开源？
+
+🌀 简而言之，大厂的雪花算法分为“经典雪花算法”和“号段雪花算法”两种，其中“号段雪花算法”依赖网络或外部存储系统，不适合“非大厂项目”，另外“号段雪花算法”存在业务表达上的缺陷。
+
+🌀 至于大厂的“经典雪花算法”，其实就是推特雪花算法的特定语言翻译，未曾见过大厂在“ID长度和生成性能”方面，做过极致的优化，而这正式本算法——雪花漂移算法的核心所在。
+
+🌀 另外，大厂开源都是为自己所用，没有一家支持多语言，而这正式本算法——雪花漂移算法带给大家的福利。
+
+
 ## 需求来源
 
 <font color="green" size="5">💧</font>  作为架构设计的你，想要解决数据库主键唯一的问题，特别是在分布式系统多数据库的时候。
@@ -54,7 +74,7 @@ QQ群：646049993
 
 ❌ 不支持后补生成前序ID。
 
-❌ 依赖外部存储系统。
+❌ 可能依赖外部存储系统。
 
 
 ## 新算法特点
@@ -66,8 +86,6 @@ QQ群：646049993
 <font color="green" size="5">✔</font> 支持时间回拨处理。比如服务器时间回拨1秒，本算法能自动适应生成临界时间的唯一ID。
 
 <font color="green" size="5">✔</font> 支持手工插入新ID。当业务需要在历史时间生成新ID时，用本算法的预留位能生成5000个每秒。
-
-<font color="green" size="5">✔</font> 漂移时能外发通知事件。让调用方确切知道算法漂移记录，Log并发调用量。
 
 <font color="green" size="5">✔</font> 不依赖任何外部缓存和数据库。（k8s环境下自动注册 WorkerId 的动态库依赖 redis）
 
@@ -251,3 +269,9 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 [51]: https://gitee.com/yitter/idgenerator/tree/master/C
 [61]: https://gitee.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
 [71]: https://gitee.com/yitter/idgenerator/tree/master/PHP
+
+[80]: https://github.com/twitter-archive/snowflake
+[81]: https://github.com/baidu/uid-generator
+[82]: https://github.com/Meituan-Dianping/Leaf
+[83]: https://github.com/didi/tinyid
+
