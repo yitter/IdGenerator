@@ -241,7 +241,7 @@ extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
 | 🌲 V | [查看示例][6]  | [查看示例][61]  |  
 | 🌲 D | [查看示例][72]  | [查看示例][73]  |  
 
-部分语言由网友贡献，感谢他们：guoyahao | amuluowin | houseme | bigworld
+部分语言由网友贡献，感谢他们：guoyahao | amuluowin | houseme | bitworld
 
 如果你有其它语言的实现需求，不妨试着自己写一个，或者给我留言。
 
