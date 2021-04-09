@@ -51,13 +51,13 @@ QQ群：646049993
 
 <font color="green" size="5">💧</font>  你要考虑在分库分表（合库合表）时，主键值可直接使用，并能反映业务时序。
 
-<font color="green" size="5">💧</font>  如果这样的主键值太长，超过前端 JS Number 类型最大值，须把 Long 型转换为 String 型，你会觉得有点沮丧。
+<font color="green" size="5">💧</font>  如果这样的主键值太长，超过前端 js Number 类型最大值，须把 Long 型转换为 String 型，你会觉得有点沮丧。
 
 <font color="green" size="5">💧</font>  尽管 Guid 能自增，但占用空间大，索引速度慢，你也不想用它。
 
 <font color="green" size="5">💧</font>  应用实例可能超过50个，每个并发请求可达10W/s。
 
-<font color="green" size="5">💧</font>  在容器环境部署应用（水平扩展、自动伸缩）。
+<font color="green" size="5">💧</font>  在容器环境部署应用（水平扩展、自动扩容）。
 
 <font color="green" size="5">💧</font>  不想依赖 redis 的自增操作。
 
@@ -79,9 +79,9 @@ QQ群：646049993
 
 ## 新算法特点
 
-<font color="green" size="5">✔</font> 整形数字，随时间单调递增（不一定连续），长度更短，用50年都不会超过 js Number类型最大值。（默认配置 WorkerId 是6bit，序列数是6bit）
+<font color="green" size="5">✔</font> 整形数字，随时间单调递增（不一定连续），长度更短，用50年都不会超过 js Number类型最大值。（默认配置）
 
-<font color="green" size="5">✔</font> 速度更快，是传统雪花算法的2-5倍，0.1秒可生成50万个。（i7笔记本，默认算法配置6bit+6bit）
+<font color="green" size="5">✔</font> 速度更快，是传统雪花算法的2-5倍，0.1秒可生成50万个（基于8代低压i7）。
 
 <font color="green" size="5">✔</font> 支持时间回拨处理。比如服务器时间回拨1秒，本算法能自动适应生成临界时间的唯一ID。
 
@@ -100,15 +100,7 @@ QQ群：646049993
 | 传统雪花算法 | 0.0045s | 0.053s  |  0.556s |
 | 雪花漂移算法  | 0.0015s | 0.012s |  0.113s |
 
-💍 极致性能：500W/s~3000W/s。（所有测试数据均基于8代低压i7计算。）
-
-## 适用范围
-
-🔷小型、中型、大型需要全局唯一Id（不用Guid）的项目。
-
-🔷 单机或分布式项目。
-
-🔷不想将 Long 型转 String 给前端用的项目。
+💍 极致性能：500W/s~3000W/s。（所有测试数据均基于8代低压i7计算）
 
 
 ## 如何处理时间回拨
