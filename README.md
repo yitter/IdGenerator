@@ -200,13 +200,15 @@ QQ群：646049993
 
 #### 自动注册流程图
 
-![avatar](https://gitee.com/yitter/idgenerator/blob/master/Tools/AutoRegisterWorkerId/regprocess.jpg)
+图片链接：https://gitee.com/yitter/idgenerator/blob/master/Tools/AutoRegisterWorkerId/regprocess.jpg
 
+#### 动态库下载
+
+下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
+
+源码路径：/Go/source/regworkerid/reghelper.go
 
 #### 动态库接口定义
-
-动态库下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
-
 ```
 // 注册一个 WorkerId，会先注销所有本机已注册的记录
 // ip: redis 服务器地址
