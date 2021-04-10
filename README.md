@@ -203,7 +203,7 @@ QQ群：646049993
 ![avatar](https://gitee.com/yitter/idgenerator/blob/master/Tools/AutoRegisterWorkerId/regprocess.jpg)
 
 
-#### 动态库接口定义：
+#### 动态库接口定义
 
 动态库下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
 
