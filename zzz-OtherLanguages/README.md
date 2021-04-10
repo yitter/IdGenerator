@@ -1,9 +1,9 @@
-# idgenerator
+ï»¿#  â„ idgenerator-Others
 
-ÕâÀïÌá¹©Ò»Ð©ÆäËüÓïÑÔµÄ·­Òë°æ±¾£¬¹©°®ºÃÕßÑ§Ï°²Î¿¼£¬ÁÐ±íÈçÏÂ£º
+è¿™é‡Œæä¾›ä¸€äº›å…¶å®ƒè¯­è¨€ç‰ˆæœ¬ï¼Œåˆ—è¡¨å¦‚ä¸‹ï¼š
 
-V£¬¹±Ï×Õß£ºamuluowin
+Vï¼Œè´¡çŒ®è€…ï¼šamuluowin
 
-D£¬¹±Ï×Õß£ºbitworld£¨DÉçÇø¹ÜÀíÔ±£©
+Dï¼Œè´¡çŒ®è€…ï¼šbitworldï¼ˆDç¤¾åŒºç®¡ç†å‘˜ï¼‰
 
 
