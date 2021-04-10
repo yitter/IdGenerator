@@ -21,7 +21,7 @@ QQ群：646049993
 
 ❄ 支持 k8s 等容器环境自动扩容（自动注册 WorkerId），可在单机或分布式环境生成唯一ID。
 
-❄ 原生支持 C#/Java/Go/Rust/C 等语言，并提供 PHP、Python、Node.js、Ruby 多线程安全调用库（FFI）。
+❄ 原生支持 C#/Java/Go/Rust/C 等语言，并提供 PHP 扩展及 Python、Node.js 多线程安全调用动态库（FFI）。
 
 ❄ 这是计算机历史上最全面的雪花ID生成器。（目前还未发现更好的，或许你可以😀）
 
