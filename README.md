@@ -208,13 +208,13 @@ QQ群：646049993
 // port: redis 端口
 // password: redis 访问密码，可为空字符串“”
 // maxWorkerId: 最大 WorkerId
-extern __declspec(dllexport) GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId);
+extern GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId);
 
 // 注销本机已注册的 WorkerId
-extern __declspec(dllexport) void UnRegister();
+extern void UnRegister();
 
 // 检查本地WorkerId是否有效（0-有效，其它-无效）
-extern __declspec(dllexport) GoInt32 Validate(GoInt32 workerId);
+extern GoInt32 Validate(GoInt32 workerId);
 ```
 
 ## 已实现的语言
