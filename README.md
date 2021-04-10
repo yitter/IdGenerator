@@ -202,11 +202,11 @@ QQ群：646049993
 
 图片链接：https://gitee.com/yitter/idgenerator/blob/master/Tools/AutoRegisterWorkerId/regprocess.jpg
 
+源码路径：/Go/source/regworkerid/reghelper.go
+
 #### 动态库下载
 
 下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
-
-源码路径：/Go/source/regworkerid/reghelper.go
 
 #### 动态库接口定义
 ```
