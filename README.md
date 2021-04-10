@@ -144,7 +144,7 @@ QQ群：646049993
 
 ❄ ***WorkerIdBitLength***，机器码位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，实际上有些语言采用 无符号ushort(uint16) 类型接收该参数，所以最大值是16，如果是采用有符号short(int16)，则最大值为15。
 
-❄ ***WorkerId***，机器码，**最重要参数**，无默认值，必须由外部设定，默认情况下最大值63，理论最大值 2^WorkerIdBitLength-1（实际上根据语言的实现不同可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 的规则）。不同机器或不同应用实例不可相同，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
+❄ ***WorkerId***，机器码，**最重要参数**，无默认值，必须由外部设定，默认情况下最大值63，理论最大值 2^WorkerIdBitLength-1（实际上根据实现语言不同可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 的规则）。不同机器或不同应用实例不可相同，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
 
 ❄ ***SeqBitLength***，序列数位长，默认值6，取值范围 [3, 21]（建议不小于4），决定每毫秒生成的 ID 个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
 
