@@ -21,36 +21,36 @@ QQ群：646049993
 
 ## 💎 本算法介绍
 
-<font color="#11aaff" size="5">❄</font> 这是一个优化的雪花算法（雪花漂移），生成的ID更短、速度更快。
+❄ 这是一个优化的雪花算法（雪花漂移），生成的ID更短、速度更快。
 
-<font color="#11aaff" size="5">❄</font> 原生支持 C#/Java/Go/Rust/C 等语言，并提供 PHP、Python、Node.js、Ruby 等语言多线程安全调用库(FFI)。
+❄ 原生支持 C#/Java/Go/Rust/C 等语言，并提供 PHP、Python、Node.js、Ruby 等语言多线程安全调用库(FFI)。
 
-<font color="#11aaff" size="5">❄</font> 支持 k8s 等容器环境自动扩容（自动注册 WorkerId）。
+❄ 支持 k8s 等容器环境自动扩容（自动注册 WorkerId）。
 
-<font color="#11aaff" size="5">❄</font> 可在单机或分布式环境中生成唯一ID。
+❄ 可在单机或分布式环境中生成唯一ID。
 
-<font color="#11aaff" size="5">❄</font> 这是计算机历史上最全面的雪花ID生成器，未来会超越自己。（目前还未发现更好的，或许你可以😀）
+❄ 这是计算机历史上最全面的雪花ID生成器，未来会超越自己。（目前还未发现更好的，或许你可以😀）
 
 
 ## 需求来源
 
-<font color="green" size="5">💧</font>  作为架构设计的你，想要解决数据库主键唯一的问题，特别是在分布式系统多数据库的时候。
+💧  作为架构设计的你，想要解决数据库主键唯一的问题，特别是在分布式系统多数据库的时候。
 
-<font color="green" size="5">💧</font>  你希望这个主键是用最少的存储空间，索引速度更快，Select、Insert 和 Update 更迅速。
+💧  你希望这个主键是用最少的存储空间，索引速度更快，Select、Insert 和 Update 更迅速。
 
-<font color="green" size="5">💧</font>  你要考虑在分库分表（合库合表）时，主键值可直接使用，并能反映业务时序。
+💧  你要考虑在分库分表（合库合表）时，主键值可直接使用，并能反映业务时序。
 
-<font color="green" size="5">💧</font>  如果这样的主键值太长，超过前端 js Number 类型最大值，须把 Long 型转换为 String 型，你会觉得有点沮丧。
+💧  如果这样的主键值太长，超过前端 js Number 类型最大值，须把 Long 型转换为 String 型，你会觉得有点沮丧。
 
-<font color="green" size="5">💧</font>  尽管 Guid 能自增，但占用空间大，索引速度慢，你也不想用它。
+💧  尽管 Guid 能自增，但占用空间大，索引速度慢，你也不想用它。
 
-<font color="green" size="5">💧</font>  应用实例可能超过50个，每个并发请求可达10W/s。
+💧  应用实例可能超过50个，每个并发请求可达10W/s。
 
-<font color="green" size="5">💧</font>  在容器环境部署应用（水平扩展、自动扩容）。
+💧  在容器环境部署应用（水平扩展、自动扩容）。
 
-<font color="green" size="5">💧</font>  不想依赖 redis 的自增操作。
+💧  不想依赖 redis 的自增操作。
 
-<font color="green" size="5">💧</font>  你希望系统运行 100 年以上。
+💧  你希望系统运行 100 年以上。
 
 
 ## 传统算法问题
@@ -68,17 +68,17 @@ QQ群：646049993
 
 ## 新算法特点
 
-<font color="green" size="5">✔</font> 整形数字，随时间单调递增（不一定连续），长度更短，用50年都不会超过 js Number类型最大值。（默认配置）
+✔ 整形数字，随时间单调递增（不一定连续），长度更短，用50年都不会超过 js Number类型最大值。（默认配置）
 
-<font color="green" size="5">✔</font> 速度更快，是传统雪花算法的2-5倍，0.1秒可生成50万个（基于8代低压i7）。
+✔ 速度更快，是传统雪花算法的2-5倍，0.1秒可生成50万个（基于8代低压i7）。
 
-<font color="green" size="5">✔</font> 支持时间回拨处理。比如服务器时间回拨1秒，本算法能自动适应生成临界时间的唯一ID。
+✔ 支持时间回拨处理。比如服务器时间回拨1秒，本算法能自动适应生成临界时间的唯一ID。
 
-<font color="green" size="5">✔</font> 支持手工插入新ID。当业务需要在历史时间生成新ID时，用本算法的预留位能生成5000个每秒。
+✔ 支持手工插入新ID。当业务需要在历史时间生成新ID时，用本算法的预留位能生成5000个每秒。
 
-<font color="green" size="5">✔</font> 不依赖任何外部缓存和数据库。（k8s环境下自动注册 WorkerId 的动态库依赖 redis）
+✔ 不依赖任何外部缓存和数据库。（k8s环境下自动注册 WorkerId 的动态库依赖 redis）
 
-<font color="green" size="5">✔</font> 基础功能，开箱即用，无需配置文件、数据库连接等。
+✔ 基础功能，开箱即用，无需配置文件、数据库连接等。
 
 
 ## 性能数据
@@ -107,7 +107,6 @@ QQ群：646049993
  * +-------------------------+--------------+----------+
  * | 1.相对基础时间的时间差 | 2.WorkerId | 3.序列数 |
  * +-------------------------+--------------+----------+
- * +-------------------------+---- 6 bits ---+- 6 bits -+
  * 
  * 第1部分，时间差，是生成ID时的系统时间减去 BaseTime 的总时间差（毫秒单位）。
  * 第2部分，WorkerId，是区分不同机器或不同应用的唯一ID，最大值由 WorkerIdBitLength（默认6）限定。
@@ -147,15 +146,15 @@ QQ群：646049993
 
 ## 💎 参数设置
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerIdBitLength***</font>，机器码位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，实际上有些语言采用 无符号ushort(uint16) 类型接收该参数，所以最大值是16，如果是采用有符号short(int16)，则最大值为15。
+❄ ***WorkerIdBitLength***，机器码位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，实际上有些语言采用 无符号ushort(uint16) 类型接收该参数，所以最大值是16，如果是采用有符号short(int16)，则最大值为15。
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***WorkerId***</font>，机器码，**最重要参数**，无默认值，必须由外部设定，默认情况下最大值63，理论最大值 2^WorkerIdBitLength-1（实际上根据语言的实现不同可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 的规则）。不同机器或不同应用实例不可相同，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
+❄ ***WorkerId***，机器码，**最重要参数**，无默认值，必须由外部设定，默认情况下最大值63，理论最大值 2^WorkerIdBitLength-1（实际上根据语言的实现不同可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 的规则）。不同机器或不同应用实例不可相同，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***SeqBitLength***</font>，序列数位长，默认值6，取值范围 [3, 21]（建议不小于4），决定每毫秒生成的 ID 个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
+❄ ***SeqBitLength***，序列数位长，默认值6，取值范围 [3, 21]（建议不小于4），决定每毫秒生成的 ID 个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***MinSeqNumber***</font>，最小序列数，默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位。
+❄ ***MinSeqNumber***，最小序列数，默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位。
 
-<font color="#11aaff" size="5">❄</font> <font color=blue>***MaxSeqNumber***</font>，最大序列数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1），不为0时，用该设置值为最大序列数，一般无需设置最大序列数，除非多机共享WorkerId分段生成ID（此时还要正确设置最小序列数）。
+❄ ***MaxSeqNumber***，最大序列数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1），不为0时，用该设置值为最大序列数，一般无需设置最大序列数，除非多机共享WorkerId分段生成ID（此时还要正确设置最小序列数）。
 
 
 ## 💎 常规集成
