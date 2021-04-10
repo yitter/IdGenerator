@@ -128,7 +128,7 @@ QQ群：646049993
 ### 长度估算
 
 ```
-💍 每增加 1位 WorkerIdBitLength 或 SeqBitLength，生成的ID数字值将会乘以2（基础长度可参考前“ID示例”），反之则除以2。
+💍 每增加 1位 WorkerIdBitLength 或 SeqBitLength，生成的ID数字值将会乘以2（基础长度可参考前一节“ID示例”），反之则除以2。
 ```
 
 ### 能用多久
