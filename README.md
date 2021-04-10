@@ -243,24 +243,24 @@ extern GoInt32 Validate(GoInt32 workerId);
 ❄ 至于其“经典算法”，在“ID长度和生成性能”方面，未做过优化，而这正式本算法——雪花漂移算法的核心所在。
 
 
-[1]: https://github.com/yitter/idgenerator/tree/master/%23.NET
+[1]: https://github.com/yitter/idgenerator/tree/master/C%23.NET
 [2]: https://github.com/yitter/idgenerator/tree/master/Java
 [3]: https://github.com/yitter/idgenerator/tree/master/Go
 [4]: https://github.com/yitter/idgenerator/tree/master/Rust
 [5]: https://github.com/yitter/idgenerator/tree/master/C
-[6]: https://github.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
+[6]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/V
 [7]: https://github.com/yitter/idgenerator/tree/master/PHP
 
-[11]: https://gitee.com/yitter/idgenerator/tree/master/%23.NET
+[11]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
 [21]: https://gitee.com/yitter/idgenerator/tree/master/Java
 [31]: https://gitee.com/yitter/idgenerator/tree/master/Go
 [41]: https://gite.com/yitter/idgenerator/tree/master/Rust
 [51]: https://gitee.com/yitter/idgenerator/tree/master/C
-[61]: https://gitee.com/yitter/idgenerator/tree/master/ZeOthers/Vlang
+[61]: https://gitee.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/V
 [71]: https://gitee.com/yitter/idgenerator/tree/master/PHP
 
-[72]: https://github.com/yitter/idgenerator/tree/master/D
-[73]: https://gitee.com/yitter/idgenerator/tree/master/D
+[72]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/D
+[73]: https://gitee.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/D
 
 [80]: https://github.com/twitter-archive/snowflake
 [81]: https://github.com/baidu/uid-generator
