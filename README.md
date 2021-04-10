@@ -198,10 +198,15 @@ QQ群：646049993
 
 🔍 当然，如果你的服务不需要自动扩展，你就不必自动注册WorkerId，而是为每个应用手工设定一个唯一值。
 
+#### 自动注册流程图
+
+![avatar](https://gitee.com/yitter/idgenerator/blob/master/Tools/AutoRegisterWorkerId/regprocess.jpg)
+
+
+#### 动态库接口定义：
 
 动态库下载链接：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
 
-动态库接口定义：
 ```
 // 注册一个 WorkerId，会先注销所有本机已注册的记录
 // ip: redis 服务器地址
