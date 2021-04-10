@@ -1,4 +1,4 @@
-﻿# idgenerator
+﻿#  ❄ idgenerator-Rust
 
 ## 调用示例（Rust）
 
