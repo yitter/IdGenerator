@@ -254,7 +254,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 [11]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
 [21]: https://gitee.com/yitter/idgenerator/tree/master/Java
 [31]: https://gitee.com/yitter/idgenerator/tree/master/Go
-[41]: https://gite.com/yitter/idgenerator/tree/master/Rust
+[41]: https://gitee.com/yitter/idgenerator/tree/master/Rust
 [51]: https://gitee.com/yitter/idgenerator/tree/master/C
 [61]: https://gitee.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/V
 [71]: https://gitee.com/yitter/idgenerator/tree/master/PHP
