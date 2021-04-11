@@ -140,11 +140,11 @@ QQ群：646049993
 
 ## 💎 参数设置
 
-❄ ***WorkerIdBitLength***，机器码位长，决定 WorkerId 的最大值，默认值6，取值范围 [1, 19]，实际上有些语言采用 无符号 ushort(uint16)  类型接收该参数，所以最大值是16，如果是采用 有符号 short(int16)，则最大值为15。
+❄ ***WorkerIdBitLength***，机器码位长，决定 WorkerId 的最大值，**默认值6**，取值范围 [1, 19]，实际上有些语言采用 无符号 ushort(uint16)  类型接收该参数，所以最大值是16，如果是采用 有符号 short(int16)，则最大值为15。
 
 ❄ ***WorkerId***，机器码，**最重要参数**，无默认值，必须**全局唯一**，必须由外部设定，缺省条件下最大值63，理论最大值 2^WorkerIdBitLength-1（不同实现语言可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 规则）。不同机器或不同应用实例**不能相同**，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
 
-❄ ***SeqBitLength***，序列数位长，默认值6，取值范围 [3, 21]（建议不小于4），决定每毫秒基础生成的 ID 个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
+❄ ***SeqBitLength***，序列数位长，**默认值6**，取值范围 [3, 21]（建议不小于4），决定每毫秒基础生成的 ID 个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
 
 ❄ ***MinSeqNumber***，最小序列数，默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位。
 
