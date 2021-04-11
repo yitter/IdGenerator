@@ -148,7 +148,7 @@ QQ群：646049993
 
 ❄ ***MinSeqNumber***，最小序列数，默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位。
 
-❄ ***MaxSeqNumber***，最大序列数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1），不为0时，用该设置值为最大序列数，一般无需设置最大序列数，除非多机共享WorkerId分段生成ID（此时还要正确设置最小序列数）。
+❄ ***MaxSeqNumber***，最大序列数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，真实最大序列数取最大值（2^SeqBitLength-1），不为0时，取其为真实最大序列数，一般无需设置，除非多机共享WorkerId分段生成ID（此时还要正确设置最小序列数）。
 
 
 ## 💎 常规集成
