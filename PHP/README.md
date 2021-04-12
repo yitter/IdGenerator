@@ -25,9 +25,8 @@ make install
 //snowdrift.ini
 snowdrift.Method=1 //1 漂移算法 2 传统算法
 snowdrift.BaseTime=1582136402000
-snowdrift.WorkerId=1 //默认workerid
-snowdrift.WorkerIdNum=1 //支持的WorkerId数量，默认1，不超过(-1L << snowdrift.WorkerIdBitLength) ^ -1L
-snowdrift.WorkerIdBitLength=6
+snowdrift.WorkerId=1 //默认workerid，支持参数传递改变实际使用的值，范围1~(-1L << snowdrift.WorkerIdBitLength) ^ -1L
+snowdrift.WorkerIdBitLength=6 //WorkerId位数，默认6。
 snowdrift.SeqBitLength=6 //自增序号位数
 snowdrift.MaxSeqNumber=0
 snowdrift.MinSeqNumber=0

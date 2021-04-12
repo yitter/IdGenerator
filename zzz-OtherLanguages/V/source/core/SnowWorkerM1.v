@@ -2,52 +2,50 @@ module core
 
 import contract
 import time
-import sync
 
-pub struct SnowWorkerM1{
+pub struct SnowWorkerM1 {
 mut:
-	method            u16 // 雪花计算方法,（1-漂移算法|2-传统算法），默认1
-	base_time          i64 // 基础时间，不能超过当前系统时间
-	worker_id          u16 // 机器码，与 workerid_bitlength 有关系
-	workerid_bitlength byte// 机器码位长，范围：1-21（要求：序列数位长+机器码位长不超过22）
-	seq_bitlength      byte// 序列数位长，范围：2-21（要求：序列数位长+机器码位长不超过22）
-	max_seqnumber      u32 // 最大序列数（含），（由seq_bitlength计算的最大值）
-	min_seqnumber      u32 // 最小序列数（含），默认5，不小于1，不大于max_seqnumber
-	top_over_cost_count  u32 // 最大漂移次数（含），默认2000，推荐范围500-10000（与计算能力有关）
+	method              u16  // 雪花计算方法,（1-漂移算法|2-传统算法），默认1
+	base_time           i64  // 基础时间，不能超过当前系统时间
+	worker_id           u16  // 机器码，与 workerid_bitlength 有关系
+	workerid_bitlength  byte // 机器码位长，范围：1-21（要求：序列数位长+机器码位长不超过22）
+	seq_bitlength       byte // 序列数位长，范围：2-21（要求：序列数位长+机器码位长不超过22）
+	max_seqnumber       u32  // 最大序列数（含），（由seq_bitlength计算的最大值）
+	min_seqnumber       u32  // 最小序列数（含），默认5，不小于1，不大于max_seqnumber
+	top_over_cost_count u32  // 最大漂移次数（含），默认2000，推荐范围500-10000（与计算能力有关）
 
-	timestamp_shift byte
-	current_seqnumber u32
-	last_time_tick i64
-	turn_back_timetick i64
-	turnback_index byte
-	is_over_cost bool
+	timestamp_shift         byte
+	current_seqnumber       u32
+	last_time_tick          i64
+	turn_back_timetick      i64
+	turnback_index          byte
+	is_over_cost            bool
 	overcostcount_inoneterm u32
-	gencount_inoneterm u32
-	term_index u32
-	mu      sync.Mutex
+	gencount_inoneterm      u32
+	term_index              u32
 }
 
-pub fn make_sf_m1(options &contract.IdGeneratorOptions) &contract.ISnowWorker{
+pub fn make_sf_m1(options &contract.IdGeneratorOptions) &contract.ISnowWorker {
 	worker_id := options.worker_id
 
-	mut workerid_bitlength:=byte(6)
+	mut workerid_bitlength := byte(6)
 	if options.workerid_bitlength != 0 {
 		workerid_bitlength = options.workerid_bitlength
 	}
-	mut seq_bitlength:=byte(6)
+	mut seq_bitlength := byte(6)
 	if options.seq_bitlength != 0 {
 		seq_bitlength = options.seq_bitlength
 	}
-	mut max_seqnumber:=u32(0)
+	mut max_seqnumber := u32(0)
 	if options.max_seqnumber > 0 {
 		max_seqnumber = options.max_seqnumber
 	} else {
-		max_seqnumber = (1<<options.seq_bitlength) - 1
+		max_seqnumber = (1 << options.seq_bitlength) - 1
 	}
 	min_seqnumber := options.min_seqnumber
 	top_over_cost_count := options.top_over_cost_count
 
-	mut base_time:=i64(0)
+	mut base_time := i64(0)
 	if options.base_time != 0 {
 		base_time = options.base_time
 	} else {
@@ -56,15 +54,16 @@ pub fn make_sf_m1(options &contract.IdGeneratorOptions) &contract.ISnowWorker{
 	timestamp_shift := byte(options.workerid_bitlength + options.seq_bitlength)
 	current_seqnumber := options.min_seqnumber
 	return &SnowWorkerM1{
-		base_time:          base_time,
-		worker_id:          worker_id,
-		workerid_bitlength: workerid_bitlength,
-		seq_bitlength:      seq_bitlength,
-		max_seqnumber:      max_seqnumber,
-		min_seqnumber:      min_seqnumber,
-		top_over_cost_count:  top_over_cost_count,
-		timestamp_shift:   timestamp_shift,
-		current_seqnumber: current_seqnumber}
+		base_time: base_time
+		worker_id: worker_id
+		workerid_bitlength: workerid_bitlength
+		seq_bitlength: seq_bitlength
+		max_seqnumber: max_seqnumber
+		min_seqnumber: min_seqnumber
+		top_over_cost_count: top_over_cost_count
+		timestamp_shift: timestamp_shift
+		current_seqnumber: current_seqnumber
+	}
 }
 
 // fn (m1 SnowWorkerM1) do_gen_id_action(arg &contract.over_cost_action_arg) {
@@ -162,13 +161,13 @@ fn (mut m1 SnowWorkerM1) next_normal_id() u64 {
 }
 
 fn (mut m1 SnowWorkerM1) calc_id() u64 {
-	result := u64(m1.last_time_tick<<m1.timestamp_shift) | u64(m1.worker_id<<m1.seq_bitlength) | u64(m1.current_seqnumber)
+	result := u64(m1.last_time_tick << m1.timestamp_shift) | u64(m1.worker_id << m1.seq_bitlength) | u64(m1.current_seqnumber)
 	m1.current_seqnumber++
 	return result
 }
 
 fn (mut m1 SnowWorkerM1) calc_turn_back_id() u64 {
-	result := u64(m1.turn_back_timetick<<m1.timestamp_shift) | u64(m1.worker_id<<m1.seq_bitlength) | u64(m1.turnback_index)
+	result := u64(m1.turn_back_timetick << m1.timestamp_shift) | u64(m1.worker_id << m1.seq_bitlength) | u64(m1.turnback_index)
 	m1.turn_back_timetick--
 	return result
 }
@@ -186,13 +185,13 @@ fn (m1 &SnowWorkerM1) get_next_time_tick() i64 {
 }
 
 pub fn (mut m1 SnowWorkerM1) next_id() u64 {
-	m1.mu.@lock()
-	mut id:=u64(0)
-	if m1.is_over_cost {
-		id= m1.next_over_cost_id()
-	} else {
-		id= m1.next_normal_id()
+	mut id := u64(0)
+	lock  {
+		if m1.is_over_cost {
+			id = m1.next_over_cost_id()
+		} else {
+			id = m1.next_normal_id()
+		}
 	}
-	m1.mu.unlock()
 	return id
 }
