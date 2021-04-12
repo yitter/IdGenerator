@@ -28,8 +28,8 @@ snowdrift.BaseTime=1582136402000
 snowdrift.WorkerId=1 //默认workerid，支持参数传递改变实际使用的值，范围1~(-1L << snowdrift.WorkerIdBitLength) ^ -1L
 snowdrift.WorkerIdBitLength=6 //WorkerId位数，默认6。
 snowdrift.SeqBitLength=6 //自增序号位数
-snowdrift.MaxSeqNumber=0
-snowdrift.MinSeqNumber=0
+snowdrift.MaxSeqNumber=0 //默认值为0，0时自动计算=(-1L << snowdrift.SeqBitLength) ^ -1L，需大于MinSeqNumber
+snowdrift.MinSeqNumber=5 //默认值为5，当配置了MaxSeqNumber时，需小于MaxSeqNumber
 snowdrift.TopOverCostCount=2000 //最大漂移次数
 ```
 
