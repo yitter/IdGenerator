@@ -24,11 +24,8 @@ public class StartUp {
         IdGeneratorOptions options = new IdGeneratorOptions();
 //        options.WorkerIdBitLength = 6;
 //        options.SeqBitLength = 6;
-//        options.TopOverCostCount = 2000;
-//         options.MinSeqNumber = 5;
-//         options.MaxSeqNumber = 200;
+//        options.BaseTime = 1582206693000L;
         options.Method = method;
-        options.BaseTime = 1582206693000L;
         options.WorkerId = 1;
 
         // 首先测试一下 IdHelper 方法，获取单个Id
