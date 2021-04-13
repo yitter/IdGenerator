@@ -170,7 +170,7 @@ func (m1 *SnowWorkerM1) NextNormalId() int64 {
 			m1._TurnBackTimeTick = m1._LastTimeTick - 1
 			m1._TurnBackIndex++
 			// 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
-			// 最多4次回拨（防止回拨重叠）
+			// 支持4次回拨次序（避免回拨重叠导致ID重复），可无限次回拨（次序循环使用）。
 			if m1._TurnBackIndex > 4 {
 				m1._TurnBackIndex = 1
 			}
