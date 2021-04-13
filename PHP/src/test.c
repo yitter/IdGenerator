@@ -12,7 +12,7 @@
 #define THREAD 2
 #define TOTAL 50000
 
-static snowflake snowf = {1, 0, 1, 6, 6, 0, 0, 2000};
+static snowflake snowf = {1, 0, 1, 6, 12, 0, 5, 2000};
 static snowflake *flake = &snowf;
 
 uint64_t arr[TOTAL];

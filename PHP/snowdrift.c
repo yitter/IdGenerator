@@ -99,8 +99,6 @@ PHP_METHOD(snowdrift, NextId)
   RETURN_LONG(NextId(flake));
 }
 
-/** 这种方式性能比不上PHP直接循环调用NextId快
- */
 PHP_METHOD(snowdrift, NextNumId)
 {
   zend_long num = 1;
