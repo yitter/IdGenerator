@@ -9,12 +9,13 @@
 #endif
 
 static void EndOverCostAction(uint64_t useTimeTick, snowflake *flake);
-static uint64_t NextOverCostId(snowflake *flake);
-static uint64_t NextNormalId(snowflake *flake);
-static uint64_t GetCurrentTimeTick(snowflake *flake);
-static uint64_t GetNextTimeTick(snowflake *flake);
-static uint64_t CalcId(snowflake *flake);
-static uint64_t CalcTurnBackId(snowflake *flake);
+static inline uint64_t NextOverCostId(snowflake *flake);
+static inline uint64_t NextNormalId(snowflake *flake);
+static inline uint64_t GetCurrentTimeTick(snowflake *flake);
+static inline uint64_t GetNextTimeTick(snowflake *flake);
+static inline uint64_t CalcId(snowflake *flake);
+static inline uint64_t CalcTurnBackId(snowflake *flake);
+static inline uint64_t GetCurrentTime();
 
 int ncpu;
 uint16_t spin = 2048;
@@ -37,19 +38,90 @@ void Config(snowflake *flake)
       ncpu = 1;
     }
   }
-  flake->WorkerIdBitLength = flake->WorkerIdBitLength == 0 ? 6 : flake->WorkerIdBitLength;
-  flake->SeqBitLength = flake->SeqBitLength == 0 ? 6 : flake->SeqBitLength;
-  flake->MaxSeqNumber = flake->MaxSeqNumber > 0 ? flake->MaxSeqNumber : (-1L << flake->SeqBitLength) ^ -1L;
-  flake->BaseTime = flake->BaseTime != 0 ? flake->BaseTime : 1577808000000;
-  flake->_TimestampShift = (uint8_t)(flake->WorkerIdBitLength + flake->SeqBitLength);
-  flake->_CurrentSeqNumber = flake->MinSeqNumber;
-  if (flake->MaxSeqNumber <= flake->MinSeqNumber)
+  if (flake->BaseTime == 0)
   {
-    flake->MinSeqNumber = 0;
+    flake->BaseTime = 1582136402000;
   }
+  else if (flake->BaseTime < 631123200000 || flake->BaseTime > GetCurrentTime())
+  {
+    perror("BaseTime error.");
+    return 0;
+  }
+
+  // 2.WorkerIdBitLength
+  if (flake->WorkerIdBitLength <= 0)
+  {
+    perror("WorkerIdBitLength error.(range:[1, 21])");
+    exit(1);
+  }
+  if (flake->SeqBitLength + flake->WorkerIdBitLength > 22)
+  {
+    perror("error：WorkerIdBitLength + SeqBitLength <= 22");
+    exit(1);
+  }
+  else
+  {
+    flake->WorkerIdBitLength = flake->WorkerIdBitLength <= 0 ? 6 : flake->WorkerIdBitLength;
+  }
+
+  // 3.WorkerId
+  uint32_t maxWorkerIdNumber = (1 << flake->WorkerIdBitLength) - 1;
+  if (maxWorkerIdNumber == 0)
+  {
+    maxWorkerIdNumber = 63;
+  }
+  if (flake->WorkerId < 0 || flake->WorkerId > maxWorkerIdNumber)
+  {
+    perror("WorkerId error. (range:[0, {2^WorkerIdBitLength-1]}");
+    exit(1);
+  }
+
+  // 4.SeqBitLength
+  if (flake->SeqBitLength < 2 || flake->SeqBitLength > 21)
+  {
+    perror("SeqBitLength error. (range:[2, 21])");
+    exit(1);
+  }
+  else
+  {
+    flake->SeqBitLength = flake->SeqBitLength <= 0 ? 6 : flake->SeqBitLength;
+  }
+
+  // 5.MaxSeqNumber
+  uint32_t maxSeqNumber = (1 << flake->SeqBitLength) - 1;
+  if (maxSeqNumber == 0)
+  {
+    maxSeqNumber = 63;
+  }
+  if (flake->MaxSeqNumber > maxSeqNumber)
+  {
+    perror("MaxSeqNumber error. (range:[1, {2^SeqBitLength-1}]");
+    exit(1);
+  }
+  else
+  {
+    flake->MaxSeqNumber = flake->MaxSeqNumber <= 0 ? maxSeqNumber : flake->MaxSeqNumber;
+  }
+
+  // 6.MinSeqNumber
+  if (flake->MinSeqNumber < 5 || flake->MinSeqNumber > maxSeqNumber)
+  {
+    perror("MinSeqNumber error. (range:[5, {MinSeqNumber}]");
+    exit(1);
+  }
+  else
+  {
+    flake->MinSeqNumber = flake->MinSeqNumber <= 0 ? 5 : flake->MinSeqNumber;
+  }
+
+  // 7.Others
+  flake->TopOverCostCount = flake->TopOverCostCount <= 0 ? 2000 : flake->TopOverCostCount;
+  flake->_TimestampShift = flake->WorkerIdBitLength + flake->SeqBitLength;
+  flake->_CurrentSeqNumber = flake->MinSeqNumber;
+  flake->Method = flake->Method;
 }
 
-void inline EndOverCostAction(uint64_t useTimeTick, snowflake *flake)
+static inline void EndOverCostAction(uint64_t useTimeTick, snowflake *flake)
 {
   if (flake->_TermIndex > 10000)
   {
@@ -57,7 +129,7 @@ void inline EndOverCostAction(uint64_t useTimeTick, snowflake *flake)
   }
 }
 
-uint64_t inline NextOverCostId(snowflake *flake)
+static inline uint64_t NextOverCostId(snowflake *flake)
 {
   uint64_t currentTimeTick = GetCurrentTimeTick(flake);
   if (currentTimeTick > flake->_LastTimeTick)
@@ -94,7 +166,7 @@ uint64_t inline NextOverCostId(snowflake *flake)
   return CalcId(flake);
 }
 
-uint64_t inline NextNormalId(snowflake *flake)
+static inline uint64_t NextNormalId(snowflake *flake)
 {
   uint64_t currentTimeTick = GetCurrentTimeTick(flake);
   if (currentTimeTick < flake->_LastTimeTick)
@@ -133,14 +205,19 @@ uint64_t inline NextNormalId(snowflake *flake)
   return CalcId(flake);
 }
 
-uint64_t inline GetCurrentTimeTick(snowflake *flake)
+static inline uint64_t GetCurrentTime()
 {
   struct timeval t;
   gettimeofday(&t, NULL);
-  return (uint64_t)((t.tv_sec * 1000 + t.tv_usec / 1000) - flake->BaseTime);
+  return (uint64_t)(t.tv_sec * 1000 + t.tv_usec / 1000);
 }
 
-uint64_t inline GetNextTimeTick(snowflake *flake)
+static inline uint64_t GetCurrentTimeTick(snowflake *flake)
+{
+  return GetCurrentTime() - flake->BaseTime;
+}
+
+static inline uint64_t GetNextTimeTick(snowflake *flake)
 {
   uint64_t tempTimeTicker = GetCurrentTimeTick(flake);
   while (tempTimeTicker <= flake->_LastTimeTick)
@@ -150,21 +227,21 @@ uint64_t inline GetNextTimeTick(snowflake *flake)
   return tempTimeTicker;
 }
 
-uint64_t inline CalcId(snowflake *flake)
+static inline uint64_t CalcId(snowflake *flake)
 {
   uint64_t result = (flake->_LastTimeTick << flake->_TimestampShift) + (flake->WorkerId << flake->SeqBitLength) + (flake->_CurrentSeqNumber);
   flake->_CurrentSeqNumber++;
   return result;
 }
 
-uint64_t inline CalcTurnBackId(snowflake *flake)
+static inline uint64_t CalcTurnBackId(snowflake *flake)
 {
   uint64_t result = (flake->_LastTimeTick << flake->_TimestampShift) + (flake->WorkerId << flake->SeqBitLength) + (flake->_TurnBackTimeTick);
   flake->_TurnBackTimeTick--;
   return result;
 }
 
-uint64_t inline NextSonwId(snowflake *flake)
+static inline uint64_t NextSonwId(snowflake *flake)
 {
   uint64_t currentTimeTick = GetCurrentTimeTick(flake);
   if (flake->_LastTimeTick == currentTimeTick)
@@ -184,7 +261,7 @@ uint64_t inline NextSonwId(snowflake *flake)
   return (uint64_t)((currentTimeTick << flake->_TimestampShift) | (flake->WorkerId << flake->SeqBitLength) | flake->_CurrentSeqNumber);
 }
 
-uint64_t inline GetId(snowflake *flake)
+static inline uint64_t GetId(snowflake *flake)
 {
   return flake->Method == 1 ? (flake->_IsOverCost != 0 ? NextOverCostId(flake) : NextNormalId(flake)) : NextSonwId(flake);
 }
