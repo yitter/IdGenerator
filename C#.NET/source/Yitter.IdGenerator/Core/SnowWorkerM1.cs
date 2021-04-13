@@ -49,7 +49,7 @@ namespace Yitter.IdGenerator
         protected readonly ushort MinSeqNumber = 0;
 
         /// <summary>
-        /// 最大漂移次数
+        /// 最大漂移次数（含）
         /// </summary>
         protected readonly int TopOverCostCount = 0;
 
