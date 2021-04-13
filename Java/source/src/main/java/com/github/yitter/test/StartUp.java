@@ -25,15 +25,11 @@ public class StartUp {
 //        options.WorkerIdBitLength = 6;
 //        options.SeqBitLength = 6;
 //        options.TopOverCostCount = 2000;
-        // options.MinSeqNumber = 5;
-        // options.MaxSeqNumber = 200;
-
+//         options.MinSeqNumber = 5;
+//         options.MaxSeqNumber = 200;
         options.Method = method;
         options.BaseTime = 1582206693000L;
         options.WorkerId = 1;
-
-        IIdGenerator idGen = new DefaultIdGenerator(options);
-        GenTest genTest = new GenTest(idGen, genIdCount, options.WorkerId);
 
         // 首先测试一下 IdHelper 方法，获取单个Id
         YitIdHelper.setIdGenerator(options);
@@ -43,6 +39,7 @@ public class StartUp {
 
         // 然后循环测试一下，看看并发请求时的耗时情况
         try {
+            GenTest genTest = new GenTest(genIdCount, options.WorkerId);
             while (true) {
                 genTest.GenStart();
                 Thread.sleep(1000); // 每隔1秒执行一次GenStart
