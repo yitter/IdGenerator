@@ -240,7 +240,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 
 ## 为什么不用大厂的？
 
-❄ 首先，大厂们不但自己用雪花ID，而且还开源：[百度][81] | [美团][82] | [滴滴][83] | [雪花ID鼻祖-推特][80]。
+❄ 首先，大厂们不但自己用雪花ID，而且还开源：[百度][81] | [美团][82] | [滴滴][83] | Sony[84] | [雪花ID鼻祖-推特][80]。
 
 ❄ 然而，大厂的雪花算法分为“经典算法”和“号段算法”两种，其中“号段算法”依赖网络或外部存储系统，不适合“非大厂”，且存在无法反应业务时序的缺点。
 
@@ -270,4 +270,5 @@ extern GoInt32 Validate(GoInt32 workerId);
 [81]: https://github.com/baidu/uid-generator
 [82]: https://github.com/Meituan-Dianping/Leaf
 [83]: https://github.com/didi/tinyid
+[84]: https://github.com/sony/sonyflake
 
