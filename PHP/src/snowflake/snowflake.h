@@ -18,8 +18,8 @@ typedef struct snowflake
   uint8_t _TurnBackIndex;
   uint8_t _IsOverCost;
   uint32_t _OverCostCountInOneTerm;
-  uint32_t _GenCountInOneTerm;
-  uint32_t _TermIndex;
+  // uint32_t _GenCountInOneTerm;
+  // uint32_t _TermIndex;
   volatile unsigned int _Lock;
 } snowflake;
 

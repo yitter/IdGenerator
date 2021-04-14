@@ -28,8 +28,8 @@ type SnowWorkerM1 struct {
 	_TurnBackIndex          byte
 	_IsOverCost             bool
 	_OverCostCountInOneTerm uint32
-	_GenCountInOneTerm      uint32
-	_TermIndex              uint32
+	// _GenCountInOneTerm      uint32
+	// _TermIndex              uint32
 
 	sync.Mutex
 }
@@ -100,8 +100,8 @@ func NewSnowWorkerM1(options *IdGeneratorOptions) ISnowWorker {
 		_TurnBackIndex:          0,
 		_IsOverCost:             false,
 		_OverCostCountInOneTerm: 0,
-		_GenCountInOneTerm:      0,
-		_TermIndex:              0,
+		// _GenCountInOneTerm:      0,
+		// _TermIndex:              0,
 	}
 }
 
@@ -115,9 +115,9 @@ func (m1 *SnowWorkerM1) BeginOverCostAction(useTimeTick int64) {
 }
 
 func (m1 *SnowWorkerM1) EndOverCostAction(useTimeTick int64) {
-	if m1._TermIndex > 10000 {
-		m1._TermIndex = 0
-	}
+	// if m1._TermIndex > 10000 {
+	// 	m1._TermIndex = 0
+	// }
 }
 
 func (m1 *SnowWorkerM1) BeginTurnBackAction(useTimeTick int64) {
@@ -131,21 +131,21 @@ func (m1 *SnowWorkerM1) EndTurnBackAction(useTimeTick int64) {
 func (m1 *SnowWorkerM1) NextOverCostId() int64 {
 	currentTimeTick := m1.GetCurrentTimeTick()
 	if currentTimeTick > m1._LastTimeTick {
-		m1.EndOverCostAction(currentTimeTick)
+		// m1.EndOverCostAction(currentTimeTick)
 		m1._LastTimeTick = currentTimeTick
 		m1._CurrentSeqNumber = m1.MinSeqNumber
 		m1._IsOverCost = false
 		m1._OverCostCountInOneTerm = 0
-		m1._GenCountInOneTerm = 0
+		// m1._GenCountInOneTerm = 0
 		return m1.CalcId(m1._LastTimeTick)
 	}
 	if m1._OverCostCountInOneTerm >= m1.TopOverCostCount {
-		m1.EndOverCostAction(currentTimeTick)
+		// m1.EndOverCostAction(currentTimeTick)
 		m1._LastTimeTick = m1.GetNextTimeTick()
 		m1._CurrentSeqNumber = m1.MinSeqNumber
 		m1._IsOverCost = false
 		m1._OverCostCountInOneTerm = 0
-		m1._GenCountInOneTerm = 0
+		// m1._GenCountInOneTerm = 0
 		return m1.CalcId(m1._LastTimeTick)
 	}
 	if m1._CurrentSeqNumber > m1.MaxSeqNumber {
@@ -153,12 +153,12 @@ func (m1 *SnowWorkerM1) NextOverCostId() int64 {
 		m1._CurrentSeqNumber = m1.MinSeqNumber
 		m1._IsOverCost = true
 		m1._OverCostCountInOneTerm++
-		m1._GenCountInOneTerm++
+		// m1._GenCountInOneTerm++
 
 		return m1.CalcId(m1._LastTimeTick)
 	}
 
-	m1._GenCountInOneTerm++
+	// m1._GenCountInOneTerm++
 	return m1.CalcId(m1._LastTimeTick)
 }
 
@@ -195,12 +195,12 @@ func (m1 *SnowWorkerM1) NextNormalId() int64 {
 
 	if m1._CurrentSeqNumber > m1.MaxSeqNumber {
 		m1.BeginOverCostAction(currentTimeTick)
-		m1._TermIndex++
+		// m1._TermIndex++
 		m1._LastTimeTick++
 		m1._CurrentSeqNumber = m1.MinSeqNumber
 		m1._IsOverCost = true
 		m1._OverCostCountInOneTerm = 1
-		m1._GenCountInOneTerm = 1
+		// m1._GenCountInOneTerm = 1
 
 		return m1.CalcId(m1._LastTimeTick)
 	}

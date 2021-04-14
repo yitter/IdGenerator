@@ -25,8 +25,8 @@ mut:
 	turnback_index          byte
 	is_over_cost            bool
 	overcostcount_inoneterm u32
-	gencount_inoneterm      u32
-	term_index              u32
+	// gencount_inoneterm      u32
+	// term_index              u32
 }
 
 pub fn make_sf_m1(options &contract.IdGeneratorOptions) &contract.ISnowWorker {
@@ -78,11 +78,11 @@ pub fn make_sf_m1(options &contract.IdGeneratorOptions) &contract.ISnowWorker {
 
 // }
 
-fn (mut m1 SnowWorkerM1) end_over_cost_action() {
-	if m1.term_index > 10000 {
-		m1.term_index = 0
-	}
-}
+// fn (mut m1 SnowWorkerM1) end_over_cost_action() {
+// 	if m1.term_index > 10000 {
+// 		m1.term_index = 0
+// 	}
+// }
 
 // fn (m1 &SnowWorkerM1) begin_turn_back_action(use_time_tick i64) {
 
@@ -95,21 +95,21 @@ fn (mut m1 SnowWorkerM1) end_over_cost_action() {
 fn (mut m1 SnowWorkerM1) next_over_cost_id() u64 {
 	current_time_tick := m1.get_current_time_tick()
 	if current_time_tick > m1.last_time_tick {
-		m1.end_over_cost_action()
+		// m1.end_over_cost_action()
 		m1.last_time_tick = current_time_tick
 		m1.current_seqnumber = m1.min_seqnumber
 		m1.is_over_cost = false
 		m1.overcostcount_inoneterm = 0
-		m1.gencount_inoneterm = 0
+		// m1.gencount_inoneterm = 0
 		return m1.calc_id()
 	}
 	if m1.overcostcount_inoneterm >= m1.top_over_cost_count {
-		m1.end_over_cost_action()
+		// m1.end_over_cost_action()
 		m1.last_time_tick = m1.get_next_time_tick()
 		m1.current_seqnumber = m1.min_seqnumber
 		m1.is_over_cost = false
 		m1.overcostcount_inoneterm = 0
-		m1.gencount_inoneterm = 0
+		// m1.gencount_inoneterm = 0
 		return m1.calc_id()
 	}
 	if m1.current_seqnumber > m1.max_seqnumber {
@@ -117,11 +117,11 @@ fn (mut m1 SnowWorkerM1) next_over_cost_id() u64 {
 		m1.current_seqnumber = m1.min_seqnumber
 		m1.is_over_cost = true
 		m1.overcostcount_inoneterm++
-		m1.gencount_inoneterm++
+		// m1.gencount_inoneterm++
 
 		return m1.calc_id()
 	}
-	m1.gencount_inoneterm++
+	// m1.gencount_inoneterm++
 	return m1.calc_id()
 }
 
@@ -152,12 +152,12 @@ fn (mut m1 SnowWorkerM1) next_normal_id() u64 {
 	}
 	if m1.current_seqnumber > m1.max_seqnumber {
 		// m1.begin_over_cost_action(current_time_tick)
-		m1.term_index++
+		// m1.term_index++
 		m1.last_time_tick++
 		m1.current_seqnumber = m1.min_seqnumber
 		m1.is_over_cost = true
 		m1.overcostcount_inoneterm = 1
-		m1.gencount_inoneterm = 1
+		// m1.gencount_inoneterm = 1
 
 		return m1.calc_id()
 	}

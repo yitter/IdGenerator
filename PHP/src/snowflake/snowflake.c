@@ -8,7 +8,7 @@
 #include "windows.h"
 #endif
 
-static void EndOverCostAction(uint64_t useTimeTick, snowflake *flake);
+// static void EndOverCostAction(uint64_t useTimeTick, snowflake *flake);
 static inline uint64_t NextOverCostId(snowflake *flake);
 static inline uint64_t NextNormalId(snowflake *flake);
 static inline uint64_t GetCurrentTimeTick(snowflake *flake);
@@ -121,35 +121,35 @@ void Config(snowflake *flake)
   flake->Method = flake->Method;
 }
 
-static inline void EndOverCostAction(uint64_t useTimeTick, snowflake *flake)
-{
-  if (flake->_TermIndex > 10000)
-  {
-    flake->_TermIndex = 0;
-  }
-}
+// static inline void EndOverCostAction(uint64_t useTimeTick, snowflake *flake)
+// {
+//   if (flake->_TermIndex > 10000)
+//   {
+//     flake->_TermIndex = 0;
+//   }
+// }
 
 static inline uint64_t NextOverCostId(snowflake *flake)
 {
   uint64_t currentTimeTick = GetCurrentTimeTick(flake);
   if (currentTimeTick > flake->_LastTimeTick)
   {
-    EndOverCostAction(currentTimeTick, flake);
+    // EndOverCostAction(currentTimeTick, flake);
     flake->_LastTimeTick = currentTimeTick;
     flake->_CurrentSeqNumber = flake->MinSeqNumber;
     flake->_IsOverCost = 0;
     flake->_OverCostCountInOneTerm = 0;
-    flake->_GenCountInOneTerm = 0;
+    // flake->_GenCountInOneTerm = 0;
     return CalcId(flake);
   }
   if (flake->_OverCostCountInOneTerm > flake->TopOverCostCount)
   {
-    EndOverCostAction(currentTimeTick, flake);
+    // EndOverCostAction(currentTimeTick, flake);
     flake->_LastTimeTick = GetNextTimeTick(flake);
     flake->_CurrentSeqNumber = flake->MinSeqNumber;
     flake->_IsOverCost = 0;
     flake->_OverCostCountInOneTerm = 0;
-    flake->_GenCountInOneTerm = 0;
+    // flake->_GenCountInOneTerm = 0;
     return CalcId(flake);
   }
   if (flake->_CurrentSeqNumber > flake->MaxSeqNumber)
@@ -158,11 +158,11 @@ static inline uint64_t NextOverCostId(snowflake *flake)
     flake->_CurrentSeqNumber = flake->MinSeqNumber;
     flake->_IsOverCost = 1;
     flake->_OverCostCountInOneTerm++;
-    flake->_GenCountInOneTerm++;
+    // flake->_GenCountInOneTerm++;
     return CalcId(flake);
   }
 
-  flake->_GenCountInOneTerm++;
+  // flake->_GenCountInOneTerm++;
   return CalcId(flake);
 }
 
@@ -194,12 +194,12 @@ static inline uint64_t NextNormalId(snowflake *flake)
   }
   if (flake->_CurrentSeqNumber > flake->MaxSeqNumber)
   {
-    flake->_TermIndex++;
+    // flake->_TermIndex++;
     flake->_LastTimeTick++;
     flake->_CurrentSeqNumber = flake->MinSeqNumber;
     flake->_IsOverCost = 1;
     flake->_OverCostCountInOneTerm = 1;
-    flake->_GenCountInOneTerm = 1;
+    // flake->_GenCountInOneTerm = 1;
     return CalcId(flake);
   }
   return CalcId(flake);
