@@ -30,7 +30,7 @@ func RegisterOne(ip *C.char, port int32, password *C.char, maxWorkerId int32) in
 func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId int32, totalCount int32) []int32 {
 	//values := regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount)
 	//return (*C.int)(unsafe.Pointer(&values))
-	return regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount);
+	return regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount)
 }
 
 // 注销本机已注册的 WorkerId
@@ -61,7 +61,8 @@ func main() {
 			var begin = time.Now().UnixNano() / 1e3
 			for i := 0; i < genCount; i++ {
 				// 生成ID
-				idgen.NextId()
+				id := idgen.NextId()
+				fmt.Println(id)
 			}
 			var end = time.Now().UnixNano() / 1e3
 
