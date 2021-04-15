@@ -146,7 +146,7 @@ QQ群：646049993
 
 ❄ **WorkerId**，机器码，**最重要参数**，无默认值，必须 **全局唯一**，必须 **程序设定**，缺省条件（WorkerIdBitLength取默认值）时最大值63，理论最大值 2^WorkerIdBitLength-1（不同实现语言可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 规则）。不同机器或不同应用实例 **不能相同**，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
 
-特别提示：如果一台服务器部署多个独立运行的服务，需要为每个服务指定不同的 WorkerId。
+**特别提示**：如果一台服务器部署多个独立服务，需要为每个服务指定不同的 WorkerId。
 
 ❄ ***SeqBitLength***，序列数位长，**默认值6**，取值范围 [3, 21]（建议不小于4），决定每毫秒基础生成的ID个数。规则要求：WorkerIdBitLength + SeqBitLength 不超过 22。
 
