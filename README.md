@@ -3,6 +3,10 @@
 
 ## 技术支持
 
+开源地址1：https://github.com/yitter/IdGenerator
+
+开源地址2：https://gitee.com/yitter/IdGenerator
+
 QQ群：646049993
 
 
