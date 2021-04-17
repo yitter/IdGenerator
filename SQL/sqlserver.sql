@@ -11,7 +11,17 @@
 3.调用方法：
 	例如：select dbo.Fn_NextSnowId(rand())
 	说明：必须带 dbo. 前缀
+	
+4.自动赋值：
+	如果主键设置为雪花ID类型（bigint），可以将该主键的 “默认值或绑定” 设置为 ([dbo].[Fn_NextSnowId](rand()))
 */
+
+-- 先删除函数
+if exists(select * from sys.objects where name='Fn_NextSnowId')
+	drop function dbo.Fn_NextSnowId;
+Go
+
+-- 再创建函数
 CREATE function dbo.Fn_NextSnowId
 (
 	@RandomSeed float -- 生成ID的函数，需要有一个随机数，在调用时，传入系统函数 rand() 即可

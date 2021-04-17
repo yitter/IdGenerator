@@ -19,6 +19,9 @@
 3.调用方法：
 	例如：select dbo.Fn_NextSnowId(rand())
 	说明：必须带 dbo. 前缀
+	
+4.自动赋值：
+	如果主键设置为雪花ID类型（bigint），可以将该主键的 “默认值或绑定” 设置为 ([dbo].[Fn_NextSnowId](rand()))
 ```
 
 在执行函数之前，必须设置好以下3个参数：
