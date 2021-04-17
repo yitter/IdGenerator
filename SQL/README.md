@@ -24,5 +24,5 @@
 ```
 set @WorkerId = 1 -- 最大值 2^@WorkerIdBigLength-1
 set @WorkerIdBigLength = 4 -- @WorkerIdBigLength+@SeqBigLength，不要超过22
-set @SeqBigLength = 8
+set @SeqBigLength = 8 -- 建议不小于6
 ```
