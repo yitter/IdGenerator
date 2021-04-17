@@ -10,7 +10,7 @@
 
 3.调用方法：
 	例如：select dbo.Fn_NextSnowId(rand())
-
+	说明：必须带 dbo. 前缀
 */
 CREATE function dbo.Fn_NextSnowId
 (

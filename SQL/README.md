@@ -18,6 +18,7 @@
 
 3.调用方法：
 	例如：select dbo.Fn_NextSnowId(rand())
+	说明：必须带 dbo. 前缀
 ```
 
 在执行函数之前，必须设置好以下3个参数：
