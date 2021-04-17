@@ -22,7 +22,7 @@
 
 在执行函数之前，必须设置好以下3个参数：
 ```
-	set @WorkerId = 1 -- 最大值 2^@WorkerIdBigLength-1
-	set @WorkerIdBigLength = 4 -- @WorkerIdBigLength+@SeqBigLength，不要超过22
-	set @SeqBigLength = 8
+set @WorkerId = 1 -- 最大值 2^@WorkerIdBigLength-1
+set @WorkerIdBigLength = 4 -- @WorkerIdBigLength+@SeqBigLength，不要超过22
+set @SeqBigLength = 8
 ```
