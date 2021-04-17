@@ -37,8 +37,8 @@ begin
 
 	-- Begin: 以下是需要初始化的参数，请确保 @WorkerIdBigLength 和 @SeqBigLength 的设置值跟其它应用程序相同
 	set @WorkerId = 1 -- 最大值 2^@WorkerIdBigLength-1
-	set @WorkerIdBigLength = 4 -- @WorkerIdBigLength+@SeqBigLength<23
-	set @SeqBigLength = 8	-- 建议不小于6
+	set @WorkerIdBigLength = 4 -- 规则约束：@WorkerIdBigLength+@SeqBigLength<23
+	set @SeqBigLength = 8	-- 建议不小于6，在当前SQL版本中，@SeqBigLength 决定随机数的最大值（未采用自增数，这需要数据表记录Seq值）
 	-- End
 
 	-- 当前时间戳（毫秒单位）

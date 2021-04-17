@@ -2,7 +2,7 @@
 
 ## 介绍
 
-这里是在不同数据库中生成雪花ID的脚本。
+这里是在不同数据库中生成雪花ID的SQL脚本。
 
 #### SQL Server
 
@@ -27,6 +27,11 @@
 在执行函数之前，必须设置好以下3个参数：
 ```
 set @WorkerId = 1 -- 最大值 2^@WorkerIdBigLength-1
-set @WorkerIdBigLength = 4 -- @WorkerIdBigLength+@SeqBigLength，不要超过22
-set @SeqBigLength = 8 -- 建议不小于6
+set @WorkerIdBigLength = 4 -- 规则约束：@WorkerIdBigLength+@SeqBigLength<23
+set @SeqBigLength = 8 -- 建议不小于6，在当前SQL版本中，@SeqBigLength 决定随机数的最大值（未采用自增数，这需要数据表记录Seq值）
 ```
+
+#### 其它思路
+
+除了用SQL Server方法生成雪花ID之外，还可让SQL Server调用外部dll生成ID。参考：https://www.cnblogs.com/woxpp/p/3990277.html
+
