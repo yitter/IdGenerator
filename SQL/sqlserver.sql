@@ -27,8 +27,8 @@ begin
 
 	-- Begin: 以下是需要初始化的参数，请确保 @WorkerIdBigLength 和 @SeqBigLength 的设置值跟其它应用程序相同
 	set @WorkerId = 1 -- 最大值 2^@WorkerIdBigLength-1
-	set @WorkerIdBigLength = 4 -- @WorkerIdBigLength+@SeqBigLength，不要超过22
-	set @SeqBigLength = 8
+	set @WorkerIdBigLength = 4 -- @WorkerIdBigLength+@SeqBigLength<23
+	set @SeqBigLength = 8	-- 建议不小于6
 	-- End
 
 	-- 当前时间戳（毫秒单位）
