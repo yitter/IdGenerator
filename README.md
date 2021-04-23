@@ -240,6 +240,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 | 🌲 D | [查看示例][72]  | [查看示例][73]  |  
 
 
+<div style='display: none'>
 ## 为什么用雪花ID？
 
 ❄ 因为大厂也在用，推特、百度、美团、滴滴等等。
@@ -255,6 +256,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 ❄ 然而，大厂的雪花算法分为“经典算法”和“号段算法”两种，其中“号段算法”依赖网络或外部存储系统，不适合“非大厂”，且存在无法反应业务时序的缺点。
 
 ❄ 至于其“经典算法”，在“ID长度和生成性能”方面，未做过优化，而这正式本算法——雪花漂移算法的核心所在。
+</div>
 
 
 [1]: https://github.com/yitter/idgenerator/tree/master/C%23.NET
