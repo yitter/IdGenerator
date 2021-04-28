@@ -3,7 +3,7 @@
  * @author: bubao
  * @date: 2021-04-28 09:52:24
  * @last author: bubao
- * @last edit time: 2021-04-28 10:12:52
+ * @last edit time: 2021-04-28 10:34:31
 -->
 
 # README
@@ -23,10 +23,10 @@ for (let index = 0; index < 5000; index++) {
 
 ## 测试
 
-在 Nodejs 环境中，提供了 redis 测试环境，需要在该 README 同级目录下创建一个`config.js`文件。
+在 Nodejs 环境中，提供了 redis 测试环境，需要在该 README 同级目录下创建一个`env.config.js`文件。
 
 ```js
-// config.js
+// env.config.js
 module.exports = {
     port: 6379, // Redis port
     host: "localhost", // Redis host

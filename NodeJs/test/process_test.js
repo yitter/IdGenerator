@@ -3,11 +3,11 @@
  * @author: bubao
  * @date: 2021-04-27 23:38:30
  * @last author: bubao
- * @last edit time: 2021-04-28 10:04:30
+ * @last edit time: 2021-04-28 10:35:20
  */
 const Redis = require("ioredis");
 const { spawn } = require("child_process");
-const config = require("../config");
+const config = require("../env.config.js");
 const redis = new Redis(config);
 //保存被子进程实例数组
 var workers = {};
