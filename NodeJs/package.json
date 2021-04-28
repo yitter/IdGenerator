@@ -1,0 +1,15 @@
+{
+  "name": "genid",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "ioredis": "^4.27.1"
+  },
+  "scripts": {
+    "test-process": "node test/process_test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": ""
+}

@@ -3,9 +3,9 @@
  * @author: bubao
  * @date: 2021-04-27 17:19:51
  * @last author: bubao
- * @last edit time: 2021-04-28 00:39:56
+ * @last edit time: 2021-04-27 23:17:06
  */
- class Genid {
+class Genid {
     /**
      *Creates an instance of Genid.
      * @author bubao
