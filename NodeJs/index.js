@@ -196,7 +196,6 @@ class Genid {
 
     GetNextTimeTick() {
         let tempTimeTicker = this.GetCurrentTimeTick();
-        console.log(tempTimeTicker);
         while (tempTimeTicker <= this._LastTimeTick) {
             tempTimeTicker = this.GetCurrentTimeTick();
         }

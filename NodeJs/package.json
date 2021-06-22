@@ -1,15 +1,22 @@
 {
-  "name": "genid",
-  "version": "1.0.0",
-  "main": "index.js",
-  "devDependencies": {
-    "ioredis": "^4.27.1"
-  },
-  "scripts": {
-    "test-process": "node test/process_test.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "description": ""
+    "name": "cherry-id",
+    "version": "0.0.3",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "node ./test/test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bubao/cherry-id-js.git"
+    },
+    "author": "bubao",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/bubao/cherry-id-js/issues"
+    },
+    "homepage": "https://github.com/bubao/cherry-id-js#readme",
+    "description": ""
 }
