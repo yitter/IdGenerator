@@ -2,7 +2,7 @@
  * 版权属于：yitter(yitter@126.com)
  * 代码翻译：amuluowin
  * 代码修订：yitter
- * 开源地址：https://gitee.com/yitter/idgenerator
+ * 开源地址：https://github.com/yitter/idgenerator
  */
 #include <malloc.h>
 #include <stdlib.h>

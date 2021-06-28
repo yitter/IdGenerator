@@ -1,6 +1,6 @@
 /*
  * 版权属于：yitter(yitter@126.com)
- * 开源地址：https://gitee.com/yitter/idgenerator
+ * 开源地址：https://github.com/yitter/idgenerator
  */
 use std::sync::Mutex;
 use std::sync::Arc;
