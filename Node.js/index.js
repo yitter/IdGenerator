@@ -1,15 +1,11 @@
 /**
  * @description: 
  * @author: bubao
- * @date: 2021-04-27 17:19:51
- * @last author: bubao
- * @last edit time: 2021-04-27 23:17:06
  */
 class Genid {
     /**
      *Creates an instance of Genid.
      * @author bubao
-     * @date 2021-04-27
      * @param {{
      *     Method: 1, // 雪花计算方法，（1-漂移算法|2-传统算法），默认 1
      *     BaseTime: 1577836800000,  // 基础时间（ms 单位），不能超过当前系统时间
