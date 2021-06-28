@@ -40,7 +40,8 @@ uint64_t containsDuplicate()
 
 void run()
 {
-  for (int i = 0; i < TOTAL / THREAD; i++)
+  int i;
+  for (i = 0; i < TOTAL / THREAD; i++)
   {
     arr[__sync_fetch_and_add(&index, 1)] = NextId(flake);
   }
@@ -56,7 +57,8 @@ int main()
   {
     // clock_gettime(CLOCK_REALTIME, &t_start);
 
-    // for (int i = 0; i < THREAD; i++)
+    int i;
+    // for (i = 0; i < THREAD; i++)
     // {
     //   if (pthread_create(&tid[i], NULL, (void *)run, NULL) != 0)
     //   {
@@ -65,7 +67,7 @@ int main()
     //   }
     // }
 
-    // for (int i = 0; i < THREAD; i++)
+    // for (i = 0; i < THREAD; i++)
     // {
     //   pthread_join(tid[i], NULL); //等待线程结束
     // }
@@ -91,7 +93,7 @@ int main()
     // index = 0;
 
     gettimeofday(&t_start, NULL);
-    for (int i = 0; i < TOTAL; i++)
+    for (i = 0; i < TOTAL; i++)
     {
       NextId(flake);
     }

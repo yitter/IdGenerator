@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "snowflake.h"
 #include "spinlock.h"
 
@@ -45,7 +46,7 @@ void Config(snowflake *flake)
   else if (flake->BaseTime < 631123200000 || flake->BaseTime > GetCurrentTime())
   {
     perror("BaseTime error.");
-    return 0;
+    exit(1);
   }
 
   // 2.WorkerIdBitLength
@@ -278,7 +279,8 @@ uint64_t *NextNumId(snowflake *flake, uint32_t num)
 {
   uint64_t *arr = (uint64_t *)malloc(sizeof(uint64_t) * num);
   spin_lock(&flake->_Lock, pid);
-  for (uint32_t i = 0; i < num; i++)
+  uint32_t i;
+  for (i = 0; i < num; i++)
   {
     arr[i] = GetId(flake);
   }

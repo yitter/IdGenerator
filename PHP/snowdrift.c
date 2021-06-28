@@ -67,7 +67,8 @@ static int snowdrift_init()
   }
   bzero(shmctx.addr, wid_num * sizeof(snowflake));
   sf = (snowflake *)shmctx.addr;
-  for (int i = 0; i < wid_num; i++)
+  int i;
+  for (i = 0; i < wid_num; i++)
   {
     snowflake *tmp = (sf + i);
     tmp->Method = SD_G(Method);
@@ -116,7 +117,8 @@ PHP_METHOD(snowdrift, NextNumId)
   }
   snowflake *flake = (sf + wid);
   array_init(return_value);
-  for (int i = 0; i < num; i++)
+  int i;
+  for (i = 0; i < num; i++)
   {
     add_next_index_long(return_value, NextId(flake));
   }
