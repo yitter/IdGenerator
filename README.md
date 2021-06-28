@@ -266,16 +266,16 @@ extern GoInt32 Validate(GoInt32 workerId);
 [7]: https://github.com/yitter/idgenerator/tree/master/PHP
 [8]: https://github.com/yitter/IdGenerator/tree/master/Node.js
 
-[11]: https://gitee.com/yitter/idgenerator/tree/master/C%23.NET
-[21]: https://gitee.com/yitter/idgenerator/tree/master/Java
-[31]: https://gitee.com/yitter/idgenerator/tree/master/Go
-[41]: https://gitee.com/yitter/idgenerator/tree/master/Rust
-[51]: https://gitee.com/yitter/idgenerator/tree/master/C
-[61]: https://gitee.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/V
-[71]: https://gitee.com/yitter/idgenerator/tree/master/PHP
+[11]: https://github.com/yitter/idgenerator/tree/master/C%23.NET
+[21]: https://github.com/yitter/idgenerator/tree/master/Java
+[31]: https://github.com/yitter/idgenerator/tree/master/Go
+[41]: https://github.com/yitter/idgenerator/tree/master/Rust
+[51]: https://github.com/yitter/idgenerator/tree/master/C
+[61]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/V
+[71]: https://github.com/yitter/idgenerator/tree/master/PHP
 
 [72]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/D
-[73]: https://gitee.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/D
+[73]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/D
 
 [80]: https://github.com/twitter-archive/snowflake
 [81]: https://github.com/baidu/uid-generator

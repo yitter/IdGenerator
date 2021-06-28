@@ -10,7 +10,7 @@
 ## 安装方式
 
 ```shell
-git clone https://gitee.com/yitter/idgenerator.git
+git clone https://github.com/yitter/idgenerator.git
 cd idgenerator/PHP
 phpize
 ./configure --with-php-config=/path/php-config
