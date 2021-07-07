@@ -36,7 +36,7 @@ static struct shm shmctx;
 static snowflake *sf;
 zend_class_entry snowdrift_ce;
 
-static uint8_t wid_num = 0;
+static uint16_t wid_num = 0;
 
 /* {{{ PHP_INI  */
 
