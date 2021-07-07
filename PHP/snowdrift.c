@@ -49,38 +49,62 @@ STD_PHP_INI_ENTRY("snowdrift.SeqBitLength", "6", PHP_INI_SYSTEM, OnUpdateLongGEZ
 STD_PHP_INI_ENTRY("snowdrift.MaxSeqNumber", "0", PHP_INI_SYSTEM, OnUpdateLongGEZero, MaxSeqNumber, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.MinSeqNumber", "5", PHP_INI_SYSTEM, OnUpdateLongGEZero, MinSeqNumber, zend_snowdrift_globals, snowdrift_globals)
 STD_PHP_INI_ENTRY("snowdrift.TopOverCostCount", "2000", PHP_INI_SYSTEM, OnUpdateLongGEZero, TopOverCostCount, zend_snowdrift_globals, snowdrift_globals)
+STD_PHP_INI_ENTRY("snowdrift.Multi", "0", PHP_INI_SYSTEM, OnUpdateLongGEZero, Multi, zend_snowdrift_globals, snowdrift_globals)
 PHP_INI_END()
 
 /* }}} */
 
 static int snowdrift_init()
 {
-  wid_num = (-1L << SD_G(WorkerIdBitLength)) ^ -1L;
-  shmctx.size = wid_num * sizeof(snowflake);
-  if (shm_alloc(&shmctx) == -1)
-  {
-    return FAILURE;
-  }
   if (SD_G(MaxSeqNumber) != 0 && SD_G(MaxSeqNumber) < SD_G(MinSeqNumber))
   {
     return FAILURE;
   }
-  bzero(shmctx.addr, wid_num * sizeof(snowflake));
-  sf = (snowflake *)shmctx.addr;
-  int i;
-  for (i = 0; i < wid_num; i++)
+  wid_num = (-1L << SD_G(WorkerIdBitLength)) ^ -1L;
+  if (SD_G(Multi) > 0)
   {
-    snowflake *tmp = (sf + i);
-    tmp->Method = SD_G(Method);
-    tmp->BaseTime = SD_G(BaseTime);
-    tmp->WorkerId = i + 1;
-    tmp->WorkerIdBitLength = SD_G(WorkerIdBitLength);
-    tmp->SeqBitLength = SD_G(SeqBitLength);
-    tmp->MaxSeqNumber = SD_G(MaxSeqNumber);
-    tmp->MinSeqNumber = SD_G(MinSeqNumber);
-    tmp->TopOverCostCount = SD_G(TopOverCostCount);
-    Config(tmp);
+    shmctx.size = wid_num * sizeof(snowflake);
+    if (shm_alloc(&shmctx) == -1)
+    {
+      return FAILURE;
+    }
+    bzero(shmctx.addr, wid_num * sizeof(snowflake));
+    sf = (snowflake *)shmctx.addr;
+    int i;
+    for (i = 0; i < wid_num; i++)
+    {
+      snowflake *tmp = (sf + i);
+      tmp->Method = SD_G(Method);
+      tmp->BaseTime = SD_G(BaseTime);
+      tmp->WorkerId = i + 1;
+      tmp->WorkerIdBitLength = SD_G(WorkerIdBitLength);
+      tmp->SeqBitLength = SD_G(SeqBitLength);
+      tmp->MaxSeqNumber = SD_G(MaxSeqNumber);
+      tmp->MinSeqNumber = SD_G(MinSeqNumber);
+      tmp->TopOverCostCount = SD_G(TopOverCostCount);
+      Config(tmp);
+    }
   }
+  else
+  {
+    shmctx.size = sizeof(snowflake);
+    if (shm_alloc(&shmctx) == -1)
+    {
+      return FAILURE;
+    }
+    bzero(shmctx.addr, sizeof(snowflake));
+    sf = (snowflake *)shmctx.addr;
+    sf->Method = SD_G(Method);
+    sf->BaseTime = SD_G(BaseTime);
+    sf->WorkerId = SD_G(WorkerId);
+    sf->WorkerIdBitLength = SD_G(WorkerIdBitLength);
+    sf->SeqBitLength = SD_G(SeqBitLength);
+    sf->MaxSeqNumber = SD_G(MaxSeqNumber);
+    sf->MinSeqNumber = SD_G(MinSeqNumber);
+    sf->TopOverCostCount = SD_G(TopOverCostCount);
+    Config(sf);
+  }
+
   return SUCCESS;
 }
 
@@ -91,13 +115,22 @@ PHP_METHOD(snowdrift, NextId)
   {
     RETURN_FALSE;
   }
-  wid--;
-  if (wid < 0 || wid > wid_num)
+  snowflake *flake;
+  if (SD_G(Multi) == 0)
   {
-    zend_throw_exception_ex(NULL, 0, "wid error! wid between 1 and %d", wid_num);
-    RETURN_NULL();
+    flake = sf;
   }
-  snowflake *flake = (sf + wid);
+  else
+  {
+    wid--;
+    if (wid < 0 || wid > wid_num)
+    {
+      zend_throw_exception_ex(NULL, 0, "wid error! wid between 1 and %d", wid_num);
+      RETURN_NULL();
+    }
+    flake = (sf + wid);
+  }
+
   RETURN_LONG(NextId(flake));
 }
 
@@ -109,13 +142,22 @@ PHP_METHOD(snowdrift, NextNumId)
   {
     RETURN_FALSE;
   }
-  wid--;
-  if (wid < 0 || wid > wid_num)
+  snowflake *flake;
+  if (SD_G(Multi) == 0)
   {
-    zend_throw_exception_ex(NULL, 0, "wid error! wid between 1 and %d", wid_num);
-    RETURN_NULL();
+    flake = sf;
   }
-  snowflake *flake = (sf + wid);
+  else
+  {
+    wid--;
+    if (wid < 0 || wid > wid_num)
+    {
+      zend_throw_exception_ex(NULL, 0, "wid error! wid between 1 and %d", wid_num);
+      RETURN_NULL();
+    }
+    flake = (sf + wid);
+  }
+
   array_init(return_value);
   int i;
   for (i = 0; i < num; i++)

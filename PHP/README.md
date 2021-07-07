@@ -31,12 +31,14 @@ snowdrift.SeqBitLength=6 //序列数位长，默认值6，取值范围 [3, 21]�
 snowdrift.MaxSeqNumber=0 //最大序列数（含），设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1]
 snowdrift.MinSeqNumber=5 //最小序列数（含），默认值5，取值范围 [5, MaxSeqNumber]，每毫秒的前5个序列数对应编号0-4是保留位，其中1-4是时间回拨相应预留位，0是手工新值预留位
 snowdrift.TopOverCostCount=2000 //最大漂移次数（含），默认2000，推荐范围 500-20000（与计算能力有关）
+
+snowdrift.Multi=0 //是否支持多WorkerId，0：不支持（可用WorkerId=snowdrift.WorkerId），1：支持(可用WorkerId=1~(2^WorkerIdBitLength-1))，默认0
 ```
 
 **函数签名**：
 ```php
-\SnowDrift::NextId(int $wid=snowdrift.WorkerId):?int //获取单个id，$wid可选，默认值=snowdrift.WorkerId
-\SnowDrift::NextNumId(int $num, int $wid=snowdrift.WorkerId):?array //获取$num个id，$wid可选，默认值=snowdrift.WorkerId
+\SnowDrift::NextId(int $wid=snowdrift.WorkerId):?int //获取单个id，$wid可选，默认值=snowdrift.WorkerId，snowdrift.Multi=0情况下会忽略此参数
+\SnowDrift::NextNumId(int $num, int $wid=snowdrift.WorkerId):?array //获取$num个id，$wid可选，默认值=snowdrift.WorkerId，snowdrift.Multi=0情况下会忽略此参数
 ```
 
 **调用示例**
