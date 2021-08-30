@@ -3,34 +3,79 @@
  */
 export class snowflakeIdv1 {
 
+    /**
+     * 雪花计算方法，（1-漂移算法|2-传统算法），默认 1
+     */
     private Method
 
-    private WorkerIdBitLength
-
+    /**
+     * 基础时间（ms 单位），不能超过当前系统时间
+     */
     private BaseTime
 
+    /**
+     * 机器码，必须由外部设定，最大值 2^WorkerIdBitLength-1
+     */
     private WorkerId
 
+    /**
+     * 机器码位长，默认值 6，取值范围 [1, 15](要求：序列数位长+机器码位长不超过 22)
+     */
+    private WorkerIdBitLength
+
+    /**
+     * 序列数位长，默认值 6，取值范围 [3, 21](要求：序列数位长+机器码位长不超过 22)
+     */
     private SeqBitLength
 
+    /**
+     * 最大序列数（含），设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值 0，表示最大序列数取最大值（2^SeqBitLength-1]）
+     */
     private MaxSeqNumber
 
+    /**
+     * 最小序列数（含），默认值 5，取值范围 [5, MaxSeqNumber]，每毫秒的前 5 个序列数对应编号 0-4 是保留位，其中 1-4 是时间回拨相应预留位，0 是手工新值预留位
+     */
     private MinSeqNumber
 
+    /**
+     * 最大漂移次数（含），默认 2000，推荐范围 500-10000（与计算能力有关）
+     */
     private TopOverCostCount
 
+    /**
+     * 
+     */
     private _TimestampShift
 
+    /**
+     * 
+     */
     private _CurrentSeqNumber
 
+    /**
+     * 
+     */
     private _LastTimeTick: bigint
 
+    /**
+     * 回拨次序, 支持 4 次回拨次序（避免回拨重叠导致 ID 重复）
+     */
     private _TurnBackTimeTick: bigint
 
+    /**
+     * 
+     */
     private _TurnBackIndex
 
+    /**
+     * 
+     */
     private _IsOverCost
 
+    /**
+     * 
+     */
     private _OverCostCountInOneTerm
 
 
@@ -153,6 +198,7 @@ export class snowflakeIdv1 {
         const currentTimeTick = this.GetCurrentTimeTick()
         if (currentTimeTick > this._LastTimeTick) {
             // this.EndOverCostAction(currentTimeTick)
+            //当前时间大于上次时间，说明是时间是递增的，这是正常情况
             this._LastTimeTick = currentTimeTick
             this._CurrentSeqNumber = this.MinSeqNumber
             this._IsOverCost = false
@@ -161,6 +207,7 @@ export class snowflakeIdv1 {
             return this.CalcId(this._LastTimeTick)
         }
         if (this._OverCostCountInOneTerm >= this.TopOverCostCount) {
+            //当前漂移次数超过最大限制
             // this.EndOverCostAction(currentTimeTick)
             this._LastTimeTick = this.GetNextTimeTick()
             this._CurrentSeqNumber = this.MinSeqNumber
@@ -170,6 +217,7 @@ export class snowflakeIdv1 {
             return this.CalcId(this._LastTimeTick)
         }
         if (this._CurrentSeqNumber > this.MaxSeqNumber) {
+            //当前序列数超过最大限制，则要提前透支
             this._LastTimeTick++
             this._CurrentSeqNumber = this.MinSeqNumber
             this._IsOverCost = true
@@ -230,17 +278,20 @@ export class snowflakeIdv1 {
     }
 
     /**
-     * 
+     * 生成ID
+     * @param useTimeTick 时间戳
      * @returns 
      */
-    private CalcId(useTimeTick: any) {
+    private CalcId(useTimeTick: bigint) {
+        //ID组成 1.相对基础时间的时间差 | 2.WorkerId | 3.序列数
+        //时间差，是生成ID时的系统时间减去 BaseTime 的总时间差（毫秒单位）
         const result = BigInt(useTimeTick << this._TimestampShift) + BigInt(this.WorkerId << this.SeqBitLength) + BigInt(this._CurrentSeqNumber)
         this._CurrentSeqNumber++
         return result
     }
 
     /**
-     * 
+     * 生成时间回拨ID
      * @returns 
      */
     private CalcTurnBackId(useTimeTick: any) {
