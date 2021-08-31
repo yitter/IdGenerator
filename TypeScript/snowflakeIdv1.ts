@@ -157,19 +157,15 @@ export class snowflakeIdv1 {
     }
 
     /**
-     * 
+     * 当前序列号超过最大范围，开始透支使用序号号的通知事件，，本项暂未实现
      * @returns 
      */
-    private DoGenIdAction(OverCostActionArg: any) { }
+    private BeginOverCostAction(useTimeTick: any) {
+
+    }
 
     /**
-     * 
-     * @returns 
-     */
-    private BeginOverCostAction(useTimeTick: any) { }
-
-    /**
-     * 
+     * 当前序列号超过最大范围，结束透支使用序号号的通知事件，，本项暂未实现
      * @returns 
      */
     private EndOverCostAction(useTimeTick: any) {
@@ -179,25 +175,29 @@ export class snowflakeIdv1 {
     }
 
     /**
-     * 
+     * 开始时间回拨通知，本项暂未实现
      * @returns 
      */
-    private BeginTurnBackAction(useTimeTick: any) { }
+    private BeginTurnBackAction(useTimeTick: any) {
+
+    }
 
     /**
-     * 
+     * 结束时间回拨通知，本项暂未实现
      * @returns 
      */
-    private EndTurnBackAction(useTimeTick: any) { }
+    private EndTurnBackAction(useTimeTick: any) {
+
+    }
 
     /**
-     * 
+     * 雪花漂移算法
      * @returns 
      */
     private NextOverCostId(): bigint {
         const currentTimeTick = this.GetCurrentTimeTick()
         if (currentTimeTick > this._LastTimeTick) {
-            // this.EndOverCostAction(currentTimeTick)
+            this.EndOverCostAction(currentTimeTick)
             //当前时间大于上次时间，说明是时间是递增的，这是正常情况
             this._LastTimeTick = currentTimeTick
             this._CurrentSeqNumber = this.MinSeqNumber
@@ -208,7 +208,10 @@ export class snowflakeIdv1 {
         }
         if (this._OverCostCountInOneTerm >= this.TopOverCostCount) {
             //当前漂移次数超过最大限制
-            // this.EndOverCostAction(currentTimeTick)
+
+            // TODO: 在漂移终止，等待时间对齐时，如果发生时间回拨较长，则此处可能等待较长时间。可优化为：在漂移终止时增加时间回拨应对逻辑。（该情况发生概率很低）
+
+            this.EndOverCostAction(currentTimeTick)
             this._LastTimeTick = this.GetNextTimeTick()
             this._CurrentSeqNumber = this.MinSeqNumber
             this._IsOverCost = false
@@ -232,7 +235,7 @@ export class snowflakeIdv1 {
     }
 
     /**
-     * 
+     * 常规雪花算法
      * @returns 
      */
     private NextNormalId() {
@@ -326,9 +329,11 @@ export class snowflakeIdv1 {
      * @returns 
      */
     public NextId(): number {
-        if (this.Method) {
+        if (this.Method == BigInt(1)) {
+            //雪花漂移算法
             return parseInt(this.NextOverCostId().toString())
         } else {
+            //常规雪花算法
             return parseInt(this.NextNormalId().toString())
         }
     }
