@@ -1,4 +1,4 @@
-#  ❄ idgenerator-Node.js
+#  ❄ idgenerator-JavaScript
 
 ## 介绍
 
