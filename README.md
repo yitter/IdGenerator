@@ -215,6 +215,7 @@ QQ群：646049993
 #### 动态库下载
 
 下载链接1：https://github.com/yitter/IdGenerator/releases/download/reg_v1.0/regworkerid_lib_v1.0.zip
+
 下载链接2：https://gitee.com/yitter/idgenerator/attach_files/662372/download/regworkerid_lib_v1.0.zip
 
 #### 动态库接口定义
