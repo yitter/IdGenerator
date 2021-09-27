@@ -51,9 +51,9 @@ namespace Yitter.IdGenerator
         /// <summary>
         /// 最大漂移次数（含）
         /// </summary>
-        protected readonly int TopOverCostCount = 0;
+        protected int TopOverCostCount = 0;
 
-        protected readonly byte _TimestampShift = 0;
+        protected byte _TimestampShift = 0;
         protected static object _SyncLock = new object();
 
         protected ushort _CurrentSeqNumber;
@@ -215,7 +215,7 @@ namespace Yitter.IdGenerator
             _TurnBackIndex));
         }
 
-        private long NextOverCostId()
+        protected virtual long NextOverCostId()
         {
             long currentTimeTick = GetCurrentTimeTick();
 
@@ -262,7 +262,7 @@ namespace Yitter.IdGenerator
             return CalcId(_LastTimeTick);
         }
 
-        private long NextNormalId()
+        protected virtual long NextNormalId()
         {
             long currentTimeTick = GetCurrentTimeTick();
 
@@ -319,7 +319,7 @@ namespace Yitter.IdGenerator
             return CalcId(_LastTimeTick);
         }
 
-        private long CalcId(in long useTimeTick)
+        protected virtual long CalcId(in long useTimeTick)
         {
             var result = ((useTimeTick << _TimestampShift) +
                 ((long)WorkerId << SeqBitLength) +
@@ -329,7 +329,7 @@ namespace Yitter.IdGenerator
             return result;
         }
 
-        private long CalcTurnBackId(in long useTimeTick)
+        protected virtual long CalcTurnBackId(in long useTimeTick)
         {
             var result = ((useTimeTick << _TimestampShift) +
                 ((long)WorkerId << SeqBitLength) + _TurnBackIndex);

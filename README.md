@@ -146,7 +146,7 @@ QQ群：646049993
 
 ❄ ***WorkerIdBitLength***，机器码位长，决定 WorkerId 的最大值，**默认值6**，取值范围 [1, 19]，实际上有些语言采用 无符号 ushort (uint16)  类型接收该参数，所以最大值是16，如果是采用 有符号 short (int16)，则最大值为15。
 
-❄ **WorkerId**，机器码，**最重要参数**，无默认值，必须 **全局唯一**，必须 **程序设定**，缺省条件（WorkerIdBitLength取默认值）时最大值63，理论最大值 2^WorkerIdBitLength-1（不同实现语言可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 规则）。不同机器或不同应用实例 **不能相同**，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
+❄ **WorkerId**，机器码，**最重要参数**，无默认值，必须 **全局唯一**（或相同 DataCenterId 内唯一），必须 **程序设定**，缺省条件（WorkerIdBitLength取默认值）时最大值63，理论最大值 2^WorkerIdBitLength-1（不同实现语言可能会限定在 65535 或 32767，原理同 WorkerIdBitLength 规则）。不同机器或不同应用实例 **不能相同**，你可通过应用程序配置该值，也可通过调用外部服务获取值。针对自动注册WorkerId需求，本算法提供默认实现：通过 redis 自动注册 WorkerId 的动态库，详见“Tools\AutoRegisterWorkerId”。
 
 **特别提示**：如果一台服务器部署多个独立服务，需要为每个服务指定不同的 WorkerId。
 
@@ -157,6 +157,14 @@ QQ群：646049993
 ❄ ***MaxSeqNumber***，最大序列数，设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，真实最大序列数取最大值（2^SeqBitLength-1），不为0时，取其为真实最大序列数，一般无需设置，除非多机共享WorkerId分段生成ID（此时还要正确设置最小序列数）。
 
 ❄ ***BaseTime***，基础时间（也称：基点时间、原点时间、纪元时间），有默认值（2020年），是毫秒时间戳（是整数，.NET是DatetTime类型），作用是：用生成ID时的系统时间与基础时间的差值（毫秒数）作为生成ID的时间戳。基础时间一般无需设置，如果觉得默认值太老，你可以重新设置，不过要注意，这个值以后最好不变。
+
+第二版增加参数（非必须）：
+
+❄ ***DataCenterId***，数据中心ID（默认0），请确保全局唯一。
+
+❄ ***DataCenterIdBitLength***，数据中心ID长度（默认0）。
+
+❄ ***TimestampType***，时间戳类型（0-毫秒，1-秒），默认0。
 
 
 #### 常规集成

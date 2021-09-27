@@ -46,12 +46,12 @@ namespace Yitter.IdGenerator
             {
                 throw new ApplicationException("WorkerIdBitLength error.(range:[1, 21])");
             }
-            if (options.SeqBitLength + options.WorkerIdBitLength > 22)
+            if (options.DataCenterIdBitLength + options.WorkerIdBitLength + options.SeqBitLength > 22)
             {
-                throw new ApplicationException("error：WorkerIdBitLength + SeqBitLength <= 22");
+                throw new ApplicationException("error：DataCenterIdBitLength + WorkerIdBitLength + SeqBitLength <= 22");
             }
 
-            // 3.WorkerId
+            // 3.WorkerId & DataCenterId
             var maxWorkerIdNumber = (1 << options.WorkerIdBitLength) - 1;
             if (maxWorkerIdNumber == 0)
             {
@@ -60,6 +60,12 @@ namespace Yitter.IdGenerator
             if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber)
             {
                 throw new ApplicationException("WorkerId error. (range:[0, " + maxWorkerIdNumber + "]");
+            }
+
+            var maxDataCenterIdNumber = (1 << options.DataCenterIdBitLength) - 1;
+            if (options.DataCenterId < 0 || options.DataCenterId > maxDataCenterIdNumber)
+            {
+                throw new ApplicationException("DataCenterId error. (range:[0, " + maxDataCenterIdNumber + "]");
             }
 
             // 4.SeqBitLength
@@ -87,18 +93,22 @@ namespace Yitter.IdGenerator
 
             switch (options.Method)
             {
-                case 1:
-                    _SnowWorker = new SnowWorkerM1(options);
-                    break;
                 case 2:
                     _SnowWorker = new SnowWorkerM2(options);
                     break;
                 default:
-                    _SnowWorker = new SnowWorkerM1(options);
+                    if (options.DataCenterIdBitLength == 0 && options.TimestampType == 0)
+                    {
+                        _SnowWorker = new SnowWorkerM1(options);
+                    }
+                    else
+                    {
+                        _SnowWorker = new SnowWorkerM3(options);
+                    }
                     break;
             }
 
-            if (options.Method == 1)
+            if (options.Method != 2)
             {
                 Thread.Sleep(500);
             }

@@ -64,6 +64,22 @@ namespace Yitter.IdGenerator
         public virtual int TopOverCostCount { get; set; } = 2000;
 
 
+        /// <summary>
+        /// 数据中心ID（默认0）
+        /// </summary>
+        public virtual uint DataCenterId { get; set; } = 0;
+
+        /// <summary>
+        /// 数据中心ID长度（默认0）
+        /// </summary>
+        public virtual byte DataCenterIdBitLength { get; set; } = 0;
+
+        /// <summary>
+        /// 时间戳类型（0-毫秒，1-秒），默认0
+        /// </summary>
+        public virtual byte TimestampType { get; set; } = 0;
+
+
         public IdGeneratorOptions()
         {
 
