@@ -42,13 +42,14 @@ namespace Yitter.IdGenerator
             }
 
             // 2.WorkerIdBitLength
+            int maxLength = options.TimestampType == 0 ? 22 : 31; // （秒级时间戳时放大到31位）
             if (options.WorkerIdBitLength <= 0)
             {
                 throw new ApplicationException("WorkerIdBitLength error.(range:[1, 21])");
             }
-            if (options.DataCenterIdBitLength + options.WorkerIdBitLength + options.SeqBitLength > 22)
+            if (options.DataCenterIdBitLength + options.WorkerIdBitLength + options.SeqBitLength > maxLength)
             {
-                throw new ApplicationException("error：DataCenterIdBitLength + WorkerIdBitLength + SeqBitLength <= 22");
+                throw new ApplicationException("error：DataCenterIdBitLength + WorkerIdBitLength + SeqBitLength <= " + maxLength);
             }
 
             // 3.WorkerId & DataCenterId
