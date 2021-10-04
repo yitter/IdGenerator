@@ -10,7 +10,7 @@
 执行测试代码
 
 ```bash
-ts-node test/test.ts
+ts-node test/test1.ts
 ```
 
 
