@@ -10,9 +10,7 @@
 执行测试代码
 
 ```bash
-ts-node test/test.ts
-
-NODE_ENV=development REDIS_HOST=127.0.0.1 
+ts-node test/test1.ts
 ```
 
 
@@ -20,11 +18,14 @@ NODE_ENV=development REDIS_HOST=127.0.0.1
 ## 使用
 
 ```js
-import { Genid } from '../index'
+import { snowflakeIdv1 } from '../snowflakeIdv1'
 
+const WorkerId = process.env.WorkerId == undefined ? 1 : process.env.WorkerId
 
-let gen = new Genid({ WorkerId: 1 })
-let id1 = gen.NextId()
+const Method = process.env.Method == undefined ? 1 : process.env.Method
+
+let gen1 = new snowflakeIdv1({ WorkerId: WorkerId, Method: Method })
+let id1 = gen1.NextId()
 console.log(id1, id1.toString().length)
 
 ```
