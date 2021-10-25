@@ -328,13 +328,21 @@ export class snowflakeIdv1 {
      * 生成ID
      * @returns 
      */
-    public NextId(): number {
-        if (this.Method == BigInt(1)) {
-            //雪花漂移算法
-            return parseInt(this.NextOverCostId().toString())
+    public NextId(): number | bigint {
+        if (this._IsOverCost) {
+            //
+            let id = this.NextOverCostId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id.toString())
         } else {
-            //常规雪花算法
-            return parseInt(this.NextNormalId().toString())
+            //
+            let id = this.NextNormalId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id.toString())
         }
     }
 }
