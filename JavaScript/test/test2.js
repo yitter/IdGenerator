@@ -8,10 +8,11 @@ function test1() {
     }
 }
 function test2() {
-    const genid = new GenId({ WorkerId: 1 })
-    const id = genid.NextId()
-    console.log(typeof (id))
-    console.log(id, id.toString().length)
+    const genid = new GenId({ WorkerId: 1, SeqBitLength: 14 })
+    for (let i = 0; i < 10; i++) {
+        let id1 = genid.NextId()
+        console.log(`${i} ID:${id1} ${typeof id1} 长度：${id1.toString().length}`)
+    }
 }
 
 function main() {

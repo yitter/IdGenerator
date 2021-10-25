@@ -328,21 +328,13 @@ export class snowflakeIdv1 {
      * 生成ID
      * @returns 
      */
-    public NextId(): number | bigint {
+    public NextId(): bigint {
         if (this._IsOverCost) {
             //
-            let id = this.NextOverCostId()
-            if (id >= 9007199254740992n)
-                return id
-            else
-                return parseInt(id.toString())
+            return this.NextOverCostId()
         } else {
             //
-            let id = this.NextNormalId()
-            if (id >= 9007199254740992n)
-                return id
-            else
-                return parseInt(id.toString())
+            return this.NextNormalId()
         }
     }
 }
