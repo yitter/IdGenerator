@@ -1,7 +1,9 @@
+import { snowflakeIdv1Option } from "./snowflakeIdv1Option"
+
 /**
  * 
  */
-export class snowflakeIdv1 {
+export class SnowflakeIdv1 {
 
     /**
      * 雪花计算方法，（1-漂移算法|2-传统算法），默认 1
@@ -81,10 +83,9 @@ export class snowflakeIdv1 {
 
     /**
      *Creates an instance of Genid.
-     * @author bubao
+     * @author zhupengfeivip
      * @param {{
-     *     Method: 1, // 雪花计算方法，（1-漂移算法|2-传统算法），默认 1
-     *     BaseTime: 1577836800000,  // 基础时间（ms 单位），不能超过当前系统时间
+     *     BaseTime: 1577836800000,  // 基础时间（ms 单位），默认2020年1月1日，不能超过当前系统时间，一旦投入使用就不能再更改，更改后产生的ID可能会和以前的重复
      *     WorkerId: Number, // 机器码，必须由外部设定，最大值 2^WorkerIdBitLength-1
      *     WorkerIdBitLength: 6,   // 机器码位长，默认值 6，取值范围 [1, 15](要求：序列数位长+机器码位长不超过 22)
      *     SeqBitLength: 6,   // 序列数位长，默认值 6，取值范围 [3, 21](要求：序列数位长+机器码位长不超过 22)
@@ -94,54 +95,53 @@ export class snowflakeIdv1 {
      * }} options
      * @memberof Genid
      */
-    constructor(options: any) {
-        if (options.WorkerId === undefined)
+    constructor(options: snowflakeIdv1Option) {
+        if (options.workerId === undefined)
             throw new Error("lost WorkerId")
 
-        // 1.BaseTime 2020年1月1日
+        // 1.BaseTime 2020年1月1日 Wed, 01 Jan 2020 00:00:00 GMT 0时区的2020年1月1日
         const BaseTime = 1577836800000
-        if (!options.BaseTime || options.BaseTime < 0)
-            options.BaseTime = BaseTime
+        if (!options.baseTime || options.baseTime < 0)
+            options.baseTime = BaseTime
 
         // 2.WorkerIdBitLength
         const WorkerIdBitLength = 6
-        if (!options.WorkerIdBitLength || options.WorkerIdBitLength < 0)
-            options.WorkerIdBitLength = WorkerIdBitLength
+        if (!options.workerIdBitLength || options.workerIdBitLength < 0)
+            options.workerIdBitLength = WorkerIdBitLength
 
         // 4.SeqBitLength
         const SeqBitLength = 6
-        if (!options.SeqBitLength || options.SeqBitLength < 0)
-            options.SeqBitLength = SeqBitLength
+        if (!options.seqBitLength || options.seqBitLength < 0)
+            options.seqBitLength = SeqBitLength
 
         // 5.MaxSeqNumber
-        const MaxSeqNumber = (1 << SeqBitLength) - 1
-        if (options.MaxSeqNumber <= 0 || options.MaxSeqNumber === undefined) {
-            options.MaxSeqNumber = MaxSeqNumber
-        }
+        if (options.maxSeqNumber == undefined || options.maxSeqNumber <= 0)
+            options.maxSeqNumber = (1 << SeqBitLength) - 1
+
         // 6.MinSeqNumber
         const MinSeqNumber = 5
-        if (!options.MinSeqNumber || options.MinSeqNumber < 0)
-            options.MinSeqNumber = MinSeqNumber
+        if (options.minSeqNumber == undefined || options.minSeqNumber < 0)
+            options.minSeqNumber = MinSeqNumber
 
         // 7.Others
         const topOverCostCount = 2000
-        if (!options.TopOverCostCount || options.TopOverCostCount < 0)
-            options.TopOverCostCount = topOverCostCount
+        if (options.topOverCostCount == undefined || options.topOverCostCount < 0)
+            options.topOverCostCount = topOverCostCount
 
 
-        if (options.Method !== 2)
-            options.Method = 1
+        if (options.method !== 2)
+            options.method = 1
         else
-            options.Method = 2
+            options.method = 2
 
-        this.Method = BigInt(options.Method)
-        this.BaseTime = BigInt(options.BaseTime)
-        this.WorkerId = BigInt(options.WorkerId)
-        this.WorkerIdBitLength = BigInt(options.WorkerIdBitLength)
-        this.SeqBitLength = BigInt(options.SeqBitLength)
-        this.MaxSeqNumber = BigInt(options.MaxSeqNumber)
-        this.MinSeqNumber = BigInt(options.MinSeqNumber)
-        this.TopOverCostCount = BigInt(options.TopOverCostCount)
+        this.Method = BigInt(options.method)
+        this.BaseTime = BigInt(options.baseTime)
+        this.WorkerId = BigInt(options.workerId)
+        this.WorkerIdBitLength = BigInt(options.workerIdBitLength)
+        this.SeqBitLength = BigInt(options.seqBitLength)
+        this.MaxSeqNumber = BigInt(options.maxSeqNumber)
+        this.MinSeqNumber = BigInt(options.minSeqNumber)
+        this.TopOverCostCount = BigInt(options.topOverCostCount)
 
         const timestampShift = this.WorkerIdBitLength + this.SeqBitLength
         const currentSeqNumber = this.MinSeqNumber
@@ -326,9 +326,53 @@ export class snowflakeIdv1 {
 
     /**
      * 生成ID
-     * @returns 
+     * @returns 始终输出number类型，超过时throw error
      */
-    public NextId(): bigint {
+    public NextNumber(): number {
+        if (this._IsOverCost) {
+            //
+            let id = this.NextOverCostId()
+            if (id >= 9007199254740992n)
+                throw Error(`${id.toString()} over max of Number 9007199254740992`)
+
+            return parseInt(id.toString())
+        } else {
+            //
+            let id = this.NextNormalId()
+            if (id >= 9007199254740992n)
+                throw Error(`${id.toString()} over max of Number 9007199254740992`)
+
+            return parseInt(id.toString())
+        }
+    }
+
+    /**
+     * 生成ID
+     * @returns 根据输出数值判断，小于number最大值时输出number类型，大于时输出bigint
+     */
+    public NextId(): number | bigint {
+        if (this._IsOverCost) {
+            //
+            let id = this.NextOverCostId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id.toString())
+        } else {
+            //
+            let id = this.NextNormalId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id.toString())
+        }
+    }
+
+    /**
+     * 生成ID
+     * @returns 始终输出bigint类型
+     */
+    public NextBigId(): bigint {
         if (this._IsOverCost) {
             //
             return this.NextOverCostId()
@@ -337,5 +381,6 @@ export class snowflakeIdv1 {
             return this.NextNormalId()
         }
     }
+
 }
 
