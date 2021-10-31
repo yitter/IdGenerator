@@ -198,11 +198,59 @@ class Genid {
         return tempTimeTicker;
     }
 
+    /**
+     * 生成ID
+     * @returns 始终输出number类型，超过时throw error
+     */
+    NextNumber() {
+        if (this._IsOverCost) {
+            //
+            let id = this.NextOverCostId()
+            if (id >= 9007199254740992n)
+                throw Error(`${id.toString()} over max of Number 9007199254740992`)
+
+            return parseInt(id.toString())
+        } else {
+            //
+            let id = this.NextNormalId()
+            if (id >= 9007199254740992n)
+                throw Error(`${id.toString()} over max of Number 9007199254740992`)
+
+            return parseInt(id.toString())
+        }
+    }
+
+    /**
+     * 生成ID
+     * @returns 根据输出数值判断，小于number最大值时输出number类型，大于时输出bigint
+     */
     NextId() {
         if (this._IsOverCost) {
-            return parseInt(this.NextOverCostId());
+            let id = this.NextOverCostId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id)
         } else {
-            return parseInt(this.NextNormalId());
+            let id = this.NextNormalId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id)
+        }
+    }
+
+    /**
+     * 生成ID
+     * @returns 始终输出bigint类型
+     */
+    NextBigId() {
+        if (this._IsOverCost) {
+            //
+            return this.NextOverCostId()
+        } else {
+            //
+            return this.NextNormalId()
         }
     }
 }
