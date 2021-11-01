@@ -8,7 +8,7 @@ const Method = process.env.Method == undefined ? 1 : process.env.Method
 console.log("WorkerId:" + WorkerId)
 console.log("Method:" + Method)
 console.log("--------------------")
-let gen1 = new snowflakeIdv1({ WorkerId: WorkerId, Method: Method })
+let gen1 = new snowflakeIdv1({ workerId: 1 })
 
 
 

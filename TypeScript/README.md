@@ -11,12 +11,53 @@ js Number 类型最大数值：9007199254740992(16位)，
 在JS中没有bigint类型，所以建议将ID控制在16位以内，统一使用number类型
 
 
-执行测试代码
+## 使用
+
+### 1.文件引用
+
+```js
+import { snowflakeIdv1 } from '../snowflakeIdv1'
+
+const WorkerId = process.env.WorkerId == undefined ? 1 : process.env.WorkerId
+
+let gen1 = new snowflakeIdv1({ WorkerId: WorkerId})
+let id1 = gen1.NextId()
+console.log(id1, id1.toString().length)
+
+```
+
+### 2.npm库安装
+
+```sh
+npm i simple-flakeid
+```
+
+```js
+const snowId = require('simple-flakeid')
+let gen1 = new snowId.SnowflakeIdv1({ workerId: 1 })
+for (let i = 0; i < 10; i++) {
+    let id1 = gen1.NextId()
+    console.log(`${i} ID:${id1} ${typeof id1} length：${id1.toString().length}`)
+}
+
+```
+## function
+
+### function NextId()
+根据输出数值判断，小于number最大值时输出number类型，大于时输出bigint
+
+### function NextNumber()
+始终输出number类型，超过时throw error
+
+### function NextBigId()
+始终输出bigint类型
+
+
+## 测试
 
 ```bash
 ts-node test/test1.ts
 ```
-
 
 
 ## 使用
@@ -126,50 +167,6 @@ $ ts-node test/test4.ts
 7 ID:30043877339570181 bigint 长度：17
 8 ID:30043877339570182 bigint 长度：17
 9 ID:30043877339570183 bigint 长度：17
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
-
-## 同时兼容number和bigint的写法
-
-如果您觉得这个用法更好，可以手动替换对应方法
-
-```js
-    /**
-     * 生成ID
-     * @returns 
-     */
-    public NextId(): number | bigint {
-        if (this._IsOverCost) {
-            //
-            let id = this.NextOverCostId()
-            if (id >= 9007199254740992n)
-                return id
-            else
-                return parseInt(id.toString())
-        } else {
-            //
-            let id = this.NextNormalId()
-            if (id >= 9007199254740992n)
-                return id
-            else
-                return parseInt(id.toString())
-        }
-    }
 
 ```
 
