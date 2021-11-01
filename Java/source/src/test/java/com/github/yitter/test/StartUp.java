@@ -1,8 +1,6 @@
 package com.github.yitter.test;
 
-import com.github.yitter.contract.IIdGenerator;
 import com.github.yitter.contract.IdGeneratorOptions;
-import com.github.yitter.idgen.DefaultIdGenerator;
 import com.github.yitter.idgen.YitIdHelper;
 
 public class StartUp {

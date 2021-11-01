@@ -372,7 +372,11 @@ export class snowflakeIdv1 {
      * 生成ID
      * @returns 始终输出bigint类型
      */
+<<<<<<< HEAD
     public NextBigId(): bigint {
+=======
+    public NextId(): bigint {
+>>>>>>> 91459b1538b24a03174b20eba10db410d8ef5268
         if (this._IsOverCost) {
             //
             return this.NextOverCostId()

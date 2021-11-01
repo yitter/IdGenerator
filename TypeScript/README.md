@@ -168,6 +168,53 @@ $ ts-node test/test4.ts
 8 ID:30043877339570182 bigint 长度：17
 9 ID:30043877339570183 bigint 长度：17
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+## 同时兼容number和bigint的写法
+
+如果您觉得这个用法更好，可以手动替换对应方法
+
+```js
+    /**
+     * 生成ID
+     * @returns 
+     */
+    public NextId(): number | bigint {
+        if (this._IsOverCost) {
+            //
+            let id = this.NextOverCostId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id.toString())
+        } else {
+            //
+            let id = this.NextNormalId()
+            if (id >= 9007199254740992n)
+                return id
+            else
+                return parseInt(id.toString())
+        }
+    }
+
+>>>>>>> 91459b1538b24a03174b20eba10db410d8ef5268
 ```
 
 ## 其他帮助
