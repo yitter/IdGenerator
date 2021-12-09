@@ -66,9 +66,8 @@ static int snowdrift_init()
     shmctx.size = wid_num * sizeof(snowflake);
     if (shm_alloc(&shmctx) == -1)
     {
-      return FAILURE;
+        return FAILURE;
     }
-    bzero(shmctx.addr, wid_num * sizeof(snowflake));
     sf = (snowflake *)shmctx.addr;
     int i;
     for (i = 0; i < wid_num; i++)
@@ -92,7 +91,6 @@ static int snowdrift_init()
     {
       return FAILURE;
     }
-    bzero(shmctx.addr, sizeof(snowflake));
     sf = (snowflake *)shmctx.addr;
     sf->Method = SD_G(Method);
     sf->BaseTime = SD_G(BaseTime);
@@ -138,7 +136,7 @@ PHP_METHOD(snowdrift, NextNumId)
 {
   zend_long num = 1;
   zend_long wid = SD_G(WorkerId);
-  if (zend_parse_parameters(ZEND_NUM_ARGS(), "l|l", &num, &wid) == FAILURE)
+  if (zend_parse_parameters(ZEND_NUM_ARGS(), "|ll", &num, &wid) == FAILURE)
   {
     RETURN_FALSE;
   }
