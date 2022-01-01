@@ -5,6 +5,7 @@
 #include "windows.h"
 #else
 #include <sys/mman.h>
+#include <strings.h>
 #endif
 #include "shm.h"
 
