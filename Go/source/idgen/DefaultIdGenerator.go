@@ -87,3 +87,7 @@ func NewDefaultIdGenerator(options *IdGeneratorOptions) *DefaultIdGenerator {
 func (dig DefaultIdGenerator) NewLong() int64 {
 	return dig.SnowWorker.NextId()
 }
+
+func (dig DefaultIdGenerator) ExtractTime(id int64) time.Time {
+	return time.UnixMilli(id>>(dig.Options.WorkerIdBitLength+dig.Options.SeqBitLength) + dig.Options.BaseTime)
+}
