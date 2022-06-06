@@ -41,9 +41,15 @@ namespace Yitter.IdGenerator
         {
             if (_IdGenInstance == null)
             {
-                _IdGenInstance = new DefaultIdGenerator(
-                    new IdGeneratorOptions() { WorkerId = 0 }
-                    );
+                lock (_IdGenInstance)
+                {
+                    if (_IdGenInstance == null)
+                    {
+                        _IdGenInstance = new DefaultIdGenerator(
+                            new IdGeneratorOptions() { WorkerId = 0 }
+                            );
+                    }
+                }
             }
 
             return _IdGenInstance.NewLong();
