@@ -2,6 +2,7 @@ package idgen
 
 import (
 	"sync"
+	"time"
 )
 
 var singletonMutex sync.Mutex
@@ -26,4 +27,8 @@ func NextId() int64 {
 	}
 
 	return idGenerator.NewLong()
+}
+
+func ExtractTime(id int64) time.Time {
+	return idGenerator.ExtractTime(id)
 }
