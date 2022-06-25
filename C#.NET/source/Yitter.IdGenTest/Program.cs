@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -30,7 +31,7 @@ namespace Yitter.OrgSystem.TestA
 
             var options = new IdGeneratorOptions()
             {
-                Method = method,
+                Method = 1,
                 WorkerId = 1,
 
                 WorkerIdBitLength = 6,
@@ -39,10 +40,8 @@ namespace Yitter.OrgSystem.TestA
                 TopOverCostCount = 2000,
 
                 //TimestampType = 1,
-
                 // MinSeqNumber = 1,
                 // MaxSeqNumber = 200,
-
                 // BaseTime = DateTime.Now.AddYears(-10),
             };
 
@@ -55,13 +54,78 @@ namespace Yitter.OrgSystem.TestA
             Console.WriteLine("=====================================");
             Console.WriteLine("这是用方法 " + method + " 生成的 Id：" + newId);
 
-            while (true)
+            var seed1 = 50;
+            var seed2 = 1000;
+            var finish = 0;
+            var next = IdGen.NewLong();
+
+            var hashSet = new HashSet<long>(seed1 * seed2);
+            ConcurrentBag<long> bags = new ConcurrentBag<long>();
+
+            for (int i = 0; i < seed1; i++)
             {
-                RunSingle();
-                //CallDll();
-                //Go(options);
-                Thread.Sleep(1000); // 每隔1秒执行一次Go
+                (new Thread(_ =>
+                {
+                    for (int j = 0; j < seed2; j++)
+                    {
+                        var me = IdGen.NewLong();
+                        hashSet.Add(me);
+                        bags.Add(me);
+                    }
+
+                    Interlocked.Increment(ref finish);
+                })
+                { IsBackground = true }).Start();
             }
+
+            while (finish < seed1)
+            {
+                Console.WriteLine("等待执行结束");
+                Thread.Sleep(2000);
+            }
+
+            Console.WriteLine($"hashSet 共计:{hashSet.Count} 实际应该：{seed1 * seed2}");
+            Console.WriteLine($"bags 共计:{bags.Count} 实际应该：{seed1 * seed2}");
+
+            var IdArray = bags.ToArray();
+            int totalCount = 0;
+
+            for (int i = 0; i < seed1 * seed2; i++)
+            {
+                var me = IdArray[i];
+                int j = 0;
+                int count = 0;
+
+                while (j < seed1 * seed2)
+                {
+                    if (IdArray[j] == me)
+                    {
+                        count++;
+                    }
+                    j++;
+                }
+
+                if (count > 1)
+                {
+                    totalCount++;
+                    Console.WriteLine($"{IdArray[i]}，重复：{count}");
+                }
+            }
+
+            if (totalCount == 0)
+            {
+                Console.WriteLine($"重复数为 0 ");
+            }
+
+            Console.Read();
+
+            //while (true)
+            //{
+            //    //RunSingle();
+            //    //CallDll();
+            //    //Go(options);
+            //    Thread.Sleep(1000); // 每隔1秒执行一次Go
+            //}
         }
 
         private static void RunSingle()
