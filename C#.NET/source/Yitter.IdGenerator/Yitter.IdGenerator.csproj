@@ -18,8 +18,10 @@
     <Copyright>Yitter</Copyright>
     <PackageProjectUrl>https://github.com/yitter/idgenerator</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.12</Version>
+    <Version>1.0.13</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <AssemblyVersion>1.0.13</AssemblyVersion>
+    <FileVersion>1.0.13</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
