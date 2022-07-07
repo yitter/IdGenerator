@@ -39,18 +39,18 @@ namespace Yitter.IdGenerator
         /// <returns></returns>
         public static long NextId()
         {
-            if (_IdGenInstance == null)
-            {
-                lock (_IdGenInstance)
-                {
-                    if (_IdGenInstance == null)
-                    {
-                        _IdGenInstance = new DefaultIdGenerator(
-                            new IdGeneratorOptions() { WorkerId = 0 }
-                            );
-                    }
-                }
-            }
+            //if (_IdGenInstance == null)
+            //{
+            //    lock (_IdGenInstance)
+            //    {
+            //        if (_IdGenInstance == null)
+            //        {
+            //            _IdGenInstance = new DefaultIdGenerator(
+            //                new IdGeneratorOptions() { WorkerId = 0 }
+            //                );
+            //        }
+            //    }
+            //}
 
             return _IdGenInstance.NewLong();
         }

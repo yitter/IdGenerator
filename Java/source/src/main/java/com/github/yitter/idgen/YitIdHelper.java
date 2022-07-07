@@ -34,9 +34,9 @@ public class YitIdHelper {
      * @return
      */
     public static long nextId() throws IdGeneratorException {
-        if (idGenInstance == null) {
-            idGenInstance = new DefaultIdGenerator(new IdGeneratorOptions((short) 1));
-        }
+        //if (idGenInstance == null) {
+        //    idGenInstance = new DefaultIdGenerator(new IdGeneratorOptions((short) 1));
+	 //}
 
         return idGenInstance.newLong();
     }
