@@ -351,6 +351,7 @@ namespace Yitter.IdGenerator
 
             while (tempTimeTicker <= _LastTimeTick)
             {
+                Thread.Sleep(1);
                 tempTimeTicker = GetCurrentTimeTick();
             }
 
