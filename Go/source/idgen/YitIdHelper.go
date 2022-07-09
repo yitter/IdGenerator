@@ -1,3 +1,10 @@
+/*
+ * 版权属于：yitter(yitter@126.com)
+ * 代码编辑：guoyahao
+ * 代码修订：yitter
+ * 开源地址：https://github.com/yitter/idgenerator
+ */
+
 package idgen
 
 import (
@@ -17,14 +24,14 @@ func SetIdGenerator(options *IdGeneratorOptions) {
 
 // NextId .
 func NextId() int64 {
-	if idGenerator == nil {
-		singletonMutex.Lock()
-		defer singletonMutex.Unlock()
-		if idGenerator == nil {
-			options := NewIdGeneratorOptions(1)
-			idGenerator = NewDefaultIdGenerator(options)
-		}
-	}
+	//if idGenerator == nil {
+	//	singletonMutex.Lock()
+	//	defer singletonMutex.Unlock()
+	//	if idGenerator == nil {
+	//		options := NewIdGeneratorOptions(1)
+	//		idGenerator = NewDefaultIdGenerator(options)
+	//	}
+	//}
 
 	return idGenerator.NewLong()
 }

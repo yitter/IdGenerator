@@ -232,6 +232,7 @@ func (m1 *SnowWorkerM1) GetCurrentTimeTick() int64 {
 func (m1 *SnowWorkerM1) GetNextTimeTick() int64 {
 	tempTimeTicker := m1.GetCurrentTimeTick()
 	for tempTimeTicker <= m1._LastTimeTick {
+		time.Sleep(time.Duration(1) * time.Millisecond)
 		tempTimeTicker = m1.GetCurrentTimeTick()
 	}
 	return tempTimeTicker
