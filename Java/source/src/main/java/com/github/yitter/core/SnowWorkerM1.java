@@ -214,7 +214,11 @@ public class SnowWorkerM1 implements ISnowWorker {
         long tempTimeTicker = GetCurrentTimeTick();
 
         while (tempTimeTicker <= _LastTimeTick) {
-            Thread.sleep(1);
+             try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             tempTimeTicker = GetCurrentTimeTick();
         }
 
