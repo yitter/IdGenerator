@@ -68,14 +68,9 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-extern __declspec(dllexport) void SetOptions(GoUint16 workerId);
-extern __declspec(dllexport) GoUint64 NextId();
 
 // 注册一个 WorkerId，会先注销所有本机已注册的记录
-extern __declspec(dllexport) GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId);
-
-// 注册多个 WorkerId，会先注销所有本机已注册的记录
-extern __declspec(dllexport) int* RegisterMany(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId, GoInt32 totalCount);
+extern __declspec(dllexport) GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId, GoInt database);
 
 // 注销本机已注册的 WorkerId
 extern __declspec(dllexport) void UnRegister();
