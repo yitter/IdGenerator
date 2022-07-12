@@ -1,8 +1,8 @@
 /*
- * °æÈ¨ÊôÓÚ£ºyitter(yitter@126.com)
- * ´úÂë±à¼­£ºguoyahao
- * ´úÂëĞŞ¶©£ºyitter
- * ¿ªÔ´µØÖ·£ºhttps://github.com/yitter/idgenerator
+ * ç‰ˆæƒå±äºï¼šyitter(yitter@126.com)
+ * ä»£ç ç¼–è¾‘ï¼šguoyahao
+ * ä»£ç ä¿®è®¢ï¼šyitter
+ * å¼€æºåœ°å€ï¼šhttps://github.com/yitter/idgenerator
  */
 
 package idgen
