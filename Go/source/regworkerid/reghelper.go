@@ -3,15 +3,17 @@
  * 开源地址：https://github.com/yitter/idgenerator
  */
 
+// Package regworkerid implements a simple distributed id generator.
 package regworkerid
 
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis/v8"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/go-redis/redis/v8"
 )
 
 var _client *redis.Client
@@ -27,6 +29,7 @@ var _WorkerIdLifeTimeSeconds = 15    // IdGen:WorkerId:Value:xx 的值在 redis 
 var _MaxLoopCount = 10               // 最大循环次数（无可用WorkerId时循环查找）
 var _SleepMillisecondEveryLoop = 200 // 每次循环后，暂停时间
 var _MaxWorkerId int32 = 0           // 最大WorkerId值，超过此值从0开始
+var _Database int = 0                // 最大WorkerId值，超过此值从0开始
 
 var _RedisConnString = ""
 var _RedisPassword = ""
@@ -34,8 +37,10 @@ var _RedisPassword = ""
 const _WorkerIdIndexKey string = "IdGen:WorkerId:Index"        // redis 中的key
 const _WorkerIdValueKeyPrefix string = "IdGen:WorkerId:Value:" // redis 中的key
 const _WorkerIdFlag = "Y"                                      // IdGen:WorkerId:Value:xx 的值（将来可用 _token 替代）
-const _Log = false                                              // 是否输出日志
+const _Log = false                                             // 是否输出日志
 
+// export Validate
+// 检查本地WorkerId是否有效（0-有效，其它-无效）
 func Validate(workerId int32) int32 {
 	for _, value := range _workerIdList {
 		if value == workerId {
@@ -45,13 +50,15 @@ func Validate(workerId int32) int32 {
 
 	return 0
 
-	//if workerId == _usingWorkerId {
+	// if workerId == _usingWorkerId {
 	//	return 0
-	//} else {
+	// } else {
 	//	return -1
-	//}
+	// }
 }
 
+// export UnRegister
+// 注销本机已注册的 WorkerId
 func UnRegister() {
 	_workerIdLock.Lock()
 
@@ -73,7 +80,7 @@ func autoUnRegister() {
 	}
 }
 
-func RegisterMany(ip string, port int32, password string, maxWorkerId int32, totalCount int32) []int32 {
+func RegisterMany(ip string, port int32, password string, maxWorkerId int32, totalCount int32, database int) []int32 {
 	if maxWorkerId < 0 {
 		return []int32{-2}
 	}
@@ -87,6 +94,7 @@ func RegisterMany(ip string, port int32, password string, maxWorkerId int32, tot
 	_MaxWorkerId = maxWorkerId
 	_RedisConnString = ip + ":" + strconv.Itoa(int(port))
 	_RedisPassword = password
+	_Database = database
 	_client = newRedisClient()
 	if _client == nil {
 		return []int32{-1}
@@ -96,15 +104,15 @@ func RegisterMany(ip string, port int32, password string, maxWorkerId int32, tot
 			_ = _client.Close()
 		}
 	}()
-	//_, err := _client.Ping(_ctx).Result()
-	//if err != nil {
+	// _, err := _client.Ping(_ctx).Result()
+	// if err != nil {
 	//	//panic("init redis error")
 	//	return []int{-3}
-	//} else {
+	// } else {
 	//	if _Log {
 	//		fmt.Println("init redis ok")
 	//	}
-	//}
+	// }
 
 	_lifeIndex++
 	_workerIdList = make([]int32, totalCount)
@@ -117,7 +125,7 @@ func RegisterMany(ip string, port int32, password string, maxWorkerId int32, tot
 		id := register(_lifeIndex)
 		if id > -1 {
 			useExtendFunc = true
-			_workerIdList[key] = id //= append(_workerIdList, id)
+			_workerIdList[key] = id // = append(_workerIdList, id)
 		} else {
 			break
 		}
@@ -130,7 +138,9 @@ func RegisterMany(ip string, port int32, password string, maxWorkerId int32, tot
 	return _workerIdList
 }
 
-func RegisterOne(ip string, port int32, password string, maxWorkerId int32) int32 {
+// export RegisterOne
+// 注册一个 WorkerId，会先注销所有本机已注册的记录
+func RegisterOne(ip string, port int32, password string, maxWorkerId int32, database int) int32 {
 	if maxWorkerId < 0 {
 		return -2
 	}
@@ -141,6 +151,7 @@ func RegisterOne(ip string, port int32, password string, maxWorkerId int32) int3
 	_RedisConnString = ip + ":" + strconv.Itoa(int(port))
 	_RedisPassword = password
 	_loopCount = 0
+	_Database = database
 	_client = newRedisClient()
 	if _client == nil {
 		return -3
@@ -150,15 +161,15 @@ func RegisterOne(ip string, port int32, password string, maxWorkerId int32) int3
 			_ = _client.Close()
 		}
 	}()
-	//_, err := _client.Ping(_ctx).Result()
-	//if err != nil {
+	// _, err := _client.Ping(_ctx).Result()
+	// if err != nil {
 	//	// panic("init redis error")
 	//	return -3
-	//} else {
+	// } else {
 	//	if _Log {
 	//		fmt.Println("init redis ok")
 	//	}
-	//}
+	// }
 
 	_lifeIndex++
 	var id = register(_lifeIndex)
@@ -179,11 +190,11 @@ func newRedisClient() *redis.Client {
 	return redis.NewClient(&redis.Options{
 		Addr:     _RedisConnString,
 		Password: _RedisPassword,
-		DB:       0,
-		//PoolSize:     1000,
-		//ReadTimeout:  time.Millisecond * time.Duration(100),
-		//WriteTimeout: time.Millisecond * time.Duration(100),
-		//IdleTimeout:  time.Second * time.Duration(60),
+		DB:       _Database,
+		// PoolSize:     1000,
+		// ReadTimeout:  time.Millisecond * time.Duration(100),
+		// WriteTimeout: time.Millisecond * time.Duration(100),
+		// IdleTimeout:  time.Second * time.Duration(60),
 	})
 }
 
@@ -310,9 +321,9 @@ func extendWorkerIdLifeTime(lifeIndex int, workerId int32) {
 		}
 
 		// 已经被注销，则终止（此步是上一步的二次验证）
-		//if _usingWorkerId < 0 {
+		// if _usingWorkerId < 0 {
 		//	break
-		//}
+		// }
 
 		// 延长 redis 数据有效期
 		extendWorkerIdFlag(myWorkerId)

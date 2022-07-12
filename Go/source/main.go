@@ -4,45 +4,17 @@ import (
 	"C"
 	"fmt"
 	"time"
-	"yitidgen/idgen"
-	"yitidgen/regworkerid"
+
+	"github.com/yitter/idgenerator-go/idgen"
 )
 
-//export SetOptions
 func SetOptions(workerId uint16) {
 	var options = idgen.NewIdGeneratorOptions(workerId)
 	idgen.SetIdGenerator(options)
 }
 
-//export NextId
 func NextId() int64 {
 	return idgen.NextId()
-}
-
-// 注册一个 WorkerId，会先注销所有本机已注册的记录
-//export RegisterOne
-func RegisterOne(ip *C.char, port int32, password *C.char, maxWorkerId int32) int32 {
-	return regworkerid.RegisterOne(C.GoString(ip), port, C.GoString(password), maxWorkerId)
-}
-
-// 注册多个 WorkerId，会先注销所有本机已注册的记录
-///export RegisterMany
-func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId int32, totalCount int32) []int32 {
-	//values := regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount)
-	//return (*C.int)(unsafe.Pointer(&values))
-	return regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount)
-}
-
-// 注销本机已注册的 WorkerId
-//export UnRegister
-func UnRegister() {
-	regworkerid.UnRegister()
-}
-
-// 检查本地WorkerId是否有效（0-有效，其它-无效）
-//export Validate
-func Validate(workerId int32) int32 {
-	return regworkerid.Validate(workerId)
 }
 
 func main() {
@@ -70,21 +42,36 @@ func main() {
 			time.Sleep(time.Duration(1000) * time.Millisecond)
 		}
 	} else {
-		workerIdList := regworkerid.RegisterMany("localhost", 6379, "", 4, 3)
+		// ip := "localhost"
+		ipChar := C.CString("localhost")
+		passChar := C.CString("")
+
+		workerIdList := RegisterMany(ipChar, 6379, passChar, 4, 3, 0)
 		for _, value := range workerIdList {
 			fmt.Println("注册的WorkerId:", value)
 		}
 
-		//var workerId = regworkerid.RegisterOne("localhost", 6379, "", 4)
-		//fmt.Println("注册的WorkerId:", workerId)
+		id := RegisterOne(ipChar, 6379, passChar, 4, 0)
+		fmt.Println("注册的WorkerId:", id)
+
+		// C.free(unsafe.Pointer(ipChar))
+		// C.free(unsafe.Pointer(passChar))
+
+		// var workerId = regworkerid.RegisterOne(ip, 6379, "", 4)
+		// fmt.Println("注册的WorkerId:", workerId)
 
 		fmt.Println("end")
 		time.Sleep(time.Duration(300) * time.Second)
+
 	}
 }
 
+// To Build a dll/so：
+
 // windows:
-// go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go
+// go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go reg.go
 
 // linux init: go install -buildmode=shared -linkshared std
-// go build -o ./target/yitidgengo.so -buildmode=c-shared main.go
+// go build -o ./target/yitidgengo.so -buildmode=c-shared main.go reg.go
+
+// https://books.studygolang.com/advanced-go-programming-book/ch2-cgo/ch2-09-static-shared-lib.html
