@@ -109,7 +109,7 @@ extern void SetOptions(IdGeneratorOptions options) {
         _idGenerator->NextId = WorkerM2Id;
     } else {
         _idGenerator->NextId = WorkerM1Id;
-        sleep(1);
+        usleep(500*1000); // 暂停500ms
     }
 }
 

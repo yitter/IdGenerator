@@ -162,6 +162,7 @@ extern int64_t GetCurrentMicroTime() {
 extern int64_t GetNextTimeTick(SnowFlakeWorker *worker) {
     uint64_t tempTimeTicker = GetCurrentTimeTick(worker);
     while (tempTimeTicker <= worker->_LastTimeTick) {
+        usleep(1000);  // 暂停1ms
         tempTimeTicker = GetCurrentTimeTick(worker);
     }
     return tempTimeTicker;
