@@ -270,6 +270,8 @@ impl SnowWorkerM1 {
         let mut tempTimeTicker = self.GetCurrentTimeTick();
 
         while tempTimeTicker <= self._LastTimeTick {
+            // 暂停1ms
+            sleep(std::time::Duration::from_millis(1));
             tempTimeTicker = self.GetCurrentTimeTick();
         }
 
