@@ -13,51 +13,62 @@
 #include "idgen/IdGenerator.h"
 #include "YitIdHelper.h"
 
-
-const int GenIdCount = 50000;
+const int GenIdCount = 500000;
 const bool multiThread = false;
 const int threadCount = 50;
 const int method = 1;
 
-void RunMultiThread() {
-    //int64_t start = GetCurrentMicroTime();
-    for (int i = 0; i < GenIdCount / threadCount; i++) {
+void RunMultiThread()
+{
+    // int64_t start = GetCurrentMicroTime();
+    for (int i = 0; i < GenIdCount / threadCount; i++)
+    {
         int64_t id = NextId();
         printf("ID: %D\n", id);
     }
 
     int64_t end = GetCurrentMicroTime();
-    //printf("%s，total：%d μs\n", method == 1 ? "1" : "2", (end - start));
+    // printf("%s，total：%d μs\n", method == 1 ? "1" : "2", (end - start));
 }
 
-void RunSingle() {
+void RunSingle()
+{
     int64_t start = GetCurrentMicroTime();
-    for (int i = 0; i < GenIdCount; i++) {
+    for (int i = 0; i < GenIdCount; i++)
+    {
         int64_t id = NextId();
-//        printf("ID: %ld\n", id);
+        //        printf("ID: %ld\n", id);
     }
 
     int64_t end = GetCurrentMicroTime();
     printf("%s, total: %d us\n", method == 1 ? "1" : "2", (end - start));
 }
 
-int main() {
+int main()
+{
     IdGeneratorOptions options = BuildIdGenOptions(1);
     options.Method = method;
     options.WorkerId = 1;
-    options.SeqBitLength = 6;
+    options.SeqBitLength = 10;
+    // options.TopOverCostCount = 2000;
     SetIdGenerator(options);
 
     pthread_t tid[threadCount];
-    while (1) {
-        if (multiThread) {
-            for (int i = 0; i < threadCount; i++) {
-                if (pthread_create(&tid[i], NULL, (void *) RunMultiThread, NULL) != 0) {
+    while (1)
+    {
+        if (multiThread)
+        {
+            for (int i = 0; i < threadCount; i++)
+            {
+                if (pthread_create(&tid[i], NULL, (void *)RunMultiThread, NULL) != 0)
+                {
                     printf("thread creation failed\n");
                     exit(1);
                 }
             }
-        } else {
+        }
+        else
+        {
             RunSingle();
         }
 

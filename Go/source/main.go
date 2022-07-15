@@ -24,22 +24,24 @@ func main() {
 		// 自定义参数
 		var options = idgen.NewIdGeneratorOptions(1)
 		options.WorkerIdBitLength = 6
-		options.SeqBitLength = 6
+		options.SeqBitLength = 10
 		options.BaseTime = time.Date(2020, 2, 20, 2, 20, 2, 20, time.UTC).UnixNano() / 1e6
 		idgen.SetIdGenerator(options)
 
-		var genCount = 50000
-		for {
-			var begin = time.Now().UnixNano() / 1e3
-			for i := 0; i < genCount; i++ {
-				// 生成ID
-				id := idgen.NextId()
-				fmt.Println(id)
-			}
-			var end = time.Now().UnixNano() / 1e3
+		var genCount = 500000
+		for j := 0; j < 100000; j++ {
+			for {
+				var begin = time.Now().UnixNano() / 1e6
+				for i := 0; i < genCount; i++ {
+					// 生成ID
+					idgen.NextId()
+					// fmt.Println(id)
+				}
+				var end = time.Now().UnixNano() / 1e6
 
-			fmt.Println(end - begin)
-			time.Sleep(time.Duration(1000) * time.Millisecond)
+				fmt.Println("耗时：", (end - begin), "ms")
+				time.Sleep(time.Duration(1000) * time.Millisecond)
+			}
 		}
 	} else {
 		// ip := "localhost"
