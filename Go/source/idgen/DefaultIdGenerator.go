@@ -4,6 +4,7 @@
  * 代码修订：yitter
  * 开源地址：https://github.com/yitter/idgenerator
  */
+
 package idgen
 
 import (
@@ -62,6 +63,11 @@ func NewDefaultIdGenerator(options *IdGeneratorOptions) *DefaultIdGenerator {
 	// 6.MinSeqNumber
 	if options.MinSeqNumber < 5 || options.MinSeqNumber > maxSeqNumber {
 		panic("MinSeqNumber error. (range:[5, " + strconv.FormatUint(uint64(maxSeqNumber), 10) + "]")
+	}
+
+	// 7.TopOverCostCount
+	if options.TopOverCostCount < 0 || options.TopOverCostCount > 10000 {
+		panic("TopOverCostCount error. (range:[0, 10000]")
 	}
 
 	var snowWorker ISnowWorker

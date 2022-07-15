@@ -2,10 +2,10 @@
  * 版权属于：yitter(yitter@126.com)
  * 开源地址：https://github.com/yitter/idgenerator
  */
-use std::{thread};
-use chrono::Utc;
-use std::thread::sleep;
 use crate::idgen::*;
+use chrono::Utc;
+use std::thread;
+use std::thread::sleep;
 // use lazy_static::lazy_static;
 
 pub struct SnowWorkerM1 {
@@ -42,26 +42,30 @@ impl SnowWorkerM1 {
     }
 
     pub fn SetOptions(&mut self, options: IdGeneratorOptions) {
-
         // 1.BaseTime
         if options.BaseTime == 0 {
             self.BaseTime = 1582136402000;
-        } else if options.BaseTime < 631123200000 || options.BaseTime > Utc::now().timestamp_millis() {
+        } else if options.BaseTime < 631123200000
+            || options.BaseTime > Utc::now().timestamp_millis()
+        {
             panic!("BaseTime error.");
         } else {
             self.BaseTime = options.BaseTime;
         }
 
         // 2.WorkerIdBitLength
-        if options.WorkerIdBitLength <= 0
-        {
+        if options.WorkerIdBitLength <= 0 {
             panic!("WorkerIdBitLength error.(range:[1, 21])");
         }
         if options.SeqBitLength + options.WorkerIdBitLength > 22 {
             panic!("error：WorkerIdBitLength + SeqBitLength <= 22");
         } else {
             // self.WorkerIdBitLength = options.WorkerIdBitLength;
-            self.WorkerIdBitLength = if options.WorkerIdBitLength <= 0 { 6 } else { options.WorkerIdBitLength };
+            self.WorkerIdBitLength = if options.WorkerIdBitLength <= 0 {
+                6
+            } else {
+                options.WorkerIdBitLength
+            };
         }
 
         // 3.WorkerId
@@ -80,7 +84,11 @@ impl SnowWorkerM1 {
             panic!("SeqBitLength error. (range:[2, 21])");
         } else {
             // self.SeqBitLength = options.SeqBitLength;
-            self.SeqBitLength = if options.SeqBitLength <= 0 { 6 } else { options.SeqBitLength };
+            self.SeqBitLength = if options.SeqBitLength <= 0 {
+                6
+            } else {
+                options.SeqBitLength
+            };
         }
 
         // 5.MaxSeqNumber
@@ -91,7 +99,11 @@ impl SnowWorkerM1 {
         if options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber {
             panic!("MaxSeqNumber error. (range:[1, {}]", maxSeqNumber);
         } else {
-            self.MaxSeqNumber = if options.MaxSeqNumber == 0 { maxSeqNumber } else { options.MaxSeqNumber };
+            self.MaxSeqNumber = if options.MaxSeqNumber == 0 {
+                maxSeqNumber
+            } else {
+                options.MaxSeqNumber
+            };
         }
 
         // 6.MinSeqNumber
@@ -102,8 +114,15 @@ impl SnowWorkerM1 {
             // self.MinSeqNumber = if options.MinSeqNumber <= 0 { 5 } else { options.MinSeqNumber };
         }
 
-        // 7.Others
-        self.TopOverCostCount = if options.TopOverCostCount == 0 { 2000 } else { options.TopOverCostCount };
+        // 7.TopOverCostCount
+        //self.TopOverCostCount = if options.TopOverCostCount == 0 { 2000 } else { options.TopOverCostCount };
+        if options.TopOverCostCount < 0 || options.TopOverCostCount > 10000 {
+            panic!("TopOverCostCount error. (range:[0, 10000]");
+        } else {
+            self.TopOverCostCount = options.TopOverCostCount;
+        }
+
+        // 8.Others
         self._TimestampShift = self.WorkerIdBitLength + self.SeqBitLength;
         self._CurrentSeqNumber = self.MinSeqNumber;
 
@@ -139,7 +158,11 @@ impl SnowWorkerM1 {
 
     pub fn NextId(&mut self) -> i64 {
         // println!("SeqBitLength: {}", self.SeqBitLength);
-        if self._IsOverCost { self.NextOverCostId() } else { self.NextNormalId() }
+        if self._IsOverCost {
+            self.NextOverCostId()
+        } else {
+            self.NextNormalId()
+        }
     }
 
     fn DoGenIdAction(&self, arg: OverCostActionArg) {}
@@ -247,17 +270,17 @@ impl SnowWorkerM1 {
     }
 
     fn CalcId(&mut self, useTimeTick: i64) -> i64 {
-        let result = (useTimeTick << self._TimestampShift) +
-            (self.WorkerId << self.SeqBitLength) as i64 +
-            (self._CurrentSeqNumber) as i64;
+        let result = (useTimeTick << self._TimestampShift)
+            + (self.WorkerId << self.SeqBitLength) as i64
+            + (self._CurrentSeqNumber) as i64;
         self._CurrentSeqNumber += 1;
         return result;
     }
 
     fn CalcTurnBackId(&mut self, useTimeTick: i64) -> i64 {
-        let result = (useTimeTick << self._TimestampShift) +
-            (self.WorkerId << self.SeqBitLength) as i64 +
-            (self._TurnBackIndex) as i64;
+        let result = (useTimeTick << self._TimestampShift)
+            + (self.WorkerId << self.SeqBitLength) as i64
+            + (self._TurnBackIndex) as i64;
         self._TurnBackTimeTick -= 1;
         return result;
     }

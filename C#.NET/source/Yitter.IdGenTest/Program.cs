@@ -12,7 +12,7 @@ namespace Yitter.OrgSystem.TestA
     class Program
     {
         // 测试参数（默认配置下，最佳性能是10W/s）
-        static int genIdCount = 500000;//5000;  // 计算ID数量（如果要验证50W效率，请将TopOverCostCount设置为2000或适当增加SeqBitLength）
+        static int genIdCount = 50000;//5000;  // 计算ID数量（如果要验证50W效率，请将TopOverCostCount设置为2000或适当增加SeqBitLength）
         static short method = 1; // 1-漂移算法，2-传统算法
 
 
@@ -39,7 +39,7 @@ namespace Yitter.OrgSystem.TestA
 
                 WorkerIdBitLength = 6,
                 SeqBitLength = 6,
-                DataCenterIdBitLength = 10,
+                DataCenterIdBitLength = 0,
                 TopOverCostCount = 2000,
 
                 //TimestampType = 1,
@@ -142,8 +142,8 @@ namespace Yitter.OrgSystem.TestA
                 //WorkerIdBitLength = 6,
                 SeqBitLength = 6,
 
-                //DataCenterIdBitLength = 0,
                 //TopOverCostCount = 2000,
+                //DataCenterIdBitLength = 0,
 
                 //TimestampType = 1,
                 // MinSeqNumber = 1,

@@ -25,7 +25,7 @@ public class StartUp {
 //        options.BaseTime = 1582206693000L;
         options.Method = method;
         options.WorkerId = 1;
-        options.TopOverCostCount=2000;
+        // options.TopOverCostCount=2000;
 
         // 首先测试一下 IdHelper 方法，获取单个Id
         YitIdHelper.setIdGenerator(options);
@@ -39,7 +39,7 @@ public class StartUp {
             while (true) {
                 genTest.GenStart();
                 Thread.sleep(1000); // 每隔1秒执行一次GenStart
-                System.out.println("Hello World! Java");
+                // System.out.println("Hello World! Java");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

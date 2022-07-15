@@ -66,7 +66,8 @@ public class SnowWorkerM1 implements ISnowWorker {
         SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
         MaxSeqNumber = options.MaxSeqNumber <= 0 ? (1 << SeqBitLength) - 1 : options.MaxSeqNumber;
         MinSeqNumber = options.MinSeqNumber;
-        TopOverCostCount = options.TopOverCostCount == 0 ? 2000 : options.TopOverCostCount;
+        // TopOverCostCount = options.TopOverCostCount == 0 ? 2000 : options.TopOverCostCount;
+        TopOverCostCount = options.TopOverCostCount;
         _TimestampShift = (byte) (WorkerIdBitLength + SeqBitLength);
         _CurrentSeqNumber = MinSeqNumber;
     }
@@ -150,11 +151,11 @@ public class SnowWorkerM1 implements ISnowWorker {
                 BeginTurnBackAction(_TurnBackTimeTick);
             }
 
-//            try {
-//                 Thread.sleep(1);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            // try {
+            // Thread.sleep(1);
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
 
             return CalcTurnBackId(_TurnBackTimeTick);
         }
@@ -214,7 +215,7 @@ public class SnowWorkerM1 implements ISnowWorker {
         long tempTimeTicker = GetCurrentTimeTick();
 
         while (tempTimeTicker <= _LastTimeTick) {
-             try {
+            try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -232,4 +233,3 @@ public class SnowWorkerM1 implements ISnowWorker {
         }
     }
 }
-

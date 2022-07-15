@@ -92,6 +92,12 @@ namespace Yitter.IdGenerator
                 throw new ApplicationException("MinSeqNumber error. (range:[5, " + maxSeqNumber + "]");
             }
 
+            // 7.TopOverCostCount
+            if (options.TopOverCostCount < 0 || options.TopOverCostCount > 10000)
+            {
+                throw new ApplicationException("TopOverCostCount error. (range:[0, 10000]");
+            }
+
             switch (options.Method)
             {
                 case 2:
