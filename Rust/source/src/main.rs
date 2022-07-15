@@ -1,16 +1,15 @@
 mod idgen;
 
+use chrono::Utc;
 use idgen::*;
 use std::thread;
-use chrono::Utc;
 use std::time::Duration;
-
 
 fn main() {
     println!("Hello, world! Rust");
 
     // 总执行次数
-    let times = 50000;
+    let times = 500000;
 
     // 是否启用多线程测试
     let multiThread = false;
@@ -18,7 +17,7 @@ fn main() {
     // 全局设置一次运行参数
     let mut options = IdGeneratorOptions::New(1);
     options.WorkerIdBitLength = 6;
-    options.SeqBitLength = 6;
+    options.SeqBitLength = 10;
     //... 可以继续设置其它 options 参数
     YitIdHelper::SetIdGenerator(options);
 
@@ -32,24 +31,29 @@ fn main() {
 
         while i < times {
             i += 1;
-            if multiThread { // 这是多线程
-                thread::spawn(move || {
-                    id = YitIdHelper::NextId();
-                    println!("{}, id: {}", i, id);
-                });
-            } else { // 这是单线程
-                id = YitIdHelper::NextId();
-            }
+            YitIdHelper::NextId();
+
+            // if multiThread { // 这是多线程
+            //     thread::spawn(move || {
+            //         id = YitIdHelper::NextId();
+            //         println!("{}, id: {}", i, id);
+            //     });
+            // } else { // 这是单线程
+            //     id = YitIdHelper::NextId();
+            // }
         }
 
-        println!("最后生成的id: {}", id);
-        if !multiThread {
-            // 多线程情况下，时间统计不准确
-            let end = Utc::now().timestamp_millis();
-            println!("单线程用时 {} ms", end - start);
-        }
+        let end = Utc::now().timestamp_millis();
+        println!("单线程用时 {} ms", end - start);
 
-        thread::sleep(std::time::Duration::from_millis(2000));
+        // println!("最后生成的id: {}", id);
+        // if !multiThread {
+        //     // 多线程情况下，时间统计不准确
+        //     let end = Utc::now().timestamp_millis();
+        //     println!("单线程用时 {} ms", end - start);
+        // }
+
+        thread::sleep(std::time::Duration::from_millis(1000));
     }
 }
 
@@ -71,6 +75,4 @@ fn set_redis() {
     //     },
     //     Err(error) => println!("Unable to create Redis client: {}", error)
     // }
-
- }
-
+}
