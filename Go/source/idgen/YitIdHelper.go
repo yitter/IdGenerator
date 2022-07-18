@@ -32,7 +32,9 @@ func NextId() int64 {
 	//		idGenerator = NewDefaultIdGenerator(options)
 	//	}
 	//}
-
+	if idGenerator == nil {
+		panic("Please initialize Yitter.IdGeneratorOptions first.")
+	}
 	return idGenerator.NewLong()
 }
 
