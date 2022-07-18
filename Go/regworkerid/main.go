@@ -9,9 +9,11 @@ import (
 )
 
 func main() {
-	// ip := "localhost"
-	ipChar := C.CString("192.168.20.41")
-	passChar := C.CString("")
+	ip := "localhost"
+	password := ""
+
+	ipChar := C.CString(ip)
+	passChar := C.CString(password)
 
 	workerIdList := RegisterMany(ipChar, 6379, passChar, 4, 3, 0)
 	for _, value := range workerIdList {
@@ -21,9 +23,6 @@ func main() {
 	id := RegisterOne(ipChar, 6379, passChar, 4, 0)
 	fmt.Println("注册的WorkerId:", id)
 
-	// C.free(unsafe.Pointer(ipChar))
-	// C.free(unsafe.Pointer(passChar))
-
 	// var workerId = regworkerid.RegisterOne(ip, 6379, "", 4)
 	// fmt.Println("注册的WorkerId:", workerId)
 
@@ -32,17 +31,9 @@ func main() {
 }
 
 //export RegisterOne
-// 注册一个 WorkerId，会先注销所有本机已注册的记录
+// 注册一个 WorkerId
 func RegisterOne(ip *C.char, port int32, password *C.char, maxWorkerId int32, database int) int32 {
 	return regworkerid.RegisterOne(C.GoString(ip), port, C.GoString(password), maxWorkerId, database)
-}
-
-// RegisterMany
-// 注册多个 WorkerId，会先注销所有本机已注册的记录
-func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId, totalCount int32, database int) []int32 {
-	// return (*C.int)(unsafe.Pointer(&values))
-	//return regworkerid.RegisterMany(ip, port, password, maxWorkerId, totalCount, database)
-	return regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount, database)
 }
 
 //export UnRegister
@@ -51,10 +42,18 @@ func UnRegister() {
 	regworkerid.UnRegister()
 }
 
-//export Validate
+// export Validate
 // 检查本地WorkerId是否有效（0-有效，其它-无效）
 func Validate(workerId int32) int32 {
 	return regworkerid.Validate(workerId)
+}
+
+// RegisterMany
+// 注册多个 WorkerId，会先注销所有本机已注册的记录
+func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId, totalCount int32, database int) []int32 {
+	// return (*C.int)(unsafe.Pointer(&values))
+	//return regworkerid.RegisterMany(ip, port, password, maxWorkerId, totalCount, database)
+	return regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount, database)
 }
 
 // To Build a dll/so：
