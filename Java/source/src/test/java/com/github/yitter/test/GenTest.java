@@ -26,7 +26,7 @@ public class GenTest {
         long end = System.currentTimeMillis();
         long time = end - start;
 
-        System.out.println(id);
+        // System.out.println(id);
         System.out.println("++++++++++++++++++++++++++++++++++++++++WorkerId: "
                 + WorkerId + ", total: " + time + " ms");
 

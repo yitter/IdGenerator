@@ -34,17 +34,24 @@ namespace Yitter.IdGenerator
         /// <summary>
         /// 生成新的Id
         /// 调用本方法前，请确保调用了 SetIdGenerator 方法做初始化。
-        /// 否则将会初始化一个WorkerId为1的对象。
         /// </summary>
         /// <returns></returns>
         public static long NextId()
         {
-            if (_IdGenInstance == null)
-            {
-                _IdGenInstance = new DefaultIdGenerator(
-                    new IdGeneratorOptions() { WorkerId = 0 }
-                    );
-            }
+            //if (_IdGenInstance == null)
+            //{
+            //    lock (_IdGenInstance)
+            //    {
+            //        if (_IdGenInstance == null)
+            //        {
+            //            _IdGenInstance = new DefaultIdGenerator(
+            //                new IdGeneratorOptions() { WorkerId = 0 }
+            //                );
+            //        }
+            //    }
+            //}
+
+            if (_IdGenInstance == null) throw new ApplicationException("Please initialize Yitter.IdGeneratorOptions first.");
 
             return _IdGenInstance.NewLong();
         }

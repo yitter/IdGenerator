@@ -7,7 +7,10 @@
 *.userosscache
 *.sln.docstates
 *.editorconfig
-__*.bat
+.vscode
+__commit.bat
+__download.bat
+target
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -253,10 +256,7 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
-target/
 
 
 # macOS
 .DS_Store
-
-

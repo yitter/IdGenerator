@@ -118,10 +118,10 @@ namespace Yitter.IdGenerator
 
             // 7.Others
             TopOverCostCount = options.TopOverCostCount;
-            if (TopOverCostCount == 0)
-            {
-                TopOverCostCount = 2000;
-            }
+            //if (TopOverCostCount == 0)
+            //{
+            //    TopOverCostCount = 2000;
+            //}
 
             _TimestampShift = (byte)(WorkerIdBitLength + SeqBitLength);
             _CurrentSeqNumber = options.MinSeqNumber;
@@ -351,6 +351,7 @@ namespace Yitter.IdGenerator
 
             while (tempTimeTicker <= _LastTimeTick)
             {
+                Thread.Sleep(1);
                 tempTimeTicker = GetCurrentTimeTick();
             }
 

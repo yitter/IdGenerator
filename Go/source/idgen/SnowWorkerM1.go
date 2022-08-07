@@ -4,6 +4,7 @@
  * 代码修订：yitter
  * 开源地址：https://github.com/yitter/idgenerator
  */
+
 package idgen
 
 import (
@@ -13,13 +14,13 @@ import (
 
 // SnowWorkerM1 .
 type SnowWorkerM1 struct {
-	BaseTime          int64  //基础时间
-	WorkerId          uint16 //机器码
-	WorkerIdBitLength byte   //机器码位长
-	SeqBitLength      byte   //自增序列数位长
-	MaxSeqNumber      uint32 //最大序列数（含）
-	MinSeqNumber      uint32 //最小序列数（含）
-	TopOverCostCount  uint32 //最大漂移次数
+	BaseTime          int64  // 基础时间
+	WorkerId          uint16 // 机器码
+	WorkerIdBitLength byte   // 机器码位长
+	SeqBitLength      byte   // 自增序列数位长
+	MaxSeqNumber      uint32 // 最大序列数（含）
+	MinSeqNumber      uint32 // 最小序列数（含）
+	TopOverCostCount  uint32 // 最大漂移次数
 	_TimestampShift   byte
 	_CurrentSeqNumber uint32
 
@@ -75,12 +76,13 @@ func NewSnowWorkerM1(options *IdGeneratorOptions) ISnowWorker {
 	// 6.MinSeqNumber
 	var minSeqNumber = options.MinSeqNumber
 
-	// 7.Others
+	// 7.TopOverCostCount
 	var topOverCostCount = options.TopOverCostCount
-	if topOverCostCount == 0 {
-		topOverCostCount = 2000
-	}
+	// if topOverCostCount == 0 {
+	// 	topOverCostCount = 2000
+	// }
 
+	// 8.Others
 	timestampShift := (byte)(workerIdBitLength + seqBitLength)
 	currentSeqNumber := minSeqNumber
 
@@ -232,6 +234,7 @@ func (m1 *SnowWorkerM1) GetCurrentTimeTick() int64 {
 func (m1 *SnowWorkerM1) GetNextTimeTick() int64 {
 	tempTimeTicker := m1.GetCurrentTimeTick()
 	for tempTimeTicker <= m1._LastTimeTick {
+		time.Sleep(time.Duration(1) * time.Millisecond)
 		tempTimeTicker = m1.GetCurrentTimeTick()
 	}
 	return tempTimeTicker

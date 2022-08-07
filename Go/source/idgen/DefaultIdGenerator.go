@@ -4,6 +4,7 @@
  * 代码修订：yitter
  * 开源地址：https://github.com/yitter/idgenerator
  */
+
 package idgen
 
 import (
@@ -64,6 +65,11 @@ func NewDefaultIdGenerator(options *IdGeneratorOptions) *DefaultIdGenerator {
 		panic("MinSeqNumber error. (range:[5, " + strconv.FormatUint(uint64(maxSeqNumber), 10) + "]")
 	}
 
+	// 7.TopOverCostCount
+	if options.TopOverCostCount < 0 || options.TopOverCostCount > 10000 {
+		panic("TopOverCostCount error. (range:[0, 10000]")
+	}
+
 	var snowWorker ISnowWorker
 	switch options.Method {
 	case 1:
@@ -86,4 +92,8 @@ func NewDefaultIdGenerator(options *IdGeneratorOptions) *DefaultIdGenerator {
 
 func (dig DefaultIdGenerator) NewLong() int64 {
 	return dig.SnowWorker.NextId()
+}
+
+func (dig DefaultIdGenerator) ExtractTime(id int64) time.Time {
+	return time.UnixMilli(id>>(dig.Options.WorkerIdBitLength+dig.Options.SeqBitLength) + dig.Options.BaseTime)
 }
