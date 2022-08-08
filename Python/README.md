@@ -1,4 +1,4 @@
-﻿#  ❄ idgenerator-Python（未完成）
+﻿#  ❄ idgenerator-Python
 
 
 ## 运行环境
