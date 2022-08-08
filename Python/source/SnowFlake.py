@@ -7,5 +7,5 @@ class SnowFlake(object):
 	def __init__(self, options):
 		self.Options = options
 		
-	def NextId(self):
+	def NextId(self) -> int:
 		return 0

@@ -1,6 +1,5 @@
-import time
 
-class IdGeneratorOptions(object):
+class IdGeneratorOptions():
 	def __init__(self, workerId = 0, workerIdBitLength = 6,  seqBitLength = 6):
 		
 		# 雪花计算方法,（1-漂移算法|2-传统算法），默认1。目前只实现了1。
@@ -26,5 +25,3 @@ class IdGeneratorOptions(object):
 		
 		# 最大漂移次数（含），默认2000，推荐范围500-10000（与计算能力有关）
 		self.TopOverCostCount = 2000
-
-
