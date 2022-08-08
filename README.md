@@ -248,6 +248,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 | 🌲 Java | [查看示例][2]  | 
 | 🌲 Go| [查看示例][3]  | 
 | 🌲 Rust | [查看示例][4]  | 
+| 🌲 Python | [查看示例][10]  | 
 | 🌲 C | [查看示例][5]  |
 | 🌲 C (PHP扩展) | [查看示例][7]  |
 | 🌲 JavaScript | [查看示例][8]  |
@@ -275,6 +276,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 [7]: https://github.com/yitter/idgenerator/tree/master/PHP
 [8]: https://github.com/yitter/IdGenerator/tree/master/JavaScript
 [9]: https://github.com/yitter/IdGenerator/tree/master/TypeScript
+[10]: https://github.com/yitter/IdGenerator/tree/master/Python
 
 [11]: https://github.com/yitter/idgenerator/tree/master/C%23.NET
 [21]: https://github.com/yitter/idgenerator/tree/master/Java
