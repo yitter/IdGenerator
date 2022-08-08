@@ -9,51 +9,73 @@ import (
 )
 
 func main() {
-	ip := "localhost"
+
+	address := "127.0.0.1:6379"
 	password := ""
+	masterName := ""
 
-	ipChar := C.CString(ip)
+	addrChar := C.CString(address)
 	passChar := C.CString(password)
+	masterNameChar := C.CString(masterName)
 
-	workerIdList := RegisterMany(ipChar, 6379, passChar, 4, 3, 0)
+	workerIdList := RegisterMany(addrChar, passChar, 4, masterNameChar, 3, 5)
 	for _, value := range workerIdList {
 		fmt.Println("注册的WorkerId:", value)
 	}
 
-	id := RegisterOne(ipChar, 6379, passChar, 4, 0)
+	id := RegisterOne(addrChar, passChar, 4, masterNameChar, 0)
 	fmt.Println("注册的WorkerId:", id)
-
-	// var workerId = regworkerid.RegisterOne(ip, 6379, "", 4)
-	// fmt.Println("注册的WorkerId:", workerId)
 
 	fmt.Println("end")
 	time.Sleep(time.Duration(300) * time.Second)
 }
 
+// RegisterOne 注册一个 WorkerId，会先注销所有本机已注册的记录
+// address: Redis连接地址，单机模式示例：127.0.0.1:6379，哨兵/集群模式示例：127.0.0.1:26380,127.0.0.1:26381,127.0.0.1:26382
+// password: Redis连接密码
+// db: Redis指定存储库，示例：1
+// sentinelMasterName: Redis 哨兵模式下的服务名称，示例：mymaster，非哨兵模式传入空字符串即可
+// maxWorkerId: WorkerId 最大值，示例：63
 //export RegisterOne
-// 注册一个 WorkerId
-func RegisterOne(ip *C.char, port int32, password *C.char, maxWorkerId int32, database int) int32 {
-	return regworkerid.RegisterOne(C.GoString(ip), port, C.GoString(password), maxWorkerId, database)
+func RegisterOne(address *C.char, password *C.char, db int, sentinelMasterName *C.char, maxWorkerId int32) int32 {
+	return regworkerid.RegisterOne(regworkerid.RegisterConf{
+		Address:     C.GoString(address),
+		Password:    C.GoString(password),
+		DB:          db,
+		MasterName:  C.GoString(sentinelMasterName),
+		MaxWorkerId: maxWorkerId,
+	})
 }
 
+// RegisterMany 注册多个 WorkerId，会先注销所有本机已注册的记录
+// address: Redis连接地址，单机模式示例：127.0.0.1:6379，哨兵/集群模式示例：127.0.0.1:26380,127.0.0.1:26381,127.0.0.1:26382
+// password: Redis连接密码
+// db: Redis指定存储库，示例：1
+// sentinelMasterName: Redis 哨兵模式下的服务名称，示例：mymaster，非哨兵模式传入空字符串即可
+// maxWorkerId: WorkerId 最大值，示例：63
+// totalCount: 获取N个WorkerId，示例：5
+//export RegisterMany
+func RegisterMany(address *C.char, password *C.char, db int, sentinelMasterName *C.char, maxWorkerId int32, totalCount int32) []int32 {
+	return regworkerid.RegisterMany(regworkerid.RegisterConf{
+		Address:     C.GoString(address),
+		Password:    C.GoString(password),
+		DB:          db,
+		MasterName:  C.GoString(sentinelMasterName),
+		MaxWorkerId: maxWorkerId,
+		TotalCount:  totalCount,
+	})
+}
+
+// UnRegister 注销本机已注册的 WorkerId
 //export UnRegister
-// 注销本机已注册的 WorkerId
 func UnRegister() {
 	regworkerid.UnRegister()
 }
 
-// export Validate
-// 检查本地WorkerId是否有效（0-有效，其它-无效）
+// Validate 检查本地WorkerId是否有效（0-有效，其它-无效）
+//export Validate
 func Validate(workerId int32) int32 {
 	return regworkerid.Validate(workerId)
-}
-
-// RegisterMany
-// 注册多个 WorkerId，会先注销所有本机已注册的记录
-func RegisterMany(ip *C.char, port int32, password *C.char, maxWorkerId, totalCount int32, database int) []int32 {
-	// return (*C.int)(unsafe.Pointer(&values))
-	//return regworkerid.RegisterMany(ip, port, password, maxWorkerId, totalCount, database)
-	return regworkerid.RegisterMany(C.GoString(ip), port, C.GoString(password), maxWorkerId, totalCount, database)
 }
 
 // To Build a dll/so：
