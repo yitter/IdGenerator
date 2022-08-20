@@ -32,10 +32,3 @@ var newId = YitIdHelper.NextId();
 如果基于DI框架集成，可以参考 YitIdHelper 去管理 IdGenerator 对象，必须使用**单例**模式。
 
 
-## 事件说明
-
-1.IIdGenerator.GenIdActionAsync 是一个可以向外部系统异步发送ID生成消息的事件，它包含的消息类型有"漂移开始、漂移结束、时间回拨"，具体参考 Yitter.IdGenTest 的 Program.cs 启动代码。不过订阅ID异步通知会有细微的性能损失。
-
-2.你可在外部系统的异步（async标记）方法中调用本算法，同步调用同样没问题。
-
-
