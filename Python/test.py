@@ -1,18 +1,27 @@
-from source import Options,Generator
+from source import options, generator, idregister
 
 if __name__ == '__main__':
-	try:
-		options = Options.IdGeneratorOptions(workerId=23,seqBitLength=10)
-		options.BaseTime = 1231111111
-		idgen = Generator.DefaultIdGenerator()
-		idgen.SetIdGernerator(options)
+    try:
+        # 连接redis
+        register = idregister.Register(host="127.0.0.1", port=6379)
 
-		uid = idgen.NextId()
+        # 获取worker id
+        worker_id = register.get_worker_id()
 
-		print(uid)
-		print(options.__dict__)
-		
-	except ValueError  as e:
-		print(e)
+        # 生成id generator
+        options = options.IdGeneratorOptions(worker_id=worker_id, seq_bit_length=10)
+        options.BaseTime = 1231111111
+        idgen = generator.DefaultIdGenerator()
+        idgen.set_id_generator(options)
 
+        uid = idgen.next_id()
 
+        print(worker_id)
+        print(uid)
+        print(options.__dict__)
+
+        # 退出注册器线程
+        register.stop()
+
+    except ValueError as e:
+        print(e)
