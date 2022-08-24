@@ -2,6 +2,10 @@
 worker id generator
 """
 
+# !/usr/bin/python
+# coding=UTF-8
+
+
 from threading import Thread
 import time
 import logging

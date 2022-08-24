@@ -6,8 +6,6 @@
 # !/usr/bin/python
 # coding=UTF-8
 
-# 组件编号生成器
-
 
 class SnowFlake():
 

@@ -2,6 +2,9 @@
 生成器IdGenerator配置选项
 """
 
+# !/usr/bin/python
+# coding=UTF-8
+
 
 class IdGeneratorOptions:
     """

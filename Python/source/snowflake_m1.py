@@ -11,9 +11,6 @@ from .snowflake import SnowFlake
 from .options import IdGeneratorOptions
 
 
-# 组件编号生成器
-
-
 class SnowFlakeM1(SnowFlake):
     """
     M1规则ID生成器配置

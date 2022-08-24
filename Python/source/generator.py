@@ -2,6 +2,9 @@
 雪花算法生成器IdGenerator
 """
 
+# !/usr/bin/python
+# coding=UTF-8
+
 
 from . import options
 from . import snowflake_m1
