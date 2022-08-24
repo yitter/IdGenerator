@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
         # 生成id generator
         options = options.IdGeneratorOptions(worker_id=worker_id, seq_bit_length=10)
-        options.BaseTime = 1231111111
+        options.base_time = 12311111112
         idgen = generator.DefaultIdGenerator()
         idgen.set_id_generator(options)
 
