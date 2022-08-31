@@ -140,7 +140,13 @@ QQ群：646049993
 
 ❄ 可以把ID右移 WorkerIdBitLength+SeqBitLength，得到时间戳。
 
+## 性能说明
 
+❄ 在生成速度不超过 5W个/秒 的情况下，无须修改 SeqBitLength。
+
+❄ 超过5W，不超过50W，改 SeqBitLength 为10。
+
+❄ 超过 50W，改为 12~16。
 
 ## 💎 参数设置
 
