@@ -2,7 +2,7 @@
 
 ## 运行环境
 
-.NET Standard 2.0+
+.NET Standard 2.0（支持：.net framework4.6.1+/.net core 2.0+/.net5/.net6+/mono5.4+/Unity 2018+/Xamarin/）
 
 ## 引用 nuget 包
 ```
