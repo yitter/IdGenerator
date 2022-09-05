@@ -1,11 +1,17 @@
 ﻿# 雪花算法里最好用的主键ID生成工具
 
+## 💎 最佳实践（置顶）
 
-## 技术支持
+针对大家再测试过程中，经常出现的性能问题，以下给出3组最佳实践配置：
 
-开源地址：https://github.com/yitter/IdGenerator
+❄ 如果生成ID速度要求不超过5W/s，不用修改任何配置参数
 
-QQ群：646049993
+❄ 如果生成ID速度要求超过5W/s，低于50W，推荐修改：SeqBitLength=10（或更大）
+
+❄ 如果生成ID速度要求超过50W/s，接近500W，推荐修改：SeqBitLength=14（或更大），TopOverCostCount=5000
+
+总之，增加 SeqBitLength 会让性能更高，但生成的 ID 也会更长。
+
 
 ## 💎 算法介绍
 
@@ -134,20 +140,6 @@ QQ群：646049993
 🔵 在支持 4096 个工作节点时，ID可用 1120 年不重复。
 
 
-### 补充说明
-
-❄ 默认算法，每个时间戳开始，生成的ID是奇数。
-
-❄ 可以把ID右移 WorkerIdBitLength+SeqBitLength，得到时间戳。
-
-## 性能说明
-
-❄ 在生成速度不超过 5W个/秒 的情况下，无须修改 SeqBitLength。
-
-❄ 超过5W，不超过50W，改 SeqBitLength 为10。
-
-❄ 超过 50W，改为 12~16。
-
 ## 💎 参数设置
 
 ❄ ***WorkerIdBitLength***，机器码位长，决定 WorkerId 的最大值，**默认值6**，取值范围 [1, 19]，实际上有些语言采用 无符号 ushort (uint16)  类型接收该参数，所以最大值是16，如果是采用 有符号 short (int16)，则最大值为15。
@@ -262,6 +254,13 @@ extern GoInt32 Validate(GoInt32 workerId);
 | 🌲 TypeScript | [查看示例][9]  |
 | 🌲 V | [查看示例][6]  | 
 | 🌲 D | [查看示例][72]  | 
+
+
+## 技术支持
+
+开源地址：https://github.com/yitter/IdGenerator
+
+QQ群：646049993
 
 
 [comment]: <> (	## 为什么用雪花ID？)
