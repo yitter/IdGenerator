@@ -2,7 +2,8 @@
 
 ## 运行环境
 
-.NET Standard 2.0（支持：.net framework4.6.1+/.net core 2.0+/.net5/.net6+/mono5.4+/Unity 2018+/Xamarin/）
+.NET Standard 2.0+
+（支持：.net framework4.6.1+/.net core 2.0+/.net5/.net6+/mono5.4+/Unity 2018+/Xamarin/）
 
 ## 引用 nuget 包
 ```
@@ -14,7 +15,7 @@
 第1步，**全局** 初始化（应用程序启动时执行一次）：
 ```
 // 创建 IdGeneratorOptions 对象，可在构造函数中输入 WorkerId：
-var options = new IdGeneratorOptions(Your_Worker_Id);
+var options = new IdGeneratorOptions(Your_Unique_Worker_Id);
 // options.WorkerIdBitLength = 10; // 默认值6，限定 WorkerId 最大值为2^6-1，即默认最多支持64个节点。
 // options.SeqBitLength = 6; // 默认值6，限制每毫秒生成的ID个数。若生成速度超过5万个/秒，建议加大 SeqBitLength 到 10。
 // options.BaseTime = Your_Base_Time; // 如果要兼容老系统的雪花算法，此处应设置为老系统的BaseTime。
