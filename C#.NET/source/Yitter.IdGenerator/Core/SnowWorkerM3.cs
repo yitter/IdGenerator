@@ -50,7 +50,7 @@ namespace Yitter.IdGenerator
             _TimestampShift = (byte)(DataCenterIdBitLength + WorkerIdBitLength + SeqBitLength);
         }
 
-        protected override long CalcId(in long useTimeTick)
+        protected override long CalcId(long useTimeTick)
         {
             var result = ((useTimeTick << _TimestampShift) +
                 ((long)DataCenterId << DataCenterIdBitLength) +
@@ -61,7 +61,7 @@ namespace Yitter.IdGenerator
             return result;
         }
 
-        protected override long CalcTurnBackId(in long useTimeTick)
+        protected override long CalcTurnBackId(long useTimeTick)
         {
             var result = ((useTimeTick << _TimestampShift) +
                 ((long)DataCenterId << DataCenterIdBitLength) +

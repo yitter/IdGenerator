@@ -21,35 +21,35 @@ namespace Yitter.IdGenerator
     {
         private ISnowWorker _SnowWorker { get; set; }
 
-        public Action<OverCostActionArg> GenIdActionAsync
-        {
-            get => _SnowWorker.GenAction;
-            set => _SnowWorker.GenAction = value;
-        }
+        //public Action<OverCostActionArg> GenIdActionAsync
+        //{
+        //    get => _SnowWorker.GenAction;
+        //    set => _SnowWorker.GenAction = value;
+        //}
 
 
         public DefaultIdGenerator(IdGeneratorOptions options)
         {
             if (options == null)
             {
-                throw new ApplicationException("options error.");
+                throw new ArgumentException("options error.");
             }
 
             // 1.BaseTime
             if (options.BaseTime < DateTime.Now.AddYears(-50) || options.BaseTime > DateTime.Now)
             {
-                throw new ApplicationException("BaseTime error.");
+                throw new ArgumentException("BaseTime error.");
             }
 
             // 2.WorkerIdBitLength
             int maxLength = options.TimestampType == 0 ? 22 : 31; // （秒级时间戳时放大到31位）
             if (options.WorkerIdBitLength <= 0)
             {
-                throw new ApplicationException("WorkerIdBitLength error.(range:[1, 21])");
+                throw new ArgumentException("WorkerIdBitLength error.(range:[1, 21])");
             }
             if (options.DataCenterIdBitLength + options.WorkerIdBitLength + options.SeqBitLength > maxLength)
             {
-                throw new ApplicationException("error：DataCenterIdBitLength + WorkerIdBitLength + SeqBitLength <= " + maxLength);
+                throw new ArgumentException("error：DataCenterIdBitLength + WorkerIdBitLength + SeqBitLength <= " + maxLength);
             }
 
             // 3.WorkerId & DataCenterId
@@ -60,19 +60,19 @@ namespace Yitter.IdGenerator
             }
             if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber)
             {
-                throw new ApplicationException("WorkerId error. (range:[0, " + maxWorkerIdNumber + "]");
+                throw new ArgumentException("WorkerId error. (range:[0, " + maxWorkerIdNumber + "]");
             }
 
             var maxDataCenterIdNumber = (1 << options.DataCenterIdBitLength) - 1;
             if (options.DataCenterId < 0 || options.DataCenterId > maxDataCenterIdNumber)
             {
-                throw new ApplicationException("DataCenterId error. (range:[0, " + maxDataCenterIdNumber + "]");
+                throw new ArgumentException("DataCenterId error. (range:[0, " + maxDataCenterIdNumber + "]");
             }
 
             // 4.SeqBitLength
             if (options.SeqBitLength < 2 || options.SeqBitLength > 21)
             {
-                throw new ApplicationException("SeqBitLength error. (range:[2, 21])");
+                throw new ArgumentException("SeqBitLength error. (range:[2, 21])");
             }
 
             // 5.MaxSeqNumber
@@ -83,19 +83,19 @@ namespace Yitter.IdGenerator
             }
             if (options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber)
             {
-                throw new ApplicationException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");
+                throw new ArgumentException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "]");
             }
 
             // 6.MinSeqNumber
             if (options.MinSeqNumber < 5 || options.MinSeqNumber > maxSeqNumber)
             {
-                throw new ApplicationException("MinSeqNumber error. (range:[5, " + maxSeqNumber + "]");
+                throw new ArgumentException("MinSeqNumber error. (range:[5, " + maxSeqNumber + "]");
             }
 
             // 7.TopOverCostCount
             if (options.TopOverCostCount < 0 || options.TopOverCostCount > 10000)
             {
-                throw new ApplicationException("TopOverCostCount error. (range:[0, 10000]");
+                throw new ArgumentException("TopOverCostCount error. (range:[0, 10000]");
             }
 
             switch (options.Method)

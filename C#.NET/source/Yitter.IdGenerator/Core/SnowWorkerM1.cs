@@ -327,7 +327,7 @@ namespace Yitter.IdGenerator
             return CalcId(_LastTimeTick);
         }
 
-        protected virtual long CalcId(in long useTimeTick)
+        protected virtual long CalcId(long useTimeTick)
         {
             var result = ((useTimeTick << _TimestampShift) +
                 ((long)WorkerId << SeqBitLength) +
@@ -337,7 +337,7 @@ namespace Yitter.IdGenerator
             return result;
         }
 
-        protected virtual long CalcTurnBackId(in long useTimeTick)
+        protected virtual long CalcTurnBackId(long useTimeTick)
         {
             var result = ((useTimeTick << _TimestampShift) +
                 ((long)WorkerId << SeqBitLength) + _TurnBackIndex);

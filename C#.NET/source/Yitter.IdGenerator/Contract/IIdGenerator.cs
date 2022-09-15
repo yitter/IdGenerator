@@ -16,7 +16,7 @@ namespace Yitter.IdGenerator
         /// <summary>
         /// 生成过程中产生的事件
         /// </summary>
-        Action<OverCostActionArg> GenIdActionAsync { get; set; }
+        //Action<OverCostActionArg> GenIdActionAsync { get; set; }
 
         /// <summary>
         /// 生成新的long型Id

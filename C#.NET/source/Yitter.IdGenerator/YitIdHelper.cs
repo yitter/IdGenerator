@@ -51,7 +51,7 @@ namespace Yitter.IdGenerator
             //    }
             //}
 
-            if (_IdGenInstance == null) throw new ApplicationException("Please initialize Yitter.IdGeneratorOptions first.");
+            if (_IdGenInstance == null) throw new ArgumentException("Please initialize Yitter.IdGeneratorOptions first.");
 
             return _IdGenInstance.NewLong();
         }

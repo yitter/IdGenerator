@@ -140,7 +140,7 @@ namespace Yitter.OrgSystem.TestA
                 WorkerId = 1,
 
                 WorkerIdBitLength = 6,
-                SeqBitLength = 6,
+                SeqBitLength = 12,
 
                 //TopOverCostCount = 2000,
                 //DataCenterIdBitLength = 0,
@@ -153,7 +153,7 @@ namespace Yitter.OrgSystem.TestA
 
             //IdGen = new DefaultIdGenerator(options);
             YitIdHelper.SetIdGenerator(options);
-            genIdCount = 50000;
+            genIdCount = 5000000;
             while (true)
             {
                 DateTime start = DateTime.Now;
@@ -186,21 +186,21 @@ namespace Yitter.OrgSystem.TestA
 
                 if (outputLog)
                 {
-                    IdGen.GenIdActionAsync = (arg =>
-                    {
-                        if (arg.ActionType == 1)
-                        {
-                            Console.WriteLine($">>>> {arg.WorkerId}：开始：{DateTime.Now.ToString("mm:ss:fff")}, 周期次序：{arg.TermIndex}");
-                        }
-                        else if (arg.ActionType == 2)
-                        {
-                            Console.WriteLine($"<<<< {arg.WorkerId}：结束：{DateTime.Now.ToString("mm:ss:fff")}，漂移 {arg.OverCostCountInOneTerm} 次，产生 {arg.GenCountInOneTerm} 个, 周期次序：{arg.TermIndex}");
-                        }
-                        if (arg.ActionType == 8)
-                        {
-                            Console.WriteLine($"---- {arg.WorkerId}：AA结束：{DateTime.Now.ToString("mm:ss:fff")}，时间回拨");
-                        }
-                    });
+                    //IdGen.GenIdActionAsync = (arg =>
+                    //{
+                    //    if (arg.ActionType == 1)
+                    //    {
+                    //        Console.WriteLine($">>>> {arg.WorkerId}：开始：{DateTime.Now.ToString("mm:ss:fff")}, 周期次序：{arg.TermIndex}");
+                    //    }
+                    //    else if (arg.ActionType == 2)
+                    //    {
+                    //        Console.WriteLine($"<<<< {arg.WorkerId}：结束：{DateTime.Now.ToString("mm:ss:fff")}，漂移 {arg.OverCostCountInOneTerm} 次，产生 {arg.GenCountInOneTerm} 个, 周期次序：{arg.TermIndex}");
+                    //    }
+                    //    if (arg.ActionType == 8)
+                    //    {
+                    //        Console.WriteLine($"---- {arg.WorkerId}：AA结束：{DateTime.Now.ToString("mm:ss:fff")}，时间回拨");
+                    //    }
+                    //});
                 }
 
                 for (int i = 1; i < workerCount + 1; i++)
@@ -233,10 +233,10 @@ namespace Yitter.OrgSystem.TestA
 
                     if (outputLog)
                     {
-                        idGen2.GenIdActionAsync = (arg =>
-                        {
-                            Console.WriteLine($"{DateTime.Now.ToString("mm:ss:fff")} {arg.WorkerId} 漂移了 {arg.OverCostCountInOneTerm}, 顺序：{arg.TermIndex}");
-                        });
+                        //idGen2.GenIdActionAsync = (arg =>
+                        //{
+                        //    Console.WriteLine($"{DateTime.Now.ToString("mm:ss:fff")} {arg.WorkerId} 漂移了 {arg.OverCostCountInOneTerm}, 顺序：{arg.TermIndex}");
+                        //});
                     }
 
                     testList.Add(test);
