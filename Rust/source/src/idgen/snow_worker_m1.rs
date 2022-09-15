@@ -170,9 +170,9 @@ impl SnowWorkerM1 {
     fn BeginOverCostAction(&self, useTimeTick: i64) {}
 
     fn EndOverCostAction(&mut self, useTimeTick: i64) {
-        if self._TermIndex > 10000 {
-            self._TermIndex = 0;
-        }
+        // if self._TermIndex > 10000 {
+        //     self._TermIndex = 0;
+        // }
     }
 
     fn BeginTurnBackAction(&self, useTimeTick: i64) {}
@@ -226,14 +226,13 @@ impl SnowWorkerM1 {
         if currentTimeTick < self._LastTimeTick {
             if self._TurnBackTimeTick < 1 {
                 self._TurnBackTimeTick = self._LastTimeTick - 1;
+                self._TurnBackIndex += 1;
+                // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
+                // 支持4次回拨次序（避免回拨重叠导致ID重复），可无限次回拨（次序循环使用）。
+                if self._TurnBackIndex > 4 {
+                    self._TurnBackIndex = 1;
+                }
                 self.BeginTurnBackAction(self._TurnBackTimeTick);
-            }
-
-            self._TurnBackIndex += 1;
-            // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
-            // 支持4次回拨次序（避免回拨重叠导致ID重复），可无限次回拨（次序循环使用）。
-            if self._TurnBackIndex > 4 {
-                self._TurnBackIndex = 1;
             }
 
             // thread::sleep(std::time::Duration::from_millis(1));

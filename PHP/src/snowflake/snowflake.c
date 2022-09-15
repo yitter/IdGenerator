@@ -178,14 +178,13 @@ static inline uint64_t NextNormalId(snowflake *flake)
 		if (flake->_TurnBackTimeTick < 1)
 		{
 			flake->_TurnBackTimeTick = flake->_LastTimeTick - 1;
+			flake->_TurnBackIndex++;
+			if (flake->_TurnBackIndex > 4)
+			{
+				flake->_TurnBackIndex = 1;
+			}
 		}
-		
-		flake->_TurnBackIndex++;
-		if (flake->_TurnBackIndex > 4)
-		{
-			flake->_TurnBackIndex = 1;
-		}
-		
+
 		return CalcTurnBackId(flake);
 	}
 	if (flake->_TurnBackTimeTick > 0)

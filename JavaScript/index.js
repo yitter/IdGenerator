@@ -136,14 +136,13 @@ class Genid {
         if (currentTimeTick < this._LastTimeTick) {
             if (this._TurnBackTimeTick < 1) {
                 this._TurnBackTimeTick = this._LastTimeTick - 1;
+                this._TurnBackIndex++;
+                // 每毫秒序列数的前 5 位是预留位，0 用于手工新值，1-4 是时间回拨次序
+                // 支持 4 次回拨次序（避免回拨重叠导致 ID 重复），可无限次回拨（次序循环使用）。
+                if (this._TurnBackIndex > 4) {
+                    this._TurnBackIndex = 1;
+                }
                 this.BeginTurnBackAction(this._TurnBackTimeTick);
-            }
-            
-            this._TurnBackIndex++;
-            // 每毫秒序列数的前 5 位是预留位，0 用于手工新值，1-4 是时间回拨次序
-            // 支持 4 次回拨次序（避免回拨重叠导致 ID 重复），可无限次回拨（次序循环使用）。
-            if (this._TurnBackIndex > 4) {
-                this._TurnBackIndex = 1;
             }
             
             return this.CalcTurnBackId(this._TurnBackTimeTick);
