@@ -60,16 +60,18 @@ namespace Yitter.IdGenerator
         protected long _LastTimeTick = 0; // -1L
         protected long _TurnBackTimeTick = 0; // -1L;
         protected byte _TurnBackIndex = 0;
-
         protected bool _IsOverCost = false;
         protected int _OverCostCountInOneTerm = 0;
+
+#if DEBUG
         protected int _GenCountInOneTerm = 0;
         protected int _TermIndex = 0;
+#endif
+
+        public Action<OverCostActionArg> GenAction { get; set; }
 
         //private static long _StartTimeTick = 0;
         //private static long _BaseTimeTick = 0;
-
-        public Action<OverCostActionArg> GenAction { get; set; }
 
 
         public SnowWorkerM1(IdGeneratorOptions options)
@@ -130,9 +132,10 @@ namespace Yitter.IdGenerator
             //_StartTimeTick = (long)(DateTime.UtcNow.Subtract(BaseTime).TotalMilliseconds) - Environment.TickCount;
         }
 
-
+#if DEBUG
         private void DoGenIdAction(OverCostActionArg arg)
         {
+            //return;
             Task.Run(() =>
             {
                 GenAction(arg);
@@ -141,8 +144,6 @@ namespace Yitter.IdGenerator
 
         private void BeginOverCostAction(in long useTimeTick)
         {
-            return;
-
             if (GenAction == null)
             {
                 return;
@@ -159,11 +160,10 @@ namespace Yitter.IdGenerator
 
         private void EndOverCostAction(in long useTimeTick)
         {
-            if (_TermIndex > 10000)
-            {
-                _TermIndex = 0;
-            }
-            return;
+            //if (_TermIndex > 10000)
+            //{
+            //    _TermIndex = 0;
+            //}
 
             if (GenAction == null)
             {
@@ -181,8 +181,6 @@ namespace Yitter.IdGenerator
 
         private void BeginTurnBackAction(in long useTimeTick)
         {
-            return;
-
             if (GenAction == null)
             {
                 return;
@@ -199,8 +197,6 @@ namespace Yitter.IdGenerator
 
         private void EndTurnBackAction(in long useTimeTick)
         {
-            return;
-
             if (GenAction == null)
             {
                 return;
@@ -214,6 +210,7 @@ namespace Yitter.IdGenerator
             0,
             _TurnBackIndex));
         }
+#endif
 
         protected virtual long NextOverCostId()
         {
@@ -221,44 +218,50 @@ namespace Yitter.IdGenerator
 
             if (currentTimeTick > _LastTimeTick)
             {
+#if DEBUG
                 EndOverCostAction(currentTimeTick);
-
+                _GenCountInOneTerm = 0;
+#endif
                 _LastTimeTick = currentTimeTick;
                 _CurrentSeqNumber = MinSeqNumber;
                 _IsOverCost = false;
                 _OverCostCountInOneTerm = 0;
-                _GenCountInOneTerm = 0;
 
                 return CalcId(_LastTimeTick);
             }
 
             if (_OverCostCountInOneTerm >= TopOverCostCount)
             {
+#if DEBUG
                 EndOverCostAction(currentTimeTick);
-
-                // TODO: 在漂移终止，等待时间对齐时，如果发生时间回拨较长，则此处可能等待较长时间。可优化为：在漂移终止时增加时间回拨应对逻辑。（该情况发生概率很低）
+                _GenCountInOneTerm = 0;
+#endif
+                // TODO: 在漂移终止，等待时间对齐时，如果发生时间回拨较长，则此处可能等待较长时间。可优化为：在漂移终止时增加时间回拨应对逻辑。（该情况发生概率低，暂不处理）
 
                 _LastTimeTick = GetNextTimeTick();
                 _CurrentSeqNumber = MinSeqNumber;
                 _IsOverCost = false;
                 _OverCostCountInOneTerm = 0;
-                _GenCountInOneTerm = 0;
 
                 return CalcId(_LastTimeTick);
             }
 
             if (_CurrentSeqNumber > MaxSeqNumber)
             {
+#if DEBUG
+                _GenCountInOneTerm++;
+#endif
                 _LastTimeTick++;
                 _CurrentSeqNumber = MinSeqNumber;
                 _IsOverCost = true;
                 _OverCostCountInOneTerm++;
-                _GenCountInOneTerm++;
 
                 return CalcId(_LastTimeTick);
             }
 
+#if DEBUG
             _GenCountInOneTerm++;
+#endif
             return CalcId(_LastTimeTick);
         }
 
@@ -271,16 +274,17 @@ namespace Yitter.IdGenerator
                 if (_TurnBackTimeTick < 1)
                 {
                     _TurnBackTimeTick = _LastTimeTick - 1;
-                    _TurnBackIndex++;
-
-                    // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
-                    // 支持4次回拨次序（避免回拨重叠导致ID重复），可无限次回拨（次序循环使用）。
-                    if (_TurnBackIndex > 4)
-                    {
-                        _TurnBackIndex = 1;
-                    }
-
+#if DEBUG
                     BeginTurnBackAction(_TurnBackTimeTick);
+#endif
+                }
+
+                _TurnBackIndex++;
+                // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
+                // 支持4次回拨次序（避免回拨重叠导致ID重复），可无限次回拨（次序循环使用）。
+                if (_TurnBackIndex > 4)
+                {
+                    _TurnBackIndex = 1;
                 }
 
                 //Thread.Sleep(1);
@@ -290,7 +294,9 @@ namespace Yitter.IdGenerator
             // 时间追平时，_TurnBackTimeTick清零
             if (_TurnBackTimeTick > 0)
             {
+#if DEBUG
                 EndTurnBackAction(_TurnBackTimeTick);
+#endif
                 _TurnBackTimeTick = 0;
             }
 
@@ -304,14 +310,15 @@ namespace Yitter.IdGenerator
 
             if (_CurrentSeqNumber > MaxSeqNumber)
             {
+#if DEBUG
                 BeginOverCostAction(currentTimeTick);
-
                 _TermIndex++;
+                _GenCountInOneTerm = 1;
+#endif
+                _OverCostCountInOneTerm = 1;
                 _LastTimeTick++;
                 _CurrentSeqNumber = MinSeqNumber;
                 _IsOverCost = true;
-                _OverCostCountInOneTerm = 1;
-                _GenCountInOneTerm = 1;
 
                 return CalcId(_LastTimeTick);
             }
@@ -351,7 +358,8 @@ namespace Yitter.IdGenerator
 
             while (tempTimeTicker <= _LastTimeTick)
             {
-                Thread.Sleep(1);
+                //Thread.Sleep(1);
+                SpinWait.SpinUntil(() => false, 1);
                 tempTimeTicker = GetCurrentTimeTick();
             }
 

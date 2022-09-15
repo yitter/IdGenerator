@@ -86,11 +86,11 @@ class SnowFlakeM1(SnowFlake):
         if current_time_tick < self.__last_time_tick:
             if self.__turn_back_time_tick < 1:
                 self.__turn_back_time_tick = self.__last_time_tick - 1
-                self.__turn_back_index += 1
-                # 每毫秒序列数的前5位是预留位, 0用于手工新值, 1-4是时间回拨次序
-                # 支持4次回拨次序（避免回拨重叠导致ID重复）, 可无限次回拨（次序循环使用）。
-                if self.__turn_back_index > 4:
-                    self.__turn_back_index = 1
+            self.__turn_back_index += 1
+            # 每毫秒序列数的前5位是预留位, 0用于手工新值, 1-4是时间回拨次序
+            # 支持4次回拨次序（避免回拨重叠导致ID重复）, 可无限次回拨（次序循环使用）。
+            if self.__turn_back_index > 4:
+                self.__turn_back_index = 1
 
             return self.__calc_turn_back_id(self.__turn_back_time_tick)
 

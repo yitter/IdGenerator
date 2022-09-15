@@ -69,10 +69,11 @@ static inline int64_t NextNormalId(SnowFlakeWorker *worker) {
     if (currentTimeTick < worker->_LastTimeTick) {
         if (worker->_TurnBackTimeTick < 1) {
             worker->_TurnBackTimeTick = worker->_LastTimeTick - 1;
-            worker->_TurnBackIndex++;
-            if (worker->_TurnBackIndex > 4) {
-                worker->_TurnBackIndex = 1;
-            }
+        }
+
+        worker->_TurnBackIndex++;
+        if (worker->_TurnBackIndex > 4) {
+            worker->_TurnBackIndex = 1;
         }
 
         // usleep(1000); // 暂停1ms

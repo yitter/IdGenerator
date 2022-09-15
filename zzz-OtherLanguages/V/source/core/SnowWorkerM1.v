@@ -130,14 +130,16 @@ fn (mut m1 SnowWorkerM1) next_normal_id() u64 {
 	if current_time_tick < m1.last_time_tick {
 		if m1.turn_back_timetick < 1 {
 			m1.turn_back_timetick = m1.last_time_tick - 1
-			m1.turnback_index++
-			// 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
-			// 最多4次回拨（防止回拨重叠）
-			if m1.turnback_index > 4 {
-				m1.turnback_index = 1
-			}
 			// m1.begin_turn_back_action(m1.turn_back_timetick)
 		}
+
+		m1.turnback_index++
+		// 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
+		// 最多4次回拨（防止回拨重叠）
+		if m1.turnback_index > 4 {
+			m1.turnback_index = 1
+		}
+
 		return m1.calc_turn_back_id()
 	}
 	// 时间追平时，turn_back_timetick清零
