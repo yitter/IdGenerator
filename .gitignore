@@ -8,6 +8,7 @@
 *.sln.docstates
 *.editorconfig
 __*.bat
+#.dccache
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
