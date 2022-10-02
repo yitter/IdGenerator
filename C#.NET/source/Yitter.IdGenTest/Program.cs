@@ -165,7 +165,7 @@ namespace Yitter.OrgSystem.TestA
                 }
 
                 DateTime end = DateTime.Now;
-                Console.WriteLine($"GenCount: {genIdCount}, TimeLength: {(end - start).TotalMilliseconds} ms");
+                Console.WriteLine($"生成数量: {genIdCount}, 运行时间: {(end - start).TotalMilliseconds} ms");
                 Thread.Sleep(1000);
             }
             //Interlocked.Increment(ref Program.Count);

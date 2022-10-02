@@ -56,7 +56,7 @@ namespace Yitter.IdGenerator
         protected byte _TimestampShift = 0;
         protected static object _SyncLock = new object();
 
-        protected ushort _CurrentSeqNumber;
+        protected ushort _CurrentSeqNumber = 0;
         protected long _LastTimeTick = 0; // -1L
         protected long _TurnBackTimeTick = 0; // -1L;
         protected byte _TurnBackIndex = 0;
