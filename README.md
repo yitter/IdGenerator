@@ -250,7 +250,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 | 🌲 Python | [查看示例][10]  | 
 | 🌲 C | [查看示例][5]  |
 | 🌲 C (PHP扩展) | [查看示例][7]  |
-| 🌲 Delphi(Pascal) | [查看示例][6]  |
+| 🌲 Delphi (Pascal) | [查看示例][6]  |
 | 🌲 JavaScript | [查看示例][8]  |
 | 🌲 TypeScript | [查看示例][9]  |
 | 🌲 V | [查看示例][6]  | 
