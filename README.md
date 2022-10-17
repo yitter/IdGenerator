@@ -279,7 +279,7 @@ QQ群：646049993
 [3]: https://github.com/yitter/idgenerator/tree/master/Go
 [4]: https://github.com/yitter/idgenerator/tree/master/Rust
 [5]: https://github.com/yitter/idgenerator/tree/master/C
-[6]: https://github.com/yitter/idgenerator/tree/master/Pascal
+[6]: https://github.com/yitter/idgenerator/tree/master/Delphi
 [7]: https://github.com/yitter/idgenerator/tree/master/PHP
 [8]: https://github.com/yitter/IdGenerator/tree/master/JavaScript
 [9]: https://github.com/yitter/IdGenerator/tree/master/TypeScript
@@ -290,7 +290,7 @@ QQ群：646049993
 [31]: https://github.com/yitter/idgenerator/tree/master/Go
 [41]: https://github.com/yitter/idgenerator/tree/master/Rust
 [51]: https://github.com/yitter/idgenerator/tree/master/C
-[61]: https://github.com/yitter/idgenerator/tree/master/Pascal
+[61]: https://github.com/yitter/idgenerator/tree/master/Delphi
 [71]: https://github.com/yitter/idgenerator/tree/master/PHP
 
 [72]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/D
