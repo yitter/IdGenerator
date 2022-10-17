@@ -250,6 +250,7 @@ extern GoInt32 Validate(GoInt32 workerId);
 | 🌲 Python | [查看示例][10]  | 
 | 🌲 C | [查看示例][5]  |
 | 🌲 C (PHP扩展) | [查看示例][7]  |
+| 🌲 Pascal | [查看示例][6]  |
 | 🌲 JavaScript | [查看示例][8]  |
 | 🌲 TypeScript | [查看示例][9]  |
 | 🌲 V | [查看示例][6]  | 
@@ -278,7 +279,7 @@ QQ群：646049993
 [3]: https://github.com/yitter/idgenerator/tree/master/Go
 [4]: https://github.com/yitter/idgenerator/tree/master/Rust
 [5]: https://github.com/yitter/idgenerator/tree/master/C
-[6]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/V
+[6]: https://github.com/yitter/idgenerator/tree/master/Pascal
 [7]: https://github.com/yitter/idgenerator/tree/master/PHP
 [8]: https://github.com/yitter/IdGenerator/tree/master/JavaScript
 [9]: https://github.com/yitter/IdGenerator/tree/master/TypeScript
@@ -289,7 +290,7 @@ QQ群：646049993
 [31]: https://github.com/yitter/idgenerator/tree/master/Go
 [41]: https://github.com/yitter/idgenerator/tree/master/Rust
 [51]: https://github.com/yitter/idgenerator/tree/master/C
-[61]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/V
+[61]: https://github.com/yitter/idgenerator/tree/master/Pascal
 [71]: https://github.com/yitter/idgenerator/tree/master/PHP
 
 [72]: https://github.com/yitter/idgenerator/tree/master/zzz-OtherLanguages/D
