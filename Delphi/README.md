@@ -1,4 +1,4 @@
-# ❄ idgenerator-Delphi
+# ❄ idgenerator-Delphi (Pascal)
 
 ## 编译环境、运行环境
 
