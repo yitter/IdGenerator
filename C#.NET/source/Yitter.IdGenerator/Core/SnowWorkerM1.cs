@@ -106,7 +106,7 @@ namespace Yitter.IdGenerator
             }
 
             // 5.MaxSeqNumber
-            if (MaxSeqNumber == 0)
+            if (options.MaxSeqNumber <= 0)
             {
                 MaxSeqNumber = (1 << SeqBitLength) - 1;
             }

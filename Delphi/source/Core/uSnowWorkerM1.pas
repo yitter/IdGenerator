@@ -156,7 +156,7 @@ begin
   end;
 
   // 5.MaxSeqNumber
-  if (MaxSeqNumber = 0) then
+  if (options.MaxSeqNumber <= 0) then
   begin
     FMaxSeqNumber := (1 shl SeqBitLength) - 1;
   end
