@@ -1,4 +1,4 @@
-﻿#  ❄ idgenerator-Java
+#  ❄ idgenerator-Java
 
 ## 运行环境
 
@@ -25,7 +25,7 @@ IdGeneratorOptions options = new IdGeneratorOptions(Your_Unique_Worker_Id);
 // ...... 其它参数参考 IdGeneratorOptions 定义。
 
 // 保存参数（务必调用，否则参数设置不生效）：
-YitIdHelper.SetIdGenerator(options);
+YitIdHelper.setIdGenerator(options);
 
 // 以上过程只需全局一次，且应在生成ID之前完成。
 ```
