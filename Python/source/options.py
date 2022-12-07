@@ -20,7 +20,7 @@ class IdGeneratorOptions:
         self.method = 1
 
         # 基础时间（ms单位）, 不能超过当前系统时间
-        self.base_time = 1288834974657
+        self.base_time = 1582136402000
 
         # 机器码, 必须由外部设定, 最大值 2^worker_id_bit_length-1
         self.worker_id = worker_id
