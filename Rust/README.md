@@ -3,7 +3,7 @@
 ## 调用示例（Rust）
 
 第1步，**全局** 初始化（应用程序启动时执行一次）：
-```
+```rust
 // 创建 IdGeneratorOptions 对象，可在构造函数中输入 WorkerId：
 let mut options = IdGeneratorOptions::New(Your_Unique_Worker_Id);
 // options.WorkerIdBitLength = 10; // 默认值6，限定 WorkerId 最大值为2^6-1，即默认最多支持64个节点。
@@ -18,9 +18,7 @@ YitIdHelper::SetIdGenerator(options);
 ```
 
 第2步，生成ID：
-```
+```rust
 // 初始化后，在任何需要生成ID的地方，调用以下方法：
 long newId = YitIdHelper::NextId();
 ```
-
-

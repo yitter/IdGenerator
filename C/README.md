@@ -6,11 +6,10 @@
 
 2.如果是 Windows 环境，要用 Cygwin 或 MinGW。
 
-
 ## 调用示例（C）
 
 第1步，**全局** 初始化（应用程序启动时执行一次）：
-```
+```c
 // 创建 IdGeneratorOptions 对象，可在构造函数中输入 WorkerId：
 IdGeneratorOptions options = BuildIdGenOptions(Your_Unique_Worker_Id);
 // options.WorkerIdBitLength = 10; // 默认值6，限定 WorkerId 最大值为2^6-1，即默认最多支持64个节点。
@@ -25,8 +24,7 @@ SetIdGenerator(options);
 ```
 
 第2步，生成ID：
-```
+```c
 // 初始化后，在任何需要生成ID的地方，调用以下方法：
 long newId = NextId();
 ```
-
