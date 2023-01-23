@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include "IdGenerator.h"
 
+static IdGenerator *_idGenerator = NULL;
+
 static inline uint64_t WorkerM1Id()
 {
     return WorkerM1NextId(_idGenerator->Worker);
