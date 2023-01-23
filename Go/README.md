@@ -1,4 +1,4 @@
-﻿#  ❄ idgenerator-Go
+#  ❄ idgenerator-Go
 
 ## 介绍
 
@@ -6,7 +6,7 @@
 
 ## 引用全局库
 ```shell
-go get -u -v github.com/yitter/idgenerator-go
+go get -u -v github.com/yitter/idgenerator-go@v1.3.1
 ```
 
 ## 调用示例（Go）
