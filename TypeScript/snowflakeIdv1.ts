@@ -115,7 +115,7 @@ export class snowflakeIdv1 {
 
         // 5.MaxSeqNumber
         if (options.maxSeqNumber == undefined || options.maxSeqNumber <= 0)
-            options.maxSeqNumber = (1 << SeqBitLength) - 1
+            options.maxSeqNumber = (1 << options.SeqBitLength) - 1
 
         // 6.MinSeqNumber
         const MinSeqNumber = 5

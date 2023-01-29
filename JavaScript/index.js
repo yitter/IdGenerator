@@ -39,7 +39,7 @@ class Genid {
             options.SeqBitLength = SeqBitLength;
         }
         // 5.MaxSeqNumber
-        const MaxSeqNumber = (1 << SeqBitLength) - 1;
+        const MaxSeqNumber = (1 << options.SeqBitLength) - 1;
         if (options.MaxSeqNumber <= 0 || options.MaxSeqNumber === undefined) {
             options.MaxSeqNumber = MaxSeqNumber;
         }
