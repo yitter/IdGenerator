@@ -34,5 +34,13 @@ typedef struct IdGenOptions {
 
 } IdGeneratorOptions;
 
+#ifdef __cplusplus
+extern "C" 
+{
+#endif
+
 extern IdGeneratorOptions BuildIdGenOptions(uint32_t workerId);
 
+#ifdef __cplusplus
+}
+#endif
