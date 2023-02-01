@@ -66,7 +66,8 @@ public class SnowWorkerM1 implements ISnowWorker {
         SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
         MaxSeqNumber = options.MaxSeqNumber <= 0 ? (1 << SeqBitLength) - 1 : options.MaxSeqNumber;
         MinSeqNumber = options.MinSeqNumber;
-        TopOverCostCount = options.TopOverCostCount == 0 ? 2000 : options.TopOverCostCount;
+        // TopOverCostCount = options.TopOverCostCount == 0 ? 2000 : options.TopOverCostCount;
+        TopOverCostCount = options.TopOverCostCount;
         _TimestampShift = (byte) (WorkerIdBitLength + SeqBitLength);
         _CurrentSeqNumber = MinSeqNumber;
     }
@@ -80,9 +81,9 @@ public class SnowWorkerM1 implements ISnowWorker {
     }
 
     private void EndOverCostAction(long useTimeTick) {
-        if (_TermIndex > 10000) {
-            _TermIndex = 0;
-        }
+        // if (_TermIndex > 10000) {
+        //     _TermIndex = 0;
+        // }
     }
 
     private void BeginTurnBackAction(long useTimeTick) {
@@ -141,20 +142,19 @@ public class SnowWorkerM1 implements ISnowWorker {
             if (_TurnBackTimeTick < 1) {
                 _TurnBackTimeTick = _LastTimeTick - 1;
                 _TurnBackIndex++;
-
                 // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
                 // 支持4次回拨次序（避免回拨重叠导致ID重复），可无限次回拨（次序循环使用）。
                 if (_TurnBackIndex > 4) {
                     _TurnBackIndex = 1;
                 }
-                BeginTurnBackAction(_TurnBackTimeTick);
+                //BeginTurnBackAction(_TurnBackTimeTick);
             }
 
-//            try {
-//                 Thread.sleep(1);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            // try {
+            // Thread.sleep(1);
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
 
             return CalcTurnBackId(_TurnBackTimeTick);
         }
@@ -214,6 +214,11 @@ public class SnowWorkerM1 implements ISnowWorker {
         long tempTimeTicker = GetCurrentTimeTick();
 
         while (tempTimeTicker <= _LastTimeTick) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             tempTimeTicker = GetCurrentTimeTick();
         }
 
@@ -227,4 +232,3 @@ public class SnowWorkerM1 implements ISnowWorker {
         }
     }
 }
-

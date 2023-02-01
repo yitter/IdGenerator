@@ -115,7 +115,7 @@ export class snowflakeIdv1 {
 
         // 5.MaxSeqNumber
         if (options.maxSeqNumber == undefined || options.maxSeqNumber <= 0)
-            options.maxSeqNumber = (1 << SeqBitLength) - 1
+            options.maxSeqNumber = (1 << options.SeqBitLength) - 1
 
         // 6.MinSeqNumber
         const MinSeqNumber = 5
@@ -248,11 +248,12 @@ export class snowflakeIdv1 {
                 // 支持 4 次回拨次序（避免回拨重叠导致 ID 重复），可无限次回拨（次序循环使用）。
                 if (this._TurnBackIndex > 4)
                     this._TurnBackIndex = 1
-
                 this.BeginTurnBackAction(this._TurnBackTimeTick)
             }
+
             return this.CalcTurnBackId(this._TurnBackTimeTick)
         }
+        
         // 时间追平时，_TurnBackTimeTick 清零
         if (this._TurnBackTimeTick > 0) {
             this.EndTurnBackAction(this._TurnBackTimeTick)

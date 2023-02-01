@@ -26,9 +26,9 @@ static int64_t CalcTurnBackId(SnowFlakeWorker *worker);
 
 
 static inline void EndOverCostAction(int64_t useTimeTick, SnowFlakeWorker *worker) {
-    if (worker->_TermIndex > 10000) {
-        worker->_TermIndex = 0;
-    }
+    // if (worker->_TermIndex > 10000) {
+    //     worker->_TermIndex = 0;
+    // }
 }
 
 static inline int64_t NextOverCostId(SnowFlakeWorker *worker) {
@@ -70,6 +70,8 @@ static inline int64_t NextNormalId(SnowFlakeWorker *worker) {
         if (worker->_TurnBackTimeTick < 1) {
             worker->_TurnBackTimeTick = worker->_LastTimeTick - 1;
             worker->_TurnBackIndex++;
+            // 每毫秒序列数的前 5 位是预留位，0 用于手工新值，1-4 是时间回拨次序
+            // 支持 4 次回拨次序（避免回拨重叠导致 ID 重复），可无限次回拨（次序循环使用）。
             if (worker->_TurnBackIndex > 4) {
                 worker->_TurnBackIndex = 1;
             }
@@ -162,6 +164,7 @@ extern int64_t GetCurrentMicroTime() {
 extern int64_t GetNextTimeTick(SnowFlakeWorker *worker) {
     uint64_t tempTimeTicker = GetCurrentTimeTick(worker);
     while (tempTimeTicker <= worker->_LastTimeTick) {
+        usleep(1000);  // 暂停1ms
         tempTimeTicker = GetCurrentTimeTick(worker);
     }
     return tempTimeTicker;

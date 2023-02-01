@@ -22,10 +22,6 @@ typedef struct IdGenerator {
 } IdGenerator;
 
 
-// fix: move to cpp
-// static IdGenerator *_idGenerator = NULL;
-
 extern IdGenerator *GetIdGenInstance();
 
 extern void SetOptions(IdGeneratorOptions options);
-

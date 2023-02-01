@@ -39,7 +39,7 @@ class Genid {
             options.SeqBitLength = SeqBitLength;
         }
         // 5.MaxSeqNumber
-        const MaxSeqNumber = (1 << SeqBitLength) - 1;
+        const MaxSeqNumber = (1 << options.SeqBitLength) - 1;
         if (options.MaxSeqNumber <= 0 || options.MaxSeqNumber === undefined) {
             options.MaxSeqNumber = MaxSeqNumber;
         }
@@ -144,8 +144,10 @@ class Genid {
                 }
                 this.BeginTurnBackAction(this._TurnBackTimeTick);
             }
+            
             return this.CalcTurnBackId(this._TurnBackTimeTick);
         }
+        
         // 时间追平时，_TurnBackTimeTick 清零
         if (this._TurnBackTimeTick > 0) {
             this.EndTurnBackAction(this._TurnBackTimeTick);

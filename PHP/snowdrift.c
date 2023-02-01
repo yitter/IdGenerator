@@ -38,6 +38,8 @@ zend_class_entry snowdrift_ce;
 
 static uint16_t wid_num = 0;
 
+ZEND_DECLARE_MODULE_GLOBALS(snowdrift)
+
 /* {{{ PHP_INI  */
 
 PHP_INI_BEGIN()

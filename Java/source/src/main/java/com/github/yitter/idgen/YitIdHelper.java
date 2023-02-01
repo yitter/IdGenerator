@@ -19,7 +19,6 @@ public class YitIdHelper {
         return idGenInstance;
     }
 
-
     /**
      * 设置参数，建议程序初始化时执行一次
      */
@@ -34,9 +33,12 @@ public class YitIdHelper {
      * @return
      */
     public static long nextId() throws IdGeneratorException {
-        if (idGenInstance == null) {
-            idGenInstance = new DefaultIdGenerator(new IdGeneratorOptions((short) 1));
-        }
+        // if (idGenInstance == null) {
+        // idGenInstance = new DefaultIdGenerator(new IdGeneratorOptions((short) 1));
+        // }
+
+        if (idGenInstance == null)
+            throw new IdGeneratorException("Please initialize Yitter.IdGeneratorOptions first.");
 
         return idGenInstance.newLong();
     }

@@ -4,6 +4,7 @@
 #else
 #include <unistd.h>
 #include <sys/time.h>
+#include <time.h>
 #endif
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,19 +12,19 @@
 #include "spinlock.h"
 
 // static void EndOverCostAction(uint64_t useTimeTick, snowflake *flake);
-static inline uint64_t NextOverCostId(snowflake* flake);
-static inline uint64_t NextNormalId(snowflake* flake);
-static inline uint64_t GetCurrentTimeTick(snowflake* flake);
-static inline uint64_t GetNextTimeTick(snowflake* flake);
-static inline uint64_t CalcId(snowflake* flake);
-static inline uint64_t CalcTurnBackId(snowflake* flake);
+static inline uint64_t NextOverCostId(snowflake *flake);
+static inline uint64_t NextNormalId(snowflake *flake);
+static inline uint64_t GetCurrentTimeTick(snowflake *flake);
+static inline uint64_t GetNextTimeTick(snowflake *flake);
+static inline uint64_t CalcId(snowflake *flake);
+static inline uint64_t CalcTurnBackId(snowflake *flake);
 static inline uint64_t GetSysCurrentTime();
 
 int ncpu;
 uint16_t spin = 2048;
 uint32_t pid = 0;
 
-void Config(snowflake* flake)
+void Config(snowflake *flake)
 {
 	if (pid == 0)
 	{
@@ -132,7 +133,7 @@ void Config(snowflake* flake)
 //   }
 // }
 
-static inline uint64_t NextOverCostId(snowflake* flake)
+static inline uint64_t NextOverCostId(snowflake *flake)
 {
 	uint64_t currentTimeTick = GetCurrentTimeTick(flake);
 	if (currentTimeTick > flake->_LastTimeTick)
@@ -169,7 +170,7 @@ static inline uint64_t NextOverCostId(snowflake* flake)
 	return CalcId(flake);
 }
 
-static inline uint64_t NextNormalId(snowflake* flake)
+static inline uint64_t NextNormalId(snowflake *flake)
 {
 	uint64_t currentTimeTick = GetCurrentTimeTick(flake);
 	if (currentTimeTick < flake->_LastTimeTick)
@@ -183,6 +184,7 @@ static inline uint64_t NextNormalId(snowflake* flake)
 				flake->_TurnBackIndex = 1;
 			}
 		}
+
 		return CalcTurnBackId(flake);
 	}
 	if (flake->_TurnBackTimeTick > 0)
@@ -221,39 +223,50 @@ static inline uint64_t GetSysCurrentTime()
 	gettimeofday(&t, NULL);
 	return (uint64_t)(t.tv_sec * 1000 + t.tv_usec / 1000);
 #endif
-
 }
 
-static inline uint64_t GetCurrentTimeTick(snowflake* flake)
+static inline uint64_t GetCurrentTimeTick(snowflake *flake)
 {
 	return GetSysCurrentTime() - flake->BaseTime;
 }
 
-static inline uint64_t GetNextTimeTick(snowflake* flake)
+static inline uint64_t GetNextTimeTick(snowflake *flake)
 {
 	uint64_t tempTimeTicker = GetCurrentTimeTick(flake);
-	while (tempTimeTicker <= flake->_LastTimeTick)
+	struct timespec delay;
+	delay.tv_sec = 0;
+	delay.tv_nsec = 500000;
+	while (1)
 	{
 		tempTimeTicker = GetCurrentTimeTick(flake);
+		if (tempTimeTicker > flake->_LastTimeTick)
+		{
+			break;
+		}
+#ifdef WIN32
+		SwitchToThread();
+#else
+		nanosleep(&delay, NULL);
+#endif
 	}
 	return tempTimeTicker;
 }
 
-static inline uint64_t CalcId(snowflake* flake)
+static inline uint64_t CalcId(snowflake *flake)
 {
 	uint64_t result = (flake->_LastTimeTick << flake->_TimestampShift) + (flake->WorkerId << flake->SeqBitLength) + (flake->_CurrentSeqNumber);
 	flake->_CurrentSeqNumber++;
 	return result;
 }
 
-static inline uint64_t CalcTurnBackId(snowflake* flake)
+static inline uint64_t CalcTurnBackId(snowflake *flake)
 {
 	uint64_t result = (flake->_LastTimeTick << flake->_TimestampShift) + (flake->WorkerId << flake->SeqBitLength) + (flake->_TurnBackTimeTick);
 	flake->_TurnBackTimeTick--;
 	return result;
 }
 
-static inline uint64_t NextSonwId(snowflake* flake)
+static inline uint64_t NextSonwId(snowflake *flake)
 {
 	uint64_t currentTimeTick = GetCurrentTimeTick(flake);
 	if (flake->_LastTimeTick == currentTimeTick)
@@ -273,12 +286,12 @@ static inline uint64_t NextSonwId(snowflake* flake)
 	return (uint64_t)((currentTimeTick << flake->_TimestampShift) | (flake->WorkerId << flake->SeqBitLength) | flake->_CurrentSeqNumber);
 }
 
-static inline uint64_t GetId(snowflake* flake)
+static inline uint64_t GetId(snowflake *flake)
 {
 	return flake->Method == 1 ? (flake->_IsOverCost != 0 ? NextOverCostId(flake) : NextNormalId(flake)) : NextSonwId(flake);
 }
 
-uint64_t NextId(snowflake* flake)
+uint64_t NextId(snowflake *flake)
 {
 	spin_lock(&flake->_Lock, pid);
 	uint64_t id = GetId(flake);
@@ -286,9 +299,9 @@ uint64_t NextId(snowflake* flake)
 	return id;
 }
 
-uint64_t* NextNumId(snowflake* flake, uint32_t num)
+uint64_t *NextNumId(snowflake *flake, uint32_t num)
 {
-	uint64_t* arr = (uint64_t*)malloc(sizeof(uint64_t) * num);
+	uint64_t *arr = (uint64_t *)malloc(sizeof(uint64_t) * num);
 	spin_lock(&flake->_Lock, pid);
 	uint32_t i;
 	for (i = 0; i < num; i++)

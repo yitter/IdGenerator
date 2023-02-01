@@ -8,6 +8,7 @@
 *.sln.docstates
 *.editorconfig
 __*.bat
+.dccache
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -259,4 +260,6 @@ target/
 # macOS
 .DS_Store
 
+# python
+__pycache__
 

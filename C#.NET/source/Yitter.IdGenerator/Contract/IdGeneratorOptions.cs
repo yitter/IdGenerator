@@ -63,7 +63,6 @@ namespace Yitter.IdGenerator
         /// </summary>
         public virtual int TopOverCostCount { get; set; } = 2000;
 
-
         /// <summary>
         /// 数据中心ID（默认0）
         /// </summary>

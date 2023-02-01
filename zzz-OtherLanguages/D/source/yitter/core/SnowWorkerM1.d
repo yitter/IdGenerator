@@ -83,9 +83,9 @@ class SnowWorkerM1 : ISnowWorker {
     }
 
     private void EndOverCostAction(long useTimeTick) {
-        if (_TermIndex > 10000) {
-            _TermIndex = 0;
-        }
+        //if (_TermIndex > 10000) {
+        //    _TermIndex = 0;
+        //}
     }
 
     private void BeginTurnBackAction(long useTimeTick) {
@@ -144,14 +144,13 @@ class SnowWorkerM1 : ISnowWorker {
             if (_TurnBackTimeTick < 1) {
                 _TurnBackTimeTick = _LastTimeTick - 1;
                 _TurnBackIndex++;
-
                 // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
                 // 最多4次回拨（防止回拨重叠）
                 if (_TurnBackIndex > 4) {
                     _TurnBackIndex = 1;
                 }
                 BeginTurnBackAction(_TurnBackTimeTick);
-            }
+            }           
 
 //            try {
 //                 Thread.sleep(1);
