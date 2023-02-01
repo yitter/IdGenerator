@@ -21,6 +21,7 @@ typedef struct IdGenerator {
 
 } IdGenerator;
 
+
 extern IdGenerator *GetIdGenInstance();
 
 extern void SetOptions(IdGeneratorOptions options);
