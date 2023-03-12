@@ -10,6 +10,7 @@ import (
 
 func main() {
 
+	//address := "192.168.1.207:6379"
 	address := "127.0.0.1:6379"
 	password := ""
 	masterName := ""
@@ -18,12 +19,12 @@ func main() {
 	passChar := C.CString(password)
 	masterNameChar := C.CString(masterName)
 
-	workerIdList := RegisterMany(addrChar, passChar, 4, masterNameChar, 3, 5)
+	workerIdList := RegisterMany(addrChar, passChar, 4, masterNameChar, 31, 60, 20, 15)
 	for _, value := range workerIdList {
 		fmt.Println("注册的WorkerId:", value)
 	}
 
-	id := RegisterOne(addrChar, passChar, 4, masterNameChar, 0)
+	id := RegisterOne(addrChar, passChar, 4, masterNameChar, 31, 60, 15)
 	fmt.Println("注册的WorkerId:", id)
 
 	fmt.Println("end")
@@ -36,14 +37,18 @@ func main() {
 // db: Redis指定存储库，示例：1
 // sentinelMasterName: Redis 哨兵模式下的服务名称，示例：mymaster，非哨兵模式传入空字符串即可
 // maxWorkerId: WorkerId 最大值，示例：63
+// minWorkerId: WorkerId 最小值，示例：30
+// lifeTimeSeconds: WorkerId缓存时长（秒，3的倍数）
 //export RegisterOne
-func RegisterOne(address *C.char, password *C.char, db int, sentinelMasterName *C.char, maxWorkerId int32) int32 {
+func RegisterOne(address *C.char, password *C.char, db int, sentinelMasterName *C.char, minWorkerId int32, maxWorkerId int32, lifeTimeSeconds int32) int32 {
 	return regworkerid.RegisterOne(regworkerid.RegisterConf{
-		Address:     C.GoString(address),
-		Password:    C.GoString(password),
-		DB:          db,
-		MasterName:  C.GoString(sentinelMasterName),
-		MaxWorkerId: maxWorkerId,
+		Address:         C.GoString(address),
+		Password:        C.GoString(password),
+		DB:              db,
+		MasterName:      C.GoString(sentinelMasterName),
+		MinWorkerId:     minWorkerId,
+		MaxWorkerId:     maxWorkerId,
+		LifeTimeSeconds: lifeTimeSeconds,
 	})
 }
 
@@ -53,16 +58,20 @@ func RegisterOne(address *C.char, password *C.char, db int, sentinelMasterName *
 // db: Redis指定存储库，示例：1
 // sentinelMasterName: Redis 哨兵模式下的服务名称，示例：mymaster，非哨兵模式传入空字符串即可
 // maxWorkerId: WorkerId 最大值，示例：63
+// minWorkerId: WorkerId 最小值，示例：30
 // totalCount: 获取N个WorkerId，示例：5
+// lifeTimeSeconds: WorkerId缓存时长（秒，3的倍数）
 //export RegisterMany
-func RegisterMany(address *C.char, password *C.char, db int, sentinelMasterName *C.char, maxWorkerId int32, totalCount int32) []int32 {
+func RegisterMany(address *C.char, password *C.char, db int, sentinelMasterName *C.char, minWorkerId int32, maxWorkerId int32, totalCount int32, lifeTimeSeconds int32) []int32 {
 	return regworkerid.RegisterMany(regworkerid.RegisterConf{
-		Address:     C.GoString(address),
-		Password:    C.GoString(password),
-		DB:          db,
-		MasterName:  C.GoString(sentinelMasterName),
-		MaxWorkerId: maxWorkerId,
-		TotalCount:  totalCount,
+		Address:         C.GoString(address),
+		Password:        C.GoString(password),
+		DB:              db,
+		MasterName:      C.GoString(sentinelMasterName),
+		MinWorkerId:     minWorkerId,
+		MaxWorkerId:     maxWorkerId,
+		TotalCount:      totalCount,
+		LifeTimeSeconds: lifeTimeSeconds,
 	})
 }
 
