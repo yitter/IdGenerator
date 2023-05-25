@@ -34,7 +34,7 @@ var newId = idgen.NextId()
 
 ## 关于Go环境
 
-1.SDK: go1.19+
+1.SDK: go1.17
 
 2.启用 Go-Modules
 ```shell
