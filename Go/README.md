@@ -6,7 +6,7 @@
 
 ## 引用全局库
 ```shell
-go get -u -v github.com/yitter/idgenerator-go@v1.3.1
+go get -u -v github.com/yitter/idgenerator-go
 ```
 
 ## 调用示例（Go）
@@ -34,7 +34,7 @@ var newId = idgen.NextId()
 
 ## 关于Go环境
 
-1.SDK，go1.16+
+1.SDK: go1.17
 
 2.启用 Go-Modules
 ```shell
