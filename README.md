@@ -221,22 +221,23 @@
 
 #### 动态库下载
 
-下载链接1：https://github.com/yitter/IdGenerator/releases/download/v1.3.1/regworkerid_lib_v1.3.1.zip
+下载链接1：https://github.com/yitter/IdGenerator/releases/download/v1.3.3/workeridgo_lib_v1.3.3.zip
 
 #### 动态库接口定义
 ```
 // 注册一个 WorkerId，会先注销所有本机已注册的记录
-// ip: redis 服务器地址
-// port: redis 端口
-// password: redis 访问密码，可为空字符串“”
-// maxWorkerId: 最大 WorkerId
-extern GoInt32 RegisterOne(char* ip, GoInt32 port, char* password, GoInt32 maxWorkerId);
+// address: Redis连接地址，单机模式示例：127.0.0.1:6379，哨兵/集群模式示例：127.0.0.1:26380,127.0.0.1:26381,127.0.0.1:26382
+// password: Redis连接密码
+// db: Redis指定存储库，示例：1
+// sentinelMasterName: Redis 哨兵模式下的服务名称，示例：mymaster，非哨兵模式传入空字符串即可
+// minWorkerId: WorkerId 最小值，示例：30
+// maxWorkerId: WorkerId 最大值，示例：63
+// lifeTimeSeconds: WorkerId缓存时长（秒，3的倍数），推荐值15
+extern GoInt32 RegisterOne(char* server, char* password, GoInt32 db, char* sentinelMasterName, GoInt32 minWorkerId, GoInt32 maxWorkerId, GoInt32 lifeTimeSeconds);
 
 // 注销本机已注册的 WorkerId
 extern void UnRegister();
 
-// 检查本地WorkerId是否有效（0-有效，其它-无效）
-extern GoInt32 Validate(GoInt32 workerId);
 ```
 
 ## 已实现的语言

@@ -36,8 +36,8 @@ func main() {
 // password: Redis连接密码
 // db: Redis指定存储库，示例：1
 // sentinelMasterName: Redis 哨兵模式下的服务名称，示例：mymaster，非哨兵模式传入空字符串即可
-// maxWorkerId: WorkerId 最大值，示例：63
 // minWorkerId: WorkerId 最小值，示例：30
+// maxWorkerId: WorkerId 最大值，示例：63
 // lifeTimeSeconds: WorkerId缓存时长（秒，3的倍数）
 //export RegisterOne
 func RegisterOne(address *C.char, password *C.char, db int, sentinelMasterName *C.char, minWorkerId int32, maxWorkerId int32, lifeTimeSeconds int32) int32 {
