@@ -90,11 +90,11 @@ func Validate(workerId int32) int32 {
 // To Build a dll/so：
 
 // windows:
-// go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go
-// // go build -o ./target/yitidgengo.dll -buildmode=c-shared main.go reg.go
+// go build -o ./target/workeridgo.dll -buildmode=c-shared main.go
+// // go build -o ./target/workeridgo.dll -buildmode=c-shared main.go reg.go
 
 // linux init: go install -buildmode=shared -linkshared std
-// go build -o ./target/yitidgengo.so -buildmode=c-shared main.go
-// go build -o ./target/yitidgengo.so -buildmode=c-shared main.go reg.go
+// go build -o ./target/workeridgo.so -buildmode=c-shared main.go
+// go build -o ./target/workeridgo.so -buildmode=c-shared main.go reg.go
 
 // https://books.studygolang.com/advanced-go-programming-book/ch2-cgo/ch2-09-static-shared-lib.html
