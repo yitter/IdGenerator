@@ -221,7 +221,7 @@
 
 #### 动态库下载
 
-下载链接1：https://github.com/yitter/IdGenerator/releases/download/v1.3.3/workeridgo_lib_v1.3.3.zip
+下载链接：https://github.com/yitter/IdGenerator/releases/download/v1.3.3/workeridgo_lib_v1.3.3.zip
 
 #### 动态库接口定义
 ```
