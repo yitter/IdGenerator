@@ -1,16 +1,15 @@
 --TEST--
-Check for snowdrift serial
+Check for snowdrift batch get unique
 --SKIPIF--
 <?php if (!extension_loaded("snowdrift")) print "skip"; ?>
 --FILE--
 <?php
 $arr = [];
-$max = 1024;
-for ($i = 0; $i < $max; $i++) {
-	$arr[$i] = SnowDrift::NextId();
+$max = 100000;
+foreach (SnowDrift::NextNumId($max) as $id) {
+	$arr[$id] = '';
 }
-
-var_dump(($arr[$max-1] - $arr[0]) == ($max-1));
+var_dump(count($arr));
 ?>
 --EXPECT--
-bool(true)
+int(100000)

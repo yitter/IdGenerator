@@ -10,7 +10,7 @@
 extern int ncpu;
 extern int spin;
 
-void spin_lock(atomic_t* lock, uint32_t pid)
+void spin_lock(atomic_t *lock, uint32_t pid)
 {
 	int i, n;
 
@@ -22,8 +22,8 @@ void spin_lock(atomic_t* lock, uint32_t pid)
 			InterlockedCompareExchange(lock, pid, 0) == 0
 #else
 			__sync_bool_compare_and_swap(lock, 0, pid)
-#endif 
-			)
+#endif
+		)
 		{
 			return;
 		}
@@ -36,11 +36,7 @@ void spin_lock(atomic_t* lock, uint32_t pid)
 
 				for (i = 0; i < n; i++)
 				{
-#ifdef WIN32
-					MemoryBarrier();
-#else 
-					__asm("pause");
-#endif 
+					atomic_cpu_pause();
 				}
 
 				if (*lock == 0 &&
@@ -48,8 +44,8 @@ void spin_lock(atomic_t* lock, uint32_t pid)
 					InterlockedCompareExchange(lock, pid, 0) == 0
 #else
 					__sync_bool_compare_and_swap(lock, 0, pid)
-#endif 
-					)
+#endif
+				)
 				{
 					return;
 				}
@@ -63,11 +59,11 @@ void spin_lock(atomic_t* lock, uint32_t pid)
 	}
 }
 
-void spin_unlock(atomic_t* lock, uint32_t pid)
+void spin_unlock(atomic_t *lock, uint32_t pid)
 {
 #ifdef WIN32
 	InterlockedCompareExchange(lock, 0, pid);
 #else
 	__sync_bool_compare_and_swap(lock, pid, 0);
-#endif 
+#endif
 }
