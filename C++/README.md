@@ -1,4 +1,4 @@
-﻿#  ❄ idgenerator-CPP
+#  ❄ idgenerator-C++
 
 ## 编译说明
 
