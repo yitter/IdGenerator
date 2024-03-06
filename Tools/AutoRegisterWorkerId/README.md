@@ -1,4 +1,4 @@
-﻿# idgenerator
+# idgenerator
 
 ## 关于AutoRegisterWorkerId
 
@@ -24,7 +24,8 @@
 
 #### 动态库下载
 
-下载链接：https://github.com/yitter/IdGenerator/releases/download/reg_v1.0/regworkerid_lib_v1.0.zip
+下载链接：https://github.com/yitter/IdGenerator/releases/download/v1.3.3/workeridgo_lib_v1.3.3.zip
+
 
 #### 动态库接口定义
 ```
