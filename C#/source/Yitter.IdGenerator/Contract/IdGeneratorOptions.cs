@@ -78,7 +78,11 @@ namespace Yitter.IdGenerator
         /// </summary>
         public virtual byte TimestampType { get; set; } = 0;
 
-
+        /// <summary>
+        /// 在使用漂移算法时启动的休眠时间，默认500毫秒
+        /// </summary>
+        public virtual TimeSpan SleepTime { get; set; }=TimeSpan.FromMilliseconds(500);
+        
         public IdGeneratorOptions()
         {
 

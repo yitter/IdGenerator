@@ -117,7 +117,7 @@ namespace Yitter.IdGenerator
 
             if (options.Method != 2)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(options.SleepTime);
             }
         }
 
