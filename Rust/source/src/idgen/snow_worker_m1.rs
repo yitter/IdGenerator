@@ -93,7 +93,7 @@ impl SnowWorkerM1 {
 
         // 5.MaxSeqNumber
         let mut maxSeqNumber = (1 << options.SeqBitLength) - 1;
-        if options.maxSeqNumber <= 0 {
+        if options.MaxSeqNumber <= 0 {
             maxSeqNumber = 63;
         }
         if options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber {

@@ -31,7 +31,8 @@ fn main() {
 
         while i < times {
             i += 1;
-            YitIdHelper::NextId();
+            id = YitIdHelper::NextId();
+            println!("id: {}", id);
 
             // if multiThread { // 这是多线程
             //     thread::spawn(move || {
