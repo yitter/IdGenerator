@@ -4,7 +4,6 @@ mod idgen;
 // extern crate lazy_static;
 extern crate libc;
 
-use libc::{c_char, uint32_t};
 use std::ffi::{CStr, CString};
 use std::str;
 pub use idgen::*;
