@@ -261,7 +261,7 @@ static inline uint64_t CalcId(snowflake *flake)
 
 static inline uint64_t CalcTurnBackId(snowflake *flake)
 {
-	uint64_t result = (flake->_LastTimeTick << flake->_TimestampShift) + (flake->WorkerId << flake->SeqBitLength) + (flake->_TurnBackIndex );
+	uint64_t result = (flake->_TurnBackTimeTick << flake->_TimestampShift) + (flake->WorkerId << flake->SeqBitLength) + (flake->_TurnBackIndex );
 	flake->_TurnBackTimeTick--;
 	return result;
 }

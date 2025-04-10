@@ -213,7 +213,7 @@ namespace idgen
 
         int64_t CalcTurnBackId()
         {
-            uint64_t result = (_SnowFlakeWorker._LastTimeTick << _SnowFlakeWorker._TimestampShift) | (_SnowFlakeWorker.WorkerId << _SnowFlakeWorker.SeqBitLength) |
+            uint64_t result = (_SnowFlakeWorker._TurnBackTimeTick << _SnowFlakeWorker._TimestampShift) | (_SnowFlakeWorker.WorkerId << _SnowFlakeWorker.SeqBitLength) |
                               (_SnowFlakeWorker._TurnBackIndex);
             _SnowFlakeWorker._TurnBackTimeTick--;
             return result;

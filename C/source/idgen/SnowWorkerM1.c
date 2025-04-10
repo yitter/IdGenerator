@@ -112,7 +112,7 @@ static inline int64_t CalcId(SnowFlakeWorker *worker) {
 }
 
 static inline int64_t CalcTurnBackId(SnowFlakeWorker *worker) {
-    uint64_t result = (worker->_LastTimeTick << worker->_TimestampShift) | (worker->WorkerId << worker->SeqBitLength) |
+    uint64_t result = (worker->_TurnBackTimeTick << worker->_TimestampShift) | (worker->WorkerId << worker->SeqBitLength) |
                       (worker->_TurnBackIndex);
     worker->_TurnBackTimeTick--;
     return result;
