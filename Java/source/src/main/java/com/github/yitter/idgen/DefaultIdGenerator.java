@@ -13,7 +13,7 @@ import com.github.yitter.core.SnowWorkerM2;
 
 public class DefaultIdGenerator implements IIdGenerator {
 
-    private static ISnowWorker _SnowWorker = null;
+    private ISnowWorker _SnowWorker = null;
 
     public DefaultIdGenerator(IdGeneratorOptions options) throws IdGeneratorException {
         if (options == null) {
@@ -26,8 +26,8 @@ public class DefaultIdGenerator implements IIdGenerator {
         }
 
         // 2.WorkerIdBitLength
-        if (options.WorkerIdBitLength <= 0) {
-            throw new IdGeneratorException("WorkerIdBitLength error.(range:[1, 21])");
+        if (options.WorkerIdBitLength < 0) {
+            throw new IdGeneratorException("WorkerIdBitLength error.(range:[0, 21])");
         }
         if (options.WorkerIdBitLength + options.SeqBitLength > 22) {
             throw new IdGeneratorException("error：WorkerIdBitLength + SeqBitLength <= 22");
@@ -35,10 +35,14 @@ public class DefaultIdGenerator implements IIdGenerator {
 
         // 3.WorkerId
         int maxWorkerIdNumber = (1 << options.WorkerIdBitLength) - 1;
-        if (maxWorkerIdNumber == 0) {
-            maxWorkerIdNumber = 63;
+        // if (maxWorkerIdNumber == 0) {
+        //     maxWorkerIdNumber = 63;
+        // }
+        if (options.WorkerIdBitLength == 0 && options.WorkerId != 0) {
+            throw new IdGeneratorException(
+                    "WorkerIdBitLength is 0, WorkerId must be 0");
         }
-        if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber) {
+        else if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber) {
             throw new IdGeneratorException(
                     "WorkerId error. (range:[0, " + (maxWorkerIdNumber > 0 ? maxWorkerIdNumber : 63) + "]");
         }
@@ -60,6 +64,10 @@ public class DefaultIdGenerator implements IIdGenerator {
         // 6.MinSeqNumber
         if (options.MinSeqNumber < 5 || options.MinSeqNumber > maxSeqNumber) {
             throw new IdGeneratorException("MinSeqNumber error. (range:[5, " + maxSeqNumber + "]");
+        }
+
+        if (options.Precision < 0 || options.Precision > 4) {
+            throw new IdGeneratorException("Precision error. (range:[0, 4]");
         }
 
         // 7.TopOverCostCount

@@ -19,6 +19,8 @@ public class IdGeneratorOptions {
     /**
      * 基础时间（ms单位）
      * 不能超过当前系统时间
+     * 默认值 1582136402000L，表示2020-02-20 00:00:02
+     * 新项目建议改成 1735689600000L，表示2025-01-01 00:00:00
      */
     public long BaseTime = 1582136402000L;
 
@@ -57,6 +59,12 @@ public class IdGeneratorOptions {
      * 默认2000，推荐范围500-10000（与计算能力有关）
      */
     public short TopOverCostCount = 2000;
+
+    /**
+     * 时间精度： 0 毫秒  1 10毫秒(实际上是8毫秒)  2 100毫秒(实际上是128毫秒)  3 1秒(实际上是1024毫秒) 4 10秒(实际上是8192毫秒)
+     * 默认毫秒，与原版兼容
+     */
+    public short Precision = 0;
 
     public IdGeneratorOptions() {
 

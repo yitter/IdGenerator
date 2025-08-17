@@ -14,40 +14,47 @@ public class SnowWorkerM1 implements ISnowWorker {
     /**
      * 基础时间
      */
-    protected final long BaseTime;
+    protected long BaseTime;
 
     /**
      * 机器码
      */
-    protected final short WorkerId;
+    protected short WorkerId;
 
     /**
      * 机器码位长
      */
-    protected final byte WorkerIdBitLength;
+    protected byte WorkerIdBitLength;
 
     /**
      * 自增序列数位长
      */
-    protected final byte SeqBitLength;
+    protected byte SeqBitLength;
 
     /**
      * 最大序列数（含）
      */
-    protected final int MaxSeqNumber;
+    protected int MaxSeqNumber;
 
     /**
      * 最小序列数（含）
      */
-    protected final short MinSeqNumber;
+    protected short MinSeqNumber;
 
     /**
      * 最大漂移次数（含）
      */
-    protected final int TopOverCostCount;
+    protected int TopOverCostCount;
 
-    protected final byte _TimestampShift;
-    protected final static byte[] _SyncLock = new byte[0];
+    /**
+     * 移位位数
+     */
+    protected int ShiftBits;
+
+    protected int _sleepTime;
+
+    protected byte _TimestampShift;
+    protected final byte[] _SyncLock = new byte[0];
 
     protected short _CurrentSeqNumber;
     protected long _LastTimeTick = 0;
@@ -61,15 +68,43 @@ public class SnowWorkerM1 implements ISnowWorker {
 
     public SnowWorkerM1(IdGeneratorOptions options) {
         BaseTime = options.BaseTime != 0 ? options.BaseTime : 1582136402000L;
-        WorkerIdBitLength = options.WorkerIdBitLength == 0 ? 6 : options.WorkerIdBitLength;
+        WorkerIdBitLength = options.WorkerIdBitLength;
         WorkerId = options.WorkerId;
         SeqBitLength = options.SeqBitLength == 0 ? 6 : options.SeqBitLength;
         MaxSeqNumber = options.MaxSeqNumber <= 0 ? (1 << SeqBitLength) - 1 : options.MaxSeqNumber;
         MinSeqNumber = options.MinSeqNumber;
         // TopOverCostCount = options.TopOverCostCount == 0 ? 2000 : options.TopOverCostCount;
         TopOverCostCount = options.TopOverCostCount;
+        switch (options.Precision) {
+            case 0:
+                ShiftBits = 0;
+                break;
+            case 1:
+                ShiftBits = 3;
+                break;
+            case 2:
+                ShiftBits = 7;
+                break;
+            case 3:
+                ShiftBits = 10;
+                break;
+            case 4:
+                ShiftBits = 13;
+                break;
+            default:
+                ShiftBits = 0;
+                break;
+        }
+        // 计算睡眠时间，最大1秒
+        _sleepTime = 1 << ShiftBits;
+        // 无需等到精度时间，分4次检查
+        if (_sleepTime > 50) {
+            _sleepTime = _sleepTime >> 2;
+        }
         _TimestampShift = (byte) (WorkerIdBitLength + SeqBitLength);
         _CurrentSeqNumber = MinSeqNumber;
+
+        BaseTime = BaseTime >> ShiftBits;
     }
 
     private void DoGenIdAction(OverCostActionArg arg) {
@@ -207,7 +242,7 @@ public class SnowWorkerM1 implements ISnowWorker {
 
     protected long GetCurrentTimeTick() {
         long millis = System.currentTimeMillis();
-        return millis - BaseTime;
+        return (millis >> ShiftBits) - BaseTime;
     }
 
     protected long GetNextTimeTick() {
@@ -215,7 +250,7 @@ public class SnowWorkerM1 implements ISnowWorker {
 
         while (tempTimeTicker <= _LastTimeTick) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(_sleepTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
