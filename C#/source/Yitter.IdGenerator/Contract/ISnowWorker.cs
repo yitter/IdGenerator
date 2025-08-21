@@ -18,5 +18,13 @@ namespace Yitter.IdGenerator
         //Action<OverCostActionArg> GenAction { get; set; }
 
         long NextId();
+
+        /// <summary>
+        /// 根据传入时间生成一个新的 Id
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="isMillisecondPrecision"></param>
+        /// <returns></returns>
+        long NextId(DateTime dateTime, bool isMillisecondPrecision);
     }
 }

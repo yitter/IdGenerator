@@ -265,7 +265,7 @@ namespace Yitter.IdGenerator
             return CalcId(_LastTimeTick);
         }
 
-        protected virtual long NextNormalId()
+        protected virtual long  NextNormalId()
         {
             long currentTimeTick = GetCurrentTimeTick();
 
@@ -374,6 +374,81 @@ namespace Yitter.IdGenerator
             {
                 return _IsOverCost ? NextOverCostId() : NextNormalId();
             }
+        }
+
+
+        // 新增：用于历史发号的独立序列计数器
+        protected int _historySeqCounter = 0;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="isMillisecondPrecision"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public virtual long NextId(DateTime dateTime, bool isMillisecondPrecision)
+        {
+            // 如果没有毫秒精度，则用当前系统时间的毫秒值覆盖
+            if (!isMillisecondPrecision)
+            {
+                var nowMs = DateTime.UtcNow.Millisecond; // 0..999
+                dateTime = new DateTime(
+                    dateTime.Year, dateTime.Month, dateTime.Day,
+                    dateTime.Hour, dateTime.Minute, dateTime.Second,
+                    nowMs, dateTime.Kind
+                );
+            }
+
+            // 计算与基准时间的毫秒差
+            var timeTick = ToTimeTick(dateTime);
+            if (timeTick < 0)
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "指定时间早于 BaseTime。");
+            if (timeTick > GetMaxTimeTick())
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "指定时间超过时间位宽上限。");
+
+            // 历史路径不影响实时状态：使用独立序列
+            var half = (MaxSeqNumber + 1) / 2;
+            var localSeq = Interlocked.Increment(ref _historySeqCounter);
+            var seq = half + (localSeq & (half - 1));
+            if (seq > MaxSeqNumber) seq &= MaxSeqNumber;
+
+            return CalcId(timeTick, seq); // 按时间差+WorkerId+序列号拼装:contentReference[oaicite:2]{index=2}
+        }
+
+        /// <summary>
+        /// 获取时间戳（相对于 BaseTime 的毫秒时间戳）
+        /// 将dateTime转换为UTC时间，并计算与BaseTime的毫秒差。
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        protected long ToTimeTick(DateTime dateTime)
+        {
+            // 以 BaseTime（毫秒时间戳）为基准换算
+            return (long)(dateTime.ToUniversalTime() - BaseTime).TotalMilliseconds;
+        }
+
+        /// <summary>
+        /// 获取最大时间戳（时间位宽上限）
+        /// </summary>
+        /// <returns></returns>
+        protected long GetMaxTimeTick()
+        {
+            int timestampBits = 63 - WorkerIdBitLength - SeqBitLength;
+            return (timestampBits >= 63) ? long.MaxValue : ((1L << timestampBits) - 1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="timeTick"></param>
+        /// <param name="seq"></param>
+        /// <returns></returns>
+        public virtual long CalcId(long timeTick, long seq)
+        {
+          return  ((timeTick << _TimestampShift) +
+               ((long)WorkerId << SeqBitLength) +
+               (uint)seq);
         }
     }
 }
