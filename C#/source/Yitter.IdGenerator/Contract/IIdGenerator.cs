@@ -25,5 +25,14 @@ namespace Yitter.IdGenerator
         long NewLong();
 
         // Guid NewGuid();
+
+
+        /// <summary>
+        /// 生成一个指定时间的 Id（时间用于构造时间差部分）
+        /// </summary>
+        /// <param name="dateTime">用于生成ID的时间（建议UTC或能正确转换为UTC的本地时间）</param>
+        /// <param name="isMillisecondPrecision">是否是毫秒级的时间</param>
+        /// <returns></returns>
+        long NextId(DateTime dateTime, bool isMillisecondPrecision = true);
     }
 }

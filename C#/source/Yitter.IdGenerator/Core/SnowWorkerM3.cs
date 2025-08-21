@@ -79,5 +79,64 @@ namespace Yitter.IdGenerator
                 (long)(DateTime.UtcNow - BaseTime).TotalSeconds;
         }
 
+        /// <summary>
+        /// 新增方法：根据传入时间生成一个新的 ID
+        /// 如果 isMillisecondPrecision 为 false，则用当前时间的毫秒覆盖传入时间的毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="isMillisecondPrecision"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public override long NextId(DateTime dateTime, bool isMillisecondPrecision)
+        {
+            // 1. 统一时间到 UTC
+            var dtUtc = dateTime.Kind == DateTimeKind.Utc ? dateTime : dateTime.ToUniversalTime();
+
+            // 2. 如果没有毫秒精度，用当前毫秒覆盖
+            if (!isMillisecondPrecision)
+            {
+                int currentMs = DateTime.UtcNow.Millisecond; // 0..999
+                dtUtc = new DateTime(
+                    dtUtc.Year, dtUtc.Month, dtUtc.Day,
+                    dtUtc.Hour, dtUtc.Minute, dtUtc.Second,
+                    currentMs,
+                    DateTimeKind.Utc);
+            }
+
+            // 3. 计算与 BaseTime 的时间差（毫秒或秒）
+            long timeTick;
+            if (TimestampType == 0)
+            {
+                // 毫秒级时间戳
+                timeTick = (long)(dtUtc - BaseTime).TotalMilliseconds;
+            }
+            else
+            {
+                // 秒级时间戳
+                timeTick = (long)(dtUtc - BaseTime).TotalSeconds;
+            }
+
+            // 如果时间差为负，说明传入时间早于 BaseTime，按需求可以抛异常或调整，这里抛异常
+            if (timeTick < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "指定时间早于 BaseTime，无法生成 ID。");
+            }
+
+            // 4. 生成独立序列号：取序列空间上半段，避免与实时发号序列冲突
+            long half = (MaxSeqNumber + 1) / 2;
+            long localSeq = Interlocked.Increment(ref _historySeqCounter);
+            long seq = half + (localSeq & (half - 1));
+            if (seq > MaxSeqNumber) seq &= MaxSeqNumber;
+
+            // 5. 拼装 ID：时间戳部分左移 _TimestampShift 位，随后是 DataCenterId 和 WorkerId
+            //    与 CalcId 的实现保持一致，但不修改任何实时状态
+            long id = (timeTick << _TimestampShift)
+                    + ((long)DataCenterId << DataCenterIdBitLength)
+                    + ((long)WorkerId << SeqBitLength)
+                    + seq;
+
+            return id;
+        }
+
     }
 }
