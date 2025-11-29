@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Yitter.IdGenerator
 {
-    internal interface ISnowWorker
+    public interface ISnowWorker
     {
         //Action<OverCostActionArg> GenAction { get; set; }
 

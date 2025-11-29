@@ -16,7 +16,7 @@ namespace Yitter.IdGenerator
     /// <summary>
     /// 常规雪花算法
     /// </summary>
-    internal class SnowWorkerM2 : SnowWorkerM1
+    public class SnowWorkerM2 : SnowWorkerM1
     {
         public SnowWorkerM2(IdGeneratorOptions options) : base(options)
         {

@@ -16,7 +16,7 @@ namespace Yitter.IdGenerator
     /// <summary>
     /// 雪花漂移算法（支持数据中心ID和秒级时间戳）
     /// </summary> 
-    internal class SnowWorkerM3 : SnowWorkerM1
+    public class SnowWorkerM3 : SnowWorkerM1
     {
         /// <summary>
         /// 数据中心ID（默认0）

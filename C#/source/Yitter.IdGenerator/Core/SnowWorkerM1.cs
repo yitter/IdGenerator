@@ -16,7 +16,7 @@ namespace Yitter.IdGenerator
     /// <summary>
     /// 雪花漂移算法
     /// </summary> 
-    internal class SnowWorkerM1 : ISnowWorker
+    public class SnowWorkerM1 : ISnowWorker
     {
         /// <summary>
         /// 基础时间
