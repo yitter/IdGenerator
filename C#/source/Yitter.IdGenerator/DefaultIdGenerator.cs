@@ -19,7 +19,7 @@ namespace Yitter.IdGenerator
     /// </summary>
     public class DefaultIdGenerator : IIdGenerator
     {
-        private ISnowWorker _SnowWorker { get; set; }
+        protected virtual ISnowWorker _SnowWorker { get; set; }
 
         //public Action<OverCostActionArg> GenIdActionAsync
         //{
@@ -122,7 +122,7 @@ namespace Yitter.IdGenerator
         }
 
 
-        public long NewLong()
+        public virtual long NewLong()
         {
             return _SnowWorker.NextId();
         }
